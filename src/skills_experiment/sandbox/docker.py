@@ -179,23 +179,17 @@ class DockerSandbox(Sandbox):
 
     # -- provenance --------------------------------------------------------- #
     def provenance(self) -> dict[str, str]:
-        """The exact image tag plus its immutable digest, for the run log."""
+        """The exact image tag plus its immutable digest, for the run log.
+
+        The digest is a registry-level field of the *image*: ``docker inspect``
+        on a container has no ``RepoDigests`` key, so inspecting the container
+        silently yields nothing. Inspect the image (by tag) instead.
+        """
         info: dict[str, str] = {"docker_image": self.image}
-        try:
-            proc = self._run_host(
-                [
-                    "docker",
-                    "inspect",
-                    "--format",
-                    "{{if .RepoDigests}}{{index .RepoDigests 0}}{{end}}",
-                    self.container_name,
-                ]
-            )
-        except SandboxError:
-            return info
-        digest = proc.stdout.strip()
-        if digest:
-            info["docker_image_digest"] = digest
+        if self.image:
+            digest = image_digest(self.image)
+            if digest:
+                info["docker_image_digest"] = digest
         return info
 
     # -- host-side docker calls --------------------------------------------- #

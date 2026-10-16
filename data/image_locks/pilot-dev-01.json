@@ -1,0 +1,19 @@
+{
+  "experiment_id": "pilot-dev-01",
+  "dataset_revision": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "created_at": "2026-10-16T22:40:45.927465+00:00",
+  "images": {
+    "pylint-dev__astroid-1268": {
+      "image": "swebench/sweb.eval.x86_64.pylint-dev_1776_astroid-1268:latest",
+      "digest": "swebench/sweb.eval.x86_64.pylint-dev_1776_astroid-1268@sha256:d74f2a1e66901d51d7f8d9809838ea6fceb330b2b90a6866ff3982b83bf72245"
+    },
+    "pydicom__pydicom-1256": {
+      "image": "swebench/sweb.eval.x86_64.pydicom_1776_pydicom-1256:latest",
+      "digest": "swebench/sweb.eval.x86_64.pydicom_1776_pydicom-1256@sha256:6443432fb247833fa2a2158e751ef62817e36d0a0219aa89ada44bfe7129a3fd"
+    },
+    "pvlib__pvlib-python-1154": {
+      "image": "swebench/sweb.eval.x86_64.pvlib_1776_pvlib-python-1154:latest",
+      "digest": "swebench/sweb.eval.x86_64.pvlib_1776_pvlib-python-1154@sha256:e2f3b1ebb69820fe1195facf4a897db1357048ba5fe23a294def3ba617a2ad20"
+    }
+  }
+}
