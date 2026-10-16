@@ -3,7 +3,7 @@
 # This is the same model family as OpenCode's free `deepseek-v4.1-flash-free`,
 # but reachable from the experiment harness (OpenCode's free tier is locked to
 # the OpenCode client, so it cannot be driven by a custom agent loop). DeepSeek
-# is very cheap rather than free -- fine for a shakedown; record real pricing.
+# is very cheap rather than free -- fine for a shakedown.
 #
 # Verified by hand: accepts OpenAI-style tool/function calls and returns token
 # usage, so it works with the agent loop.
@@ -28,9 +28,3 @@ max_tokens = 8192
 # `timeout` and `max_retries` are passed to the provider SDK when supported.
 timeout = 600
 max_retries = 3
-
-# USD per 1,000,000 tokens. ESTIMATE -- confirm against DeepSeek's current
-# pricing before reporting cost figures.
-[pricing]
-input = 0.15
-output = 0.6

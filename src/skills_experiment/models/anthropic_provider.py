@@ -27,10 +27,9 @@ class AnthropicChatClient(ModelClient):
         api_key: Optional[str] = None,
         base_url: str = "",
         params: Optional[dict[str, Any]] = None,
-        pricing: Optional[dict[str, float]] = None,
         **kwargs: Any,
     ) -> None:
-        super().__init__(model_id=model_id, params=params, pricing=pricing, **kwargs)
+        super().__init__(model_id=model_id, params=params, **kwargs)
         self._api_key = api_key
         self._base_url = base_url or ""
         self._client: Any = None

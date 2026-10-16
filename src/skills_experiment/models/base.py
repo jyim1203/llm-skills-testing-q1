@@ -34,12 +34,10 @@ class ModelClient(ABC):
         self,
         model_id: str,
         params: Optional[dict[str, Any]] = None,
-        pricing: Optional[dict[str, float]] = None,
         **kwargs: Any,
     ) -> None:
         self.model_id = model_id
         self.params: dict[str, Any] = dict(params or {})
-        self.pricing: dict[str, float] = dict(pricing or {})
         self.extra: dict[str, Any] = dict(kwargs)
 
     # -- required ----------------------------------------------------------- #
@@ -62,13 +60,5 @@ class ModelClient(ABC):
         self.close()
 
     # -- helpers ------------------------------------------------------------ #
-    def estimate_cost(self, usage_tokens: int, *, output: bool = False) -> float:
-        """Estimate USD cost for a token count using the profile's pricing.
-
-        Pricing values are USD per 1,000,000 tokens.
-        """
-        rate = self.pricing.get("output" if output else "input", 0.0)
-        return usage_tokens / 1_000_000 * rate
-
     def __repr__(self) -> str:  # pragma: no cover - trivial
         return f"<{type(self).__name__} provider={self.provider} model_id={self.model_id!r}>"

@@ -317,8 +317,8 @@ kept under `runs/<experiment_id>/harness/`.
   you use (`pip install -e ".[openai]"`, `.[anthropic]`, or `.[google]`) and add
   a key to `.env`. (The OpenAI SDK is installed in the Linux harness venv for
   shakedown runs with `deepseek-flash` / `groq-gpt-oss-120b`.)
-- ⚠️ All model `[pricing]` blocks are `0.0`, so run-log cost columns read 0 until
-  real per-token prices are filled in.
+- Cost is **not** computed in-repo: run logs record input/output/total tokens only;
+  derive dollar cost externally as tokens × the provider's current per-token rate.
 - ⚠️ The dataset `revision` is recorded as the configured string (`"main"`), not a
   resolved commit sha — pin/record the sha before the main phase.
 - ⚠️ The Anthropic and Gemini adapters are written against their public APIs but

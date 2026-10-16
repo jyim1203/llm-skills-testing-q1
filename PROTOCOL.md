@@ -156,7 +156,7 @@ tasks are the independent unit). Implemented in `src/skills_experiment/analysis.
 (`analyze` command; `--resamples`, default 5000; fixed seed).
 
 Secondary (recorded, not headline): input/output tokens, tool calls, steps,
-elapsed seconds, estimated cost (from `[pricing]`), **tests passed / total**
+elapsed seconds, **tests passed / total**
 (parsed from the harness's per-instance reports: `FAIL_TO_PASS` / `PASS_TO_PASS`
 success and failure counts), and — for C — skill discovery/load rates.
 
@@ -178,7 +178,6 @@ under `runs/<experiment_id>/attempts/...`. Secrets are never logged.
 * Confirm the local `python-repo-maintenance` skill wording is the frozen text.
 * Pin the dataset to a resolved commit sha (currently recorded as the string
   `"main"`, not the revision the records were actually pulled from).
-* Fill in real per-model `[pricing]` so the cost columns are meaningful.
 
 Decided: **3 repeats per (task, condition)**; **A/B/C only** (no fourth
 "pre-loaded skill" condition); reported runs execute under **Linux/WSL**.

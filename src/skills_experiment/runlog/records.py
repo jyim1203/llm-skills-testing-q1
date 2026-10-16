@@ -38,9 +38,6 @@ RUN_COLUMNS = [
     "input_tokens",
     "output_tokens",
     "total_tokens",
-    "input_cost_usd",
-    "output_cost_usd",
-    "total_cost_usd",
     "tool_call_count",
     "steps",
     "elapsed_seconds",
@@ -82,9 +79,6 @@ class RunRecord:
     input_tokens: int = 0
     output_tokens: int = 0
     total_tokens: int = 0
-    input_cost_usd: float = 0.0
-    output_cost_usd: float = 0.0
-    total_cost_usd: float = 0.0
     tool_call_count: int = 0
     steps: int = 0
     elapsed_seconds: float = 0.0

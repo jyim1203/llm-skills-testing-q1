@@ -30,8 +30,3 @@ max_tokens = 2048
 # `timeout` and `max_retries` are passed to the provider SDK when supported.
 timeout = 600
 max_retries = 3
-
-# USD per 1,000,000 tokens. Groq free tier is not billed (list $0.15/$0.60).
-[pricing]
-input = 0.0
-output = 0.0

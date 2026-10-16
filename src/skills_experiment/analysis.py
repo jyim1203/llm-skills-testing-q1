@@ -6,7 +6,7 @@ Reads the run log and reports, per condition:
 * the resolved rate over *counted* attempts (``resolved`` / ``unresolved``);
   infrastructure errors are reported separately and excluded from the
   denominator, per the failure-handling policy;
-* mean tokens, tool calls, steps, elapsed time, and estimated cost.
+* mean tokens, tool calls, steps, and elapsed time.
 
 Pairwise condition effects are computed at the **task level** (the unit of
 randomization), with a task-level bootstrap confidence interval. The bootstrap
@@ -42,7 +42,6 @@ class ConditionStats:
     tool_call_count: int = 0
     steps: int = 0
     elapsed_seconds: float = 0.0
-    total_cost_usd: float = 0.0
     tests_passed: int = 0
     tests_total: int = 0
     graded: int = 0
@@ -74,7 +73,6 @@ class ConditionStats:
             "mean_elapsed_seconds": round(self.elapsed_seconds / self.attempts, 2)
             if self.attempts
             else 0.0,
-            "total_cost_usd": round(self.total_cost_usd, 4),
             "graded_attempts": self.graded,
             "total_tests_passed": self.tests_passed,
             "total_tests_total": self.tests_total,
@@ -115,7 +113,6 @@ def condition_stats(records: Iterable[RunRecord]) -> dict[str, ConditionStats]:
         st.tool_call_count += rec.tool_call_count
         st.steps += rec.steps
         st.elapsed_seconds += rec.elapsed_seconds
-        st.total_cost_usd += rec.total_cost_usd
         st.tests_passed += rec.tests_passed
         st.tests_total += rec.tests_total
         if rec.tests_total or rec.tests_passed:
@@ -225,7 +222,7 @@ def render_text(summary: dict[str, Any]) -> str:
     header = (
         f"{'condition':<22}{'att':>4}{'tasks':>6}{'res':>4}{'unres':>6}"
         f"{'infra':>6}{'rate':>8}{'tok/att':>10}{'sec/att':>9}{'tools/att':>10}"
-        f"{'tests':>9}{'cost$':>9}"
+        f"{'tests':>9}"
     )
     lines.append(header)
     lines.append("-" * len(header))
@@ -236,7 +233,6 @@ def render_text(summary: dict[str, Any]) -> str:
             f"{st['resolved_rate']:>8.2f}{st['mean_total_tokens']:>10.0f}"
             f"{st['mean_elapsed_seconds']:>9.0f}{st['mean_tool_calls']:>10.2f}"
             f"{(str(st['total_tests_passed']) + '/' + str(st['total_tests_total'])):>9}"
-            f"{st['total_cost_usd']:>9.4f}"
         )
     if summary["effects"]:
         lines.append("")

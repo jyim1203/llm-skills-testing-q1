@@ -36,11 +36,10 @@ class MockModelClient(ModelClient):
         self,
         model_id: str = "mock-echo",
         params: Optional[dict[str, Any]] = None,
-        pricing: Optional[dict[str, float]] = None,
         script: Optional[list[ModelResponse]] = None,
         **kwargs: Any,
     ) -> None:
-        super().__init__(model_id=model_id, params=params, pricing=pricing, **kwargs)
+        super().__init__(model_id=model_id, params=params, **kwargs)
         self._script: list[ModelResponse] = list(script or [])
         self._cursor = 0
         self.calls: int = 0  # introspection for tests

@@ -48,7 +48,6 @@ class ModelProfile:
     provider: str
     model_id: str
     params: dict[str, Any] = field(default_factory=dict)
-    pricing: dict[str, float] = field(default_factory=dict)
     api_key_env: str = ""
     base_url: str = ""
     notes: str = ""
@@ -65,7 +64,6 @@ class ModelProfile:
             provider=provider,
             model_id=data.get("model_id", ""),
             params=dict(data.get("params", {})),
-            pricing=dict(data.get("pricing", {})),
             api_key_env=data.get("api_key_env", "") or "",
             base_url=data.get("base_url", "") or "",
             notes=data.get("notes", "") or "",
@@ -168,7 +166,7 @@ def _make_mock(profile: ModelProfile) -> ModelClient:
     from .mock import MockModelClient
 
     return MockModelClient(
-        model_id=profile.model_id, params=profile.params, pricing=profile.pricing
+        model_id=profile.model_id, params=profile.params
     )
 
 
@@ -180,7 +178,6 @@ def _make_openai(profile: ModelProfile) -> ModelClient:
         api_key=profile.resolve_api_key(),
         base_url=profile.base_url,
         params=profile.params,
-        pricing=profile.pricing,
     )
 
 
@@ -192,7 +189,6 @@ def _make_anthropic(profile: ModelProfile) -> ModelClient:
         api_key=profile.resolve_api_key(),
         base_url=profile.base_url,
         params=profile.params,
-        pricing=profile.pricing,
     )
 
 
@@ -204,7 +200,6 @@ def _make_google(profile: ModelProfile) -> ModelClient:
         api_key=profile.resolve_api_key(),
         base_url=profile.base_url,
         params=profile.params,
-        pricing=profile.pricing,
     )
 
 

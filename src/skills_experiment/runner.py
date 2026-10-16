@@ -323,13 +323,6 @@ class ExperimentRunner:
             record.input_tokens = result.usage.input_tokens
             record.output_tokens = result.usage.output_tokens
             record.total_tokens = result.usage.total_tokens
-            record.input_cost_usd = round(
-                profile.pricing.get("input", 0.0) * result.usage.input_tokens / 1_000_000, 6
-            )
-            record.output_cost_usd = round(
-                profile.pricing.get("output", 0.0) * result.usage.output_tokens / 1_000_000, 6
-            )
-            record.total_cost_usd = round(record.input_cost_usd + record.output_cost_usd, 6)
             record.tool_call_count = result.tool_call_count
             record.steps = result.steps
             record.elapsed_seconds = round(result.elapsed_seconds, 3)
