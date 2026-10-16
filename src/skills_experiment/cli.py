@@ -25,6 +25,7 @@ from .benchmark import selection as selection_mod
 from .benchmark import swebench_lite
 from .config import load_experiment
 from .evaluation import HarnessError, grade_experiment
+from .locks import ImageLockError
 from .models.registry import get_registry
 from .runlog import RunLogger
 from .runner import ExperimentRunner
@@ -105,7 +106,7 @@ def _cmd_plan(args: argparse.Namespace) -> int:
 
 
 def _cmd_preflight(args: argparse.Namespace) -> int:
-    """Freeze the environment: dataset manifest hash + pull every task image."""
+    """Freeze the environment: dataset manifest hash + pull/verify task images."""
     config = load_experiment(args.experiment)
     runner = ExperimentRunner(config, dry_run=False)
     tasks = runner._load_tasks()
@@ -123,24 +124,50 @@ def _cmd_preflight(args: argparse.Namespace) -> int:
         print(f"Sandbox    : {config.sandbox.kind} (no images to pull)")
         return 0
 
+    from .locks import ImageLock, load_lock, save_lock, verify
     from .sandbox import docker as docker_sandbox
 
-    print("\nDocker images:")
+    resolved: dict[str, dict[str, str]] = {}
     failures = 0
+    print("\nDocker images:")
     for entry in tasks:
         task = entry["task"]
-        image = task.image or config.sandbox.docker_image_template.format(
-            repo_slug=task.repo.replace("/", "_"), repo=task.repo
-        )
+        image = runner._resolve_image(task)
         try:
             docker_sandbox.pull_image(image)
             digest = docker_sandbox.image_digest(image)
+            resolved[task.instance_id] = {"image": image, "digest": digest}
             print(f"  {task.instance_id:<34} {digest or '(no digest)'}")
         except Exception as exc:  # noqa: BLE001 - report and continue
             failures += 1
             print(f"  {task.instance_id:<34} FAILED: {exc}")
-    print(f"\n{'OK' if not failures else str(failures) + ' image(s) failed'}")
-    return 1 if failures else 0
+
+    if failures:
+        print(f"\n{failures} image(s) failed; not touching the lock.")
+        return 1
+
+    if args.write_lock:
+        lock = ImageLock(
+            experiment_id=config.id,
+            dataset_revision=config.dataset.revision,
+            images=resolved,
+        )
+        path = save_lock(lock)
+        print(f"\nWrote image lock -> {path}")
+        return 0
+
+    lock = load_lock(config.id)
+    if lock is None:
+        print("\nNo image lock yet; re-run with --write-lock to freeze these digests.")
+        return 0
+    problems = verify(lock, {k: v["digest"] for k, v in resolved.items()})
+    if problems:
+        print("\nLock MISMATCH:")
+        for problem in problems:
+            print(f"  - {problem}")
+        return 1
+    print("\nLock OK (all images match the recorded digests).")
+    return 0
 
 
 def _cmd_run(args: argparse.Namespace) -> int:
@@ -152,7 +179,11 @@ def _cmd_run(args: argparse.Namespace) -> int:
     limit = int(getattr(args, "limit", 0) or 0)
 
     runner = ExperimentRunner(config, dry_run=dry_run, base_dir=_base_dir(args))
-    summary = _run_with_limit(runner, limit)
+    try:
+        summary = _run_with_limit(runner, limit)
+    except ImageLockError as exc:
+        print(str(exc))
+        return 2
     print(json.dumps(summary.as_dict(), indent=2))
     print(f"\nArtifacts: {runner.logger.base_dir}")
 
@@ -202,7 +233,11 @@ def _cmd_grade(args: argparse.Namespace) -> int:
 def _cmd_rerun(args: argparse.Namespace) -> int:
     config = load_experiment(args.experiment)
     runner = ExperimentRunner(config, dry_run=args.dry_run, base_dir=_base_dir(args))
-    summary = runner.rerun(max_reruns=args.max_reruns)
+    try:
+        summary = runner.rerun(max_reruns=args.max_reruns)
+    except ImageLockError as exc:
+        print(str(exc))
+        return 2
     print(json.dumps(summary.as_dict(), indent=2))
     print(f"\nArtifacts: {runner.logger.base_dir}")
     return 0
@@ -300,6 +335,11 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("preflight", help="Pull task images and print data/image provenance.")
     p.add_argument("--experiment", default="pilot")
     p.add_argument("--expect", default="", help="Expected dataset manifest hash.")
+    p.add_argument(
+        "--write-lock",
+        action="store_true",
+        help="Write/refresh the image-digest lock from the pulled images.",
+    )
     p.set_defaults(func=_cmd_preflight)
 
     p = sub.add_parser("smoke", help="Single-task dry run with the mock model.")

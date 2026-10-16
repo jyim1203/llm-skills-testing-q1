@@ -184,8 +184,13 @@ Decided: **3 repeats per (task, condition)**; **A/B/C only** (no fourth
 `b0dde1093fe417d83b7184254edf8199c1f0dff5`; `data/instances/` is committed so the
 task bytes are versioned; every run records a `benchmark_dataset_hash` and writes
 `dataset_manifest.json`; every attempt records its Docker image digest, RNG seed,
-UTC start time, and the framework git commit. `preflight` pulls/verifies images
-before a run.
+UTC start time, and the framework git commit. `preflight --write-lock` records
+each task image's immutable digest in `data/image_locks/<experiment_id>.json`, and
+runs **enforce** that lock: if a `:latest` tag resolves to a different digest, the
+run refuses to start (so the environment cannot change silently between runs).
+Agent-side dependency versions are logged, not pinned: the code under test runs
+inside the per-task container image, so the image (enforced) + harness version
+(logged) determine the verdict.
 
 ## 12a. Platform: Linux/WSL
 

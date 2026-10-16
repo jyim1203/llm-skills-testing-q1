@@ -42,7 +42,7 @@ Once Docker and the harness are set up (see below):
 
 ```bash
 python -m skills_experiment select-tasks --dev --cache   # dev/smoke subset
-python -m skills_experiment preflight --experiment pilot-dev  # pull images + print manifest
+python -m skills_experiment preflight --experiment pilot-dev --write-lock  # pull images, freeze digests
 python -m skills_experiment run  --experiment pilot-dev   # attempt -> patch
 python -m skills_experiment grade --experiment pilot-dev  # patch -> resolved/unresolved
 python -m skills_experiment analyze --experiment pilot-dev
@@ -324,8 +324,10 @@ kept under `runs/<experiment_id>/harness/`.
   (`b0dde10…`), `data/instances/` is committed so the task bytes are frozen, each
   run records a `benchmark_dataset_hash` (a content hash over the exact instances
   used) and writes `dataset_manifest.json`, and each attempt logs its Docker image
-  digest, seed, UTC start time, and the framework git commit. Run `preflight` to
-  pull images and print the manifest before a real run.
+  digest, seed, UTC start time, and the framework git commit. `preflight
+  --write-lock` freezes each task image's digest in `data/image_locks/<exp>.json`,
+  which runs **enforce** — a moved `:latest` tag aborts the run instead of
+  silently changing the environment.
 - ⚠️ The Anthropic and Gemini adapters are written against their public APIs but
   have **not** been executed against live endpoints. Validate with one call each.
 - ⚠️ The `local` sandbox is smoke-only; trustworthy runs need `docker`.

@@ -167,6 +167,8 @@ class ExperimentRunner:
             for cc in load_condition_configs(self.config.conditions)
         }
         tasks = self._load_tasks()
+        if self.config.sandbox.kind == "docker" and not self.dry_run:
+            self._verify_image_lock(tasks)
         manifest = swebench_lite.instances_manifest([t["task"] for t in tasks])
         self._write_dataset_manifest(manifest)
         return _RunContext(
@@ -183,6 +185,43 @@ class ExperimentRunner:
         (self.logger.base_dir / "dataset_manifest.json").write_text(
             json.dumps(manifest, indent=2), encoding="utf-8"
         )
+
+    def _resolve_image(self, task: Any) -> str:
+        """The image reference this task will run in (mirrors DockerSandbox)."""
+        if getattr(task, "image", ""):
+            return task.image
+        return self.config.sandbox.docker_image_template.format(
+            repo_slug=task.repo.replace("/", "_"), repo=task.repo
+        )
+
+    def _verify_image_lock(self, tasks: list[dict[str, Any]]) -> None:
+        """Refuse to run when local images differ from the committed lock.
+
+        Without a lock we warn (dev convenience); with a lock we enforce, so a
+        moved ``:latest`` tag cannot silently change the environment mid-study.
+        """
+        from .locks import ImageLockError, load_lock, lock_path, verify
+        from .sandbox.docker import image_digest
+
+        lock = load_lock(self.config.id)
+        if lock is None:
+            print(
+                f"[warn] no image lock at {lock_path(self.config.id)}; image digests are "
+                f"recorded per attempt but not enforced. Create one with "
+                f"`preflight --experiment {self.config.id} --write-lock`."
+            )
+            return
+
+        resolved = {
+            entry["task"].instance_id: image_digest(self._resolve_image(entry["task"]))
+            for entry in tasks
+        }
+        problems = verify(lock, resolved)
+        if problems:
+            raise ImageLockError(
+                "image lock mismatch -- refusing to run (environments would differ):\n"
+                + "\n".join(f"  - {p}" for p in problems)
+            )
 
     # -- planning ----------------------------------------------------------- #
     def build_plan(self, task_ids: list[str]) -> list[RunPlanItem]:
