@@ -1,0 +1,16 @@
+# Condition B -- Direct prompt instructions
+#
+# The agent receives the same task/context as A, plus the complete text of the
+# experimental workflow instructions packaged directly in its prompt.
+#
+# FAIRNESS: `instructions_file` MUST point at the exact same file used by
+# condition C. The loader asserts the two hashes match at run time.
+
+name = "B_prompt_instructions"
+impl = "prompt_instructions"
+instructions_file = "workflow_instructions.md"   # same file as condition C
+skill_enabled = false
+notes = """
+The substantive workflow text is injected verbatim. This is the comparison
+that isolates the skill *delivery mechanism* (C vs B).
+"""

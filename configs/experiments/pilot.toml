@@ -1,0 +1,53 @@
+# Pilot experiment configuration.
+#
+# This defines a *dry-run-able* end-to-end pipeline over the selected SWE-bench
+# Lite instances. It deliberately stops short of the "main phase" settings
+# (large task subsets, many repeats); see the handoff doc sections 6 and 11.
+
+[experiment]
+id = "pilot-01"
+# Model profile name from `configs/models/`. Swap this single value to change
+# the model under test (gpt-6-luna | claude-opus | gemini-pro | mock).
+model = "gpt-6-luna"
+conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
+# Frozen in PROTOCOL.md §10: 3 repeats per (task, condition).
+repeats = 3
+seed = 20261015
+# Interleave condition order per task to reduce time/order effects.
+interleave = true
+# Discard any prior outputs for this experiment id before running.
+fresh = true
+
+[budgets]
+max_steps = 40
+max_tokens = 120000
+elapsed_seconds = 1800
+tool_timeout_seconds = 120
+
+[dataset]
+name = "SWE-bench/SWE-bench_Lite"
+# Dataset revision is pinned to the HuggingFace `main` revision for now; record
+# the resolved commit sha in the run log when the loader supports it.
+revision = "main"
+split = "test"
+selection_file = "data/task_selection.json"
+# Prefer the local cache; only hit the network if an instance is missing.
+offline = false
+
+[sandbox]
+# "local"  -> run commands directly in the workspace (fast smoke tests only)
+# "docker" -> required for trustworthy SWE-bench evaluation (see README)
+# `--dry-run` forces the noop sandbox regardless, so dry runs still work.
+kind = "docker"
+docker_image_template = "swebench/sweb.eval.x86_64.{repo_slug}:latest"
+
+[agent]
+# Path (relative to assets/prompts) of the condition-independent base prompt.
+base_system_prompt = "base_system_prompt.md"
+
+[harness]
+# Interpreter with `swebench` installed. Empty -> $SWEBENCH_PYTHON, else a local
+# .venv-harness, else the current interpreter. See README.
+python = ""
+max_workers = 4
+timeout_seconds = 1800

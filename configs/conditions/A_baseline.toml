@@ -1,0 +1,14 @@
+# Condition A -- Baseline
+#
+# The agent receives the ordinary task/issue and repository context with no
+# additional experimental workflow instructions or skill. Establishes the
+# performance floor for the comparison.
+
+name = "A_baseline"
+impl = "baseline"
+instructions_file = ""            # intentionally none
+skill_enabled = false
+notes = """
+No experimental workflow text. Only the shared, condition-independent base
+system prompt and the task statement are provided.
+"""

@@ -1,0 +1,29 @@
+# Placeholder ChatGPT-family model.
+#
+# NOTE: "gpt-6-luna" is a FICTIONAL placeholder name used while the study is
+# being scaffolded. Before any real run, set `model_id` to a real, pinned
+# OpenAI model identifier and record it in the run log. Do not report results
+# against a placeholder name.
+
+name = "gpt-6-luna"
+provider = "openai"
+model_id = "gpt-6-luna"          # <-- replace with a real model id, e.g. "gpt-5"
+api_key_env = "OPENAI_API_KEY"
+base_url = ""                     # optional: gateway / Azure / OpenAI-compatible
+notes = """
+Fictional placeholder standing in for the ChatGPT-family condition.
+Swapping to a real model is a one-line change to `model_id` (or point
+another profile at the same provider).
+"""
+
+[params]
+temperature = 0.0
+max_tokens = 8192
+# `timeout` and `max_retries` are passed to the provider SDK when supported.
+timeout = 600
+max_retries = 3
+
+# USD per 1,000,000 tokens. Placeholder values -- replace with real pricing.
+[pricing]
+input = 0.0
+output = 0.0

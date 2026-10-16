@@ -1,0 +1,21 @@
+# Condition C -- Skill
+#
+# The agent receives the same task/context as A. The same substantive
+# instructions used by condition B are packaged as a SKILL.md and exposed
+# through the agent runtime: only the skill's name + description metadata are
+# advertised up front, and the agent must load the body via the `load_skill`
+# tool.
+#
+# FAIRNESS: `instructions_file` MUST match condition B exactly. The skill body
+# is generated from that file by `scripts/build_skill.py`.
+
+name = "C_skill"
+impl = "skill"
+instructions_file = "workflow_instructions.md"   # same file as condition B
+skill_enabled = true
+skill_name = "python-repo-maintenance"
+skill_dir = "python_repo_maintenance"
+notes = """
+Skill metadata is legitimate discovery context. The skill body is byte-identical
+to the condition B text; the only intended difference is the delivery mechanism.
+"""

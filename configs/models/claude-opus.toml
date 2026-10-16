@@ -1,0 +1,21 @@
+# Anthropic Claude (Opus) profile.
+#
+# `model_id` should be pinned to an exact dated model when available so that
+# runs are reproducible and the run log records what was actually used.
+
+name = "claude-opus"
+provider = "anthropic"
+model_id = "claude-opus-4-1"      # <-- verify/pin against the current API
+api_key_env = "ANTHROPIC_API_KEY"
+base_url = ""
+notes = "Claude Opus family. Pinning the exact snapshot is required for reproducibility."
+
+[params]
+temperature = 0.0
+max_tokens = 8192
+timeout = 600
+max_retries = 3
+
+[pricing]
+input = 0.0
+output = 0.0

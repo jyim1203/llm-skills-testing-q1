@@ -1,0 +1,29 @@
+{
+  "subset": "dev",
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "dataset_revision": "main",
+  "split": "test",
+  "selection_procedure": "one instance per repository, fixed a priori",
+  "seed": 20261015,
+  "num_tasks": 3,
+  "tasks": [
+    {
+      "instance_id": "pylint-dev__astroid-1268",
+      "repo": "pylint-dev/astroid",
+      "topic": "static analysis / AST visitor",
+      "why": "Small, pure-Python logic fix; good for validating the end-to-end cycle."
+    },
+    {
+      "instance_id": "pydicom__pydicom-1256",
+      "repo": "pydicom/pydicom",
+      "topic": "binary/medical file format serialization",
+      "why": "Data-structure/serialization bug; different failure surface from astroid."
+    },
+    {
+      "instance_id": "pvlib__pvlib-python-1154",
+      "repo": "pvlib/pvlib-python",
+      "topic": "scientific numerics (irradiance model)",
+      "why": "Numeric edge-case fix; adds a scientific-computing repo to the smoke set."
+    }
+  ]
+}

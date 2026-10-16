@@ -1,0 +1,15 @@
+# Normalize all text files to LF in the repository.
+#
+# Several artifacts (skill/prompt assets, shell snippets) are consumed by Linux
+# tools, and the SWE-bench evaluation containers are LF-only. Forcing LF avoids
+# CRLF contamination across platforms.
+* text=auto eol=lf
+
+# Binary assets must not be normalized.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary

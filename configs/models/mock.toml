@@ -1,0 +1,19 @@
+# Offline mock model -- no network, no API key, deterministic.
+#
+# Used for smoke tests, CI, and dry runs of the full experiment pipeline.
+# It lets you validate conditions, isolation, logging, and the agent loop
+# without spending money or needing provider credentials.
+
+name = "mock"
+provider = "mock"
+model_id = "mock-echo"
+api_key_env = ""                  # no credentials required
+notes = "Deterministic offline client. Never use for reported results."
+
+[params]
+temperature = 0.0
+max_tokens = 4096
+
+[pricing]
+input = 0.0
+output = 0.0

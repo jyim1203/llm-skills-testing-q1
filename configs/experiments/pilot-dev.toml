@@ -1,0 +1,44 @@
+# Development / smoke-test experiment configuration.
+#
+# Runs the full attempt -> grade cycle on 3 **dev**-split instances (see
+# data/task_selection_dev.json). Dev instances are for validating the pipeline
+# (setup, patch capture, grading, logs, cost); their results are NEVER reported
+# as main results. Put real keys in .env and swap `model` to run it for real.
+
+[experiment]
+id = "pilot-dev-01"
+model = "gpt-6-luna"
+conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
+repeats = 1
+seed = 20261015
+interleave = true
+fresh = true
+
+[budgets]
+max_steps = 40
+max_tokens = 120000
+elapsed_seconds = 1800
+tool_timeout_seconds = 120
+
+[dataset]
+name = "SWE-bench/SWE-bench_Lite"
+revision = "main"
+split = "dev"
+selection_file = "data/task_selection_dev.json"
+offline = false
+
+[sandbox]
+# Docker is required for trustworthy evaluation; the smoke test validates it.
+kind = "docker"
+docker_image_template = "swebench/sweb.eval.x86_64.{repo_slug}:latest"
+
+[agent]
+base_system_prompt = "base_system_prompt.md"
+
+[harness]
+# Interpreter with `swebench` installed. Empty -> $SWEBENCH_PYTHON, else a local
+# .venv-harness, else the current interpreter. See README.
+python = ""
+# Keep dev smoke tests serial so cost/behavior is easy to watch.
+max_workers = 1
+timeout_seconds = 1800

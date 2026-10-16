@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-experiment"
+version = "0.1.0"
+description = "Exploratory study: does delivering a workflow as an agent Skill differ from pasting it into the prompt? (SWE-bench Lite)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []  # core framework has no third-party dependencies
+
+[project.optional-dependencies]
+# Provider SDKs -- install only the ones you actually call.
+openai = ["openai>=1.40"]
+anthropic = ["anthropic>=0.34"]
+google = ["google-genai>=0.3"]
+# Official SWE-bench evaluation harness + dataset access.
+swebench = ["swebench", "datasets"]
+dev = ["pytest>=8.0", "pytest-cov"]
+
+[project.scripts]
+skills-exp = "skills_experiment.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+skills_experiment = ["assets/**/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
