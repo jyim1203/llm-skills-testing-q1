@@ -146,8 +146,9 @@ tasks are the independent unit). Implemented in `src/skills_experiment/analysis.
 (`analyze` command; `--resamples`, default 5000; fixed seed).
 
 Secondary (recorded, not headline): input/output tokens, tool calls, steps,
-elapsed seconds, estimated cost (from `[pricing]`), and — for C — skill
-discovery/load rates.
+elapsed seconds, estimated cost (from `[pricing]`), **tests passed / total**
+(parsed from the harness's per-instance reports: `FAIL_TO_PASS` / `PASS_TO_PASS`
+success and failure counts), and — for C — skill discovery/load rates.
 
 Number of repeats: **3 per (task, condition)** (frozen). All attempts per
 condition are retained so the analysis can aggregate or report stability.
@@ -203,6 +204,22 @@ decisions plus one live call.
 * ✅ Full attempt → grade → analyze cycle exercised on the real docker sandbox
   with the mock model, on Windows and in WSL; the run log updates in place and
   empty patches classify as `unresolved`.
-* ✅ 34 unit tests pass; fairness hashes match.
-* ⏳ No provider SDK installed and no `.env`; the model ids are still placeholders.
+* ✅ 35 unit tests pass; fairness hashes match.
+* ⏳ No provider SDK in the agent environment and no `.env` for the fixed study
+  model; the study model ids are still placeholders. (For shakedown runs, the
+  OpenAI SDK is installed in the Linux harness venv and `.env` holds a Groq key;
+  see the model-under-test note below.)
+
+### Model access note (setup phase)
+
+* OpenCode's free tier (`opencode/deepseek-v4.1-flash-free`) **cannot** drive the
+  harness: its inference API rejects non-OpenCode clients (`FreeTierError`), and
+  the local OpenCode server only exposes text generation (no tool calling, no
+  token usage).
+* Shakedown model: **`deepseek-flash`** (DeepSeek's OpenAI-compatible API; tool
+  calling + usage verified) run via the Linux/WSL path. This is a *dev* model
+  only — the study's fixed model is still an open item (§12).
+* Groq's free tier (`groq-gpt-oss-120b`) turned out **unusable** for the agent
+  loop: 8,000 TPM / 200,000 TPD per model, while a single request already
+  exceeds 8K tokens (HTTP 413). Kept in `configs/models/` for Dev-Tier use.
 

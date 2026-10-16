@@ -88,6 +88,8 @@ python -m skills_experiment run --experiment pilot --model claude-opus
 | `gpt-6-luna` | `openai` | **Placeholder** (fictional name) standing in for ChatGPT |
 | `claude-opus` | `anthropic` | Claude Opus (pin the exact snapshot) |
 | `gemini-pro` | `google` | Gemini (`google-genai` SDK) |
+| `deepseek-flash` | `openai` | DeepSeek V4.1 Flash via `api.deepseek.com` (cheap; shakedowns) |
+| `groq-gpt-oss-120b` | `openai` | Groq free tier, `openai/gpt-oss-120b` — tool calling works, but 8K TPM free cap is too low for agent runs |
 | `mock` | `mock` | Deterministic, offline, no credentials |
 
 ### Why it's easy to swap
@@ -288,7 +290,10 @@ result.json     stop reason, steps, tool errors
 ```
 
 `grade` fills in `evaluation_status` / `failure_category` / `harness_version` in
-place (writing back to `runs.jsonl` and `runs.csv`). `analyze` writes
+place (writing back to `runs.jsonl` and `runs.csv`). It also records per-attempt
+test tallies parsed from the harness's per-instance reports:
+`tests_passed` / `tests_total`, plus `fail_to_pass_passed` / `fail_to_pass_total`
+and `pass_to_pass_passed` / `pass_to_pass_total`. `analyze` writes
 `runs/<experiment_id>/analysis.json`. Harness predictions and raw reports are
 kept under `runs/<experiment_id>/harness/`.
 
@@ -303,13 +308,15 @@ kept under `runs/<experiment_id>/harness/`.
 - ✅ **Grading** via the official SWE-bench harness (`swebench==5.0.2`), grouped
   per (condition, attempt), with a documented failure-handling + rerun policy.
 - ✅ Analysis: resolved rate + task-level bootstrap effects, cost/token/tool
-  accounting in the run log.
+  accounting, and per-attempt tests-passed counts in the run log.
 - ✅ **Docker sandbox** validated end to end on a real dev image
   (`python scripts/validate_sandbox.py`): container start, exec, read/write/list,
   and patch capture.
 - ⚠️ **`gpt-6-luna` is a fictional placeholder** — set a real `model_id` before any run.
-- ⚠️ No provider SDK is installed yet; install the one you use
-  (`pip install -e ".[openai]"`, `.[anthropic]`, or `.[google]`) and add a key to `.env`.
+- ⚠️ No provider SDK is installed yet in the agent environment; install the one
+  you use (`pip install -e ".[openai]"`, `.[anthropic]`, or `.[google]`) and add
+  a key to `.env`. (The OpenAI SDK is installed in the Linux harness venv for
+  shakedown runs with `deepseek-flash` / `groq-gpt-oss-120b`.)
 - ⚠️ All model `[pricing]` blocks are `0.0`, so run-log cost columns read 0 until
   real per-token prices are filled in.
 - ⚠️ The dataset `revision` is recorded as the configured string (`"main"`), not a

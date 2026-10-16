@@ -39,6 +39,8 @@ class GradeSummary:
     resolved: int = 0
     unresolved: int = 0
     infrastructure_errors: int = 0
+    tests_passed: int = 0
+    tests_total: int = 0
     by_status: dict[str, int] = field(default_factory=dict)
     harness_version: str = ""
     report_paths: list[str] = field(default_factory=list)
@@ -51,6 +53,8 @@ class GradeSummary:
             "resolved": self.resolved,
             "unresolved": self.unresolved,
             "infrastructure_errors": self.infrastructure_errors,
+            "tests_passed": self.tests_passed,
+            "tests_total": self.tests_total,
             "by_status": self.by_status,
             "harness_version": self.harness_version,
         }
@@ -153,6 +157,15 @@ def grade_experiment(
             rec.evaluation_status = classification.status
             rec.failure_category = classification.category
             rec.harness_version = version
+            stats = result.test_stats.get(rec.instance_id) or {}
+            rec.tests_passed = int(stats.get("tests_passed", 0))
+            rec.tests_total = int(stats.get("tests_total", 0))
+            rec.fail_to_pass_passed = int(stats.get("fail_to_pass_passed", 0))
+            rec.fail_to_pass_total = int(stats.get("fail_to_pass_total", 0))
+            rec.pass_to_pass_passed = int(stats.get("pass_to_pass_passed", 0))
+            rec.pass_to_pass_total = int(stats.get("pass_to_pass_total", 0))
+            summary.tests_passed += rec.tests_passed
+            summary.tests_total += rec.tests_total
             summary.graded_attempts += 1
             summary.by_status[classification.status] = summary.by_status.get(classification.status, 0) + 1
             if classification.status == policy.RESOLVED:

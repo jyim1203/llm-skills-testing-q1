@@ -1,0 +1,36 @@
+# DeepSeek V4.1 Flash -- served directly by DeepSeek's OpenAI-compatible API.
+#
+# This is the same model family as OpenCode's free `deepseek-v4.1-flash-free`,
+# but reachable from the experiment harness (OpenCode's free tier is locked to
+# the OpenCode client, so it cannot be driven by a custom agent loop). DeepSeek
+# is very cheap rather than free -- fine for a shakedown; record real pricing.
+#
+# Verified by hand: accepts OpenAI-style tool/function calls and returns token
+# usage, so it works with the agent loop.
+#
+# Use for: dev/pilot smoke runs and low-cost shakedowns. Swap the model for the
+# main study via `configs/experiments/*.toml` (`model = "..."`).
+
+name = "deepseek-flash"
+provider = "openai"
+model_id = "deepseek-flash"       # DeepSeek API ids: deepseek-flash, deepseek-v4-pro
+api_key_env = "DEEPSEEK_API_KEY"
+base_url = "https://api.deepseek.com"
+notes = """
+DeepSeek V4.1 Flash via https://api.deepseek.com (OpenAI-compatible).
+Tool calling and usage reporting verified. Near-free; not a reported model
+unless you deliberately choose it.
+"""
+
+[params]
+temperature = 0.0
+max_tokens = 8192
+# `timeout` and `max_retries` are passed to the provider SDK when supported.
+timeout = 600
+max_retries = 3
+
+# USD per 1,000,000 tokens. ESTIMATE -- confirm against DeepSeek's current
+# pricing before reporting cost figures.
+[pricing]
+input = 0.15
+output = 0.6

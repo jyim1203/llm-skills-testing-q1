@@ -49,6 +49,12 @@ RUN_COLUMNS = [
     "skill_loaded",
     "patch_path",
     "harness_version",
+    "tests_passed",
+    "tests_total",
+    "fail_to_pass_passed",
+    "fail_to_pass_total",
+    "pass_to_pass_passed",
+    "pass_to_pass_total",
     "evaluation_status",
     "failure_category",
     "notes",
@@ -87,6 +93,13 @@ class RunRecord:
     skill_loaded: bool = False
     patch_path: str = ""
     harness_version: str = ""
+    # Test tallies from the graded run (0 when never evaluated).
+    tests_passed: int = 0
+    tests_total: int = 0
+    fail_to_pass_passed: int = 0
+    fail_to_pass_total: int = 0
+    pass_to_pass_passed: int = 0
+    pass_to_pass_total: int = 0
     # resolved | unresolved | infrastructure_error | not_evaluated
     evaluation_status: str = "not_evaluated"
     failure_category: str = ""

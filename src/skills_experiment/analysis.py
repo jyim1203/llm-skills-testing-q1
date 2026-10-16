@@ -43,6 +43,9 @@ class ConditionStats:
     steps: int = 0
     elapsed_seconds: float = 0.0
     total_cost_usd: float = 0.0
+    tests_passed: int = 0
+    tests_total: int = 0
+    graded: int = 0
 
     @property
     def counted(self) -> int:
@@ -72,6 +75,10 @@ class ConditionStats:
             if self.attempts
             else 0.0,
             "total_cost_usd": round(self.total_cost_usd, 4),
+            "graded_attempts": self.graded,
+            "total_tests_passed": self.tests_passed,
+            "total_tests_total": self.tests_total,
+            "mean_tests_passed": round(self.tests_passed / self.graded, 1) if self.graded else 0.0,
         }
 
 
@@ -109,6 +116,10 @@ def condition_stats(records: Iterable[RunRecord]) -> dict[str, ConditionStats]:
         st.steps += rec.steps
         st.elapsed_seconds += rec.elapsed_seconds
         st.total_cost_usd += rec.total_cost_usd
+        st.tests_passed += rec.tests_passed
+        st.tests_total += rec.tests_total
+        if rec.tests_total or rec.tests_passed:
+            st.graded += 1
         if rec.evaluation_status == policy.RESOLVED:
             st.resolved += 1
         elif rec.evaluation_status == policy.UNRESOLVED:
@@ -213,7 +224,8 @@ def render_text(summary: dict[str, Any]) -> str:
     lines.append(f"records: {summary['n_records']}   reference: {summary['reference']}")
     header = (
         f"{'condition':<22}{'att':>4}{'tasks':>6}{'res':>4}{'unres':>6}"
-        f"{'infra':>6}{'rate':>8}{'tok/att':>10}{'tools/att':>10}{'cost$':>9}"
+        f"{'infra':>6}{'rate':>8}{'tok/att':>10}{'sec/att':>9}{'tools/att':>10}"
+        f"{'tests':>9}{'cost$':>9}"
     )
     lines.append(header)
     lines.append("-" * len(header))
@@ -222,7 +234,9 @@ def render_text(summary: dict[str, Any]) -> str:
             f"{name:<22}{st['attempts']:>4}{st['tasks']:>6}{st['resolved']:>4}"
             f"{st['unresolved']:>6}{st['infrastructure_errors']:>6}"
             f"{st['resolved_rate']:>8.2f}{st['mean_total_tokens']:>10.0f}"
-            f"{st['mean_tool_calls']:>10.2f}{st['total_cost_usd']:>9.4f}"
+            f"{st['mean_elapsed_seconds']:>9.0f}{st['mean_tool_calls']:>10.2f}"
+            f"{(str(st['total_tests_passed']) + '/' + str(st['total_tests_total'])):>9}"
+            f"{st['total_cost_usd']:>9.4f}"
         )
     if summary["effects"]:
         lines.append("")

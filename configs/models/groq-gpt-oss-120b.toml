@@ -1,0 +1,37 @@
+# Groq (free tier) -- OpenAI-compatible endpoint.
+#
+# Model: openai/gpt-oss-120b (Groq-hosted OpenAI open-weight model).
+# Tool calling verified (local function calling), so the adapter works.
+#
+# !! FREE-TIER LIMIT: 30 RPM, 1,000 RPD, 8,000 TPM, 200,000 TPD PER MODEL. !!
+# 8K TPM is too small to drive the agent loop: the first request (base prompt
+# + task + reserved max_tokens) already exceeds 8K, so Groq returns HTTP 413
+# before the model runs. Once context grows, no max_tokens setting fits. The
+# 200K TPD daily cap is also below a single attempt's token budget.
+# -> Not usable for SWE-bench agent runs on the free tier. Use `deepseek-flash`
+#    instead, or upgrade to Groq's Dev Tier (250K TPM) and raise max_tokens.
+#
+# Note: llama-3.3-70b-versatile was deprecated 2026-08-16.
+
+name = "groq-gpt-oss-120b"
+provider = "openai"
+model_id = "openai/gpt-oss-120b"   # alternatives: openai/gpt-oss-20b, qwen/qwen3.8-27b
+api_key_env = "GROQ_API_KEY"
+base_url = "https://api.groq.com/openai/v1"
+notes = """
+Groq free-tier endpoint (8K TPM / 200K TPD per model). Tool calling works, but
+the free-tier token limits are too low to run the agent loop -- the first
+request alone exceeds 8K TPM (HTTP 413). Kept for reference / Dev-Tier use.
+"""
+
+[params]
+temperature = 0.0
+max_tokens = 2048
+# `timeout` and `max_retries` are passed to the provider SDK when supported.
+timeout = 600
+max_retries = 3
+
+# USD per 1,000,000 tokens. Groq free tier is not billed (list $0.15/$0.60).
+[pricing]
+input = 0.0
+output = 0.0

@@ -52,6 +52,9 @@ class HarnessResult:
     infra_failure_ids: list[str] = field(default_factory=list)
     empty_patch_ids: list[str] = field(default_factory=list)
     failure_reasons: dict[str, str] = field(default_factory=dict)
+    # Per-instance test tallies parsed from the per-instance report.json files
+    # (the aggregate report only carries resolved/unresolved ids).
+    test_stats: dict[str, dict[str, Any]] = field(default_factory=dict)
     raw_report: dict[str, Any] = field(default_factory=dict)
     stdout: str = ""
     stderr: str = ""
@@ -146,6 +149,57 @@ def _find_report(report_dir: Path, run_id: str, workflow: Path) -> Optional[Path
     return None
 
 
+_TEST_STATUS_GROUPS = ("FAIL_TO_PASS", "PASS_TO_PASS", "FAIL_TO_FAIL", "PASS_TO_FAIL")
+
+
+def collect_test_stats(
+    work_dir: str | Path,
+    run_id: str,
+    instance_ids: Iterable[str],
+) -> dict[str, dict[str, Any]]:
+    """Per-instance test tallies from the harness's per-instance reports.
+
+    The aggregate report only lists resolved/unresolved ids; the *counts* of
+    tests that passed live in
+    ``logs/run_evaluation/<run_id>/<model>/<instance>/report.json`` under
+    ``tests_status``. Returns ``{instance_id: {...}}`` (missing when absent, e.g.
+    an empty patch that never ran tests).
+    """
+    base = Path(work_dir) / "logs" / "run_evaluation" / run_id
+    stats: dict[str, dict[str, Any]] = {}
+    for instance_id in instance_ids:
+        matches = sorted(base.glob(f"*/{instance_id}/report.json"))
+        if not matches:
+            continue
+        try:
+            data = json.loads(matches[0].read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        entry = data.get(instance_id, data) if isinstance(data, dict) else {}
+        tests_status = (entry or {}).get("tests_status") or {}
+        detail = {group: {"passed": 0, "failed": 0} for group in _TEST_STATUS_GROUPS}
+        for group in _TEST_STATUS_GROUPS:
+            block = tests_status.get(group) or {}
+            detail[group]["passed"] = len(block.get("success") or [])
+            detail[group]["failed"] = len(block.get("failure") or [])
+        passed = sum(d["passed"] for d in detail.values())
+        total = sum(d["passed"] + d["failed"] for d in detail.values())
+        stats[instance_id] = {
+            "tests_passed": passed,
+            "tests_total": total,
+            "fail_to_pass_passed": detail["FAIL_TO_PASS"]["passed"],
+            "fail_to_pass_total": (
+                detail["FAIL_TO_PASS"]["passed"] + detail["FAIL_TO_PASS"]["failed"]
+            ),
+            "pass_to_pass_passed": detail["PASS_TO_PASS"]["passed"],
+            "pass_to_pass_total": (
+                detail["PASS_TO_PASS"]["passed"] + detail["PASS_TO_PASS"]["failed"]
+            ),
+            "tests_detail": detail,
+        }
+    return stats
+
+
 def run_harness(
     *,
     predictions_path: str | Path,
@@ -228,4 +282,7 @@ def run_harness(
     result.infra_failure_ids = list(report.get("infra_failure_ids", []))
     result.empty_patch_ids = list(report.get("empty_patch_ids", []))
     result.failure_reasons = dict(report.get("failure_reasons", {}))
+    result.test_stats = collect_test_stats(
+        work_dir, run_id, report.get("submitted_ids") or []
+    )
     return result

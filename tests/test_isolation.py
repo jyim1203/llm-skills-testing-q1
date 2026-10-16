@@ -27,19 +27,24 @@ def test_fairness_hashes_match(tmp_path, fake_task):
     assert fairness["B"] == fairness["C"]
 
 
-def test_dry_run_produces_three_isolated_attempts(tmp_path, fake_task):
+def test_dry_run_produces_isolated_attempts(tmp_path, fake_task):
     runner = _dry_run_runner(tmp_path, fake_task)
     summary = runner.run()
 
-    assert summary.planned == 3
-    assert summary.completed == 3
+    # One task (stubbed) x every condition x every repeat.
+    expected = len(runner.config.conditions) * runner.config.repeats
+    assert summary.planned == expected
+    assert summary.completed == expected
     assert summary.infrastructure_errors == 0
 
     # one CSV row per attempt
     rows = list(csv.DictReader((runner.logger.csv_path).open(encoding="utf-8")))
-    assert len(rows) == 3
+    assert len(rows) == expected
     conditions = {r["condition"] for r in rows}
-    assert conditions == {"A_baseline", "B_prompt_instructions", "C_skill"}
+    assert conditions == set(runner.config.conditions)
+    assert {int(r["attempt_number"]) for r in rows} == set(
+        range(1, runner.config.repeats + 1)
+    )
 
     inst = fake_task.instance_id
     a_dir = runner.logger.workspace_dir(inst, "A_baseline", 1)

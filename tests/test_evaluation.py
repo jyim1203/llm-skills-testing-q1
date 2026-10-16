@@ -50,6 +50,41 @@ def test_classify_missing_is_infra():
     assert c.status == policy.INFRASTRUCTURE_ERROR and c.category == "not_in_report"
 
 
+def test_collect_test_stats_reads_per_instance_reports(tmp_path):
+    import json
+
+    from skills_experiment.evaluation.harness import collect_test_stats
+
+    run_id = "study__A__a1"
+    report_dir = tmp_path / "logs" / "run_evaluation" / run_id / "model" / "task-0"
+    report_dir.mkdir(parents=True)
+    (report_dir / "report.json").write_text(
+        json.dumps(
+            {
+                "task-0": {
+                    "tests_status": {
+                        "FAIL_TO_PASS": {"success": ["t1"], "failure": []},
+                        "PASS_TO_PASS": {"success": ["t2", "t3"], "failure": ["t4"]},
+                        "FAIL_TO_FAIL": {"success": ["t5"], "failure": []},
+                        "PASS_TO_FAIL": {"success": [], "failure": []},
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    stats = collect_test_stats(tmp_path, run_id, ["task-0", "missing"])
+    assert "missing" not in stats
+    s = stats["task-0"]
+    assert s["tests_passed"] == 4
+    assert s["tests_total"] == 5
+    assert s["fail_to_pass_passed"] == 1
+    assert s["fail_to_pass_total"] == 1
+    assert s["pass_to_pass_passed"] == 2
+    assert s["pass_to_pass_total"] == 3
+
+
 def test_should_rerun_respects_budget():
     assert policy.should_rerun(policy.INFRASTRUCTURE_ERROR, 0, 1) is True
     assert policy.should_rerun(policy.INFRASTRUCTURE_ERROR, 1, 1) is False
