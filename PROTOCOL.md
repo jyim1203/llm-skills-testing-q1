@@ -172,13 +172,19 @@ under `runs/<experiment_id>/attempts/...`. Secrets are never logged.
 
 ## 12. Open items (must be decided before the main run)
 
-* Which model + exact pinned version is the study's fixed model?
-* How many main tasks (the current subset is 5; 20/25/30 are the candidates)?
-* Random vs. stratified main-phase sampling (this pilot is one-per-repo).
 * Confirm the local `python-repo-maintenance` skill wording is the frozen text.
 
 Decided: **3 repeats per (task, condition)**; **A/B/C only** (no fourth
 "pre-loaded skill" condition); reported runs execute under **Linux/WSL**.
+
+* **Study model:** `deepseek-flash` (low-cost, OpenAI-compatible). It is a
+  stand-in for the model-under-test; swapping it is a one-line config change for a
+  later replication.
+* **Main set:** 5 tasks, one per repository (django, requests, matplotlib, sympy,
+  scikit-learn) -- a repo-stratified purposive selection, frozen in
+  `data/task_selection.json` *before* any run, so it cannot be tuned to results.
+  Claims are scoped to these 5 tasks, not to SWE-bench Lite as a population; the
+  task-level bootstrap CI reflects n=5.
 
 **Reproducibility anchors (frozen):** dataset revision pinned to the sha
 `b0dde1093fe417d83b7184254edf8199c1f0dff5`; `data/instances/` is committed so the
