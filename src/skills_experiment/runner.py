@@ -13,9 +13,12 @@ identical instruction text) is asserted before any run starts.
 
 from __future__ import annotations
 
+import json
 import random
+import subprocess
 from collections import defaultdict
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -71,6 +74,7 @@ class _RunContext:
     fairness: dict[str, Any]
     conditions: dict[str, Any]
     task_by_id: dict[str, dict[str, Any]]
+    dataset_hash: str = ""
 
 
 class ExperimentRunner:
@@ -163,6 +167,8 @@ class ExperimentRunner:
             for cc in load_condition_configs(self.config.conditions)
         }
         tasks = self._load_tasks()
+        manifest = swebench_lite.instances_manifest([t["task"] for t in tasks])
+        self._write_dataset_manifest(manifest)
         return _RunContext(
             model_name=model_name,
             profile=profile,
@@ -170,6 +176,12 @@ class ExperimentRunner:
             fairness=fairness,
             conditions=conditions,
             task_by_id={t["task"].instance_id: t for t in tasks},
+            dataset_hash=manifest["hash"],
+        )
+
+    def _write_dataset_manifest(self, manifest: dict[str, Any]) -> None:
+        (self.logger.base_dir / "dataset_manifest.json").write_text(
+            json.dumps(manifest, indent=2), encoding="utf-8"
         )
 
     # -- planning ----------------------------------------------------------- #
@@ -221,6 +233,7 @@ class ExperimentRunner:
                 client=ctx.client,
                 profile=ctx.profile,
                 fairness=ctx.fairness,
+                dataset_hash=ctx.dataset_hash,
             )
             summary.records.append(record)
             summary.completed += 1
@@ -275,6 +288,7 @@ class ExperimentRunner:
         client: Any,
         profile,
         fairness: dict[str, Any],
+        dataset_hash: str = "",
     ) -> RunRecord:
         task = task_entry["task"]
         workdir = self.logger.workspace_dir(item.instance_id, item.condition, item.attempt)
@@ -285,14 +299,18 @@ class ExperimentRunner:
             condition=item.condition,
             model_id=profile.model_id,
             agent_framework_version=__version__,
+            framework_git_commit=self._git_commit(),
             benchmark_dataset_id=self.config.dataset.name,
             benchmark_dataset_revision=self.config.dataset.revision,
+            benchmark_dataset_hash=dataset_hash,
             split=self.config.dataset.split,
             instance_id=item.instance_id,
             repo=task.repo,
             topic=task_entry.get("topic", ""),
             attempt_number=item.attempt,
             run_order=item.run_order,
+            seed=self.config.seed,
+            started_at=datetime.now(timezone.utc).isoformat(),
             max_steps=self.config.budgets.max_steps,
             max_tokens=self.config.budgets.max_tokens,
             harness_version=self._harness_version(),
@@ -304,6 +322,9 @@ class ExperimentRunner:
         try:
             sandbox = self._make_sandbox(workdir)
             sandbox.prepare(task)
+            provenance = sandbox.provenance()
+            record.docker_image = provenance.get("docker_image", "")
+            record.docker_image_digest = provenance.get("docker_image_digest", "")
             ctx = ConditionContext(task=task, workspace=workdir, skills_dir=skills_dir)
             spec = condition.build(ctx)
             executor = ToolExecutor(
@@ -371,4 +392,21 @@ class ExperimentRunner:
 
             return md.version("swebench")
         except Exception:  # noqa: BLE001 - optional dependency
+            return ""
+
+    @staticmethod
+    def _git_commit() -> str:
+        """Best-effort git commit of this framework, for provenance."""
+        try:
+            proc = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=str(paths.REPO_ROOT),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=10,
+            )
+            return proc.stdout.strip() if proc.returncode == 0 else ""
+        except Exception:  # noqa: BLE001 - provenance is best-effort
             return ""

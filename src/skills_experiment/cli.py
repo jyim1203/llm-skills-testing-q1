@@ -4,6 +4,7 @@
     python -m skills_experiment build-skill
     python -m skills_experiment select-tasks [--dev] [--cache]
     python -m skills_experiment plan --experiment pilot
+    python -m skills_experiment preflight --experiment pilot
     python -m skills_experiment run --experiment pilot [--dry-run] [--limit N] [--grade]
     python -m skills_experiment grade --experiment pilot-dev [--condition C_skill]
     python -m skills_experiment rerun --experiment pilot
@@ -101,6 +102,45 @@ def _cmd_plan(args: argparse.Namespace) -> int:
     if fairness:
         print(f"Fairness hashes: {json.dumps(fairness)}")
     return 0
+
+
+def _cmd_preflight(args: argparse.Namespace) -> int:
+    """Freeze the environment: dataset manifest hash + pull every task image."""
+    config = load_experiment(args.experiment)
+    runner = ExperimentRunner(config, dry_run=False)
+    tasks = runner._load_tasks()
+    manifest = swebench_lite.instances_manifest([t["task"] for t in tasks])
+
+    print(f"Experiment : {config.id}")
+    print(f"Dataset    : {config.dataset.name}@{config.dataset.revision}")
+    print(f"Instances  : {len(tasks)}")
+    print(f"Manifest   : {manifest['hash']}")
+    if args.expect and manifest["hash"] != args.expect:
+        print(f"  !! manifest hash != --expect {args.expect}")
+        return 1
+
+    if config.sandbox.kind != "docker":
+        print(f"Sandbox    : {config.sandbox.kind} (no images to pull)")
+        return 0
+
+    from .sandbox import docker as docker_sandbox
+
+    print("\nDocker images:")
+    failures = 0
+    for entry in tasks:
+        task = entry["task"]
+        image = task.image or config.sandbox.docker_image_template.format(
+            repo_slug=task.repo.replace("/", "_"), repo=task.repo
+        )
+        try:
+            docker_sandbox.pull_image(image)
+            digest = docker_sandbox.image_digest(image)
+            print(f"  {task.instance_id:<34} {digest or '(no digest)'}")
+        except Exception as exc:  # noqa: BLE001 - report and continue
+            failures += 1
+            print(f"  {task.instance_id:<34} FAILED: {exc}")
+    print(f"\n{'OK' if not failures else str(failures) + ' image(s) failed'}")
+    return 1 if failures else 0
 
 
 def _cmd_run(args: argparse.Namespace) -> int:
@@ -256,6 +296,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--json", action="store_true", help="Also print the raw JSON summary.")
     p.add_argument("--base-dir", default="")
     p.set_defaults(func=_cmd_analyze)
+
+    p = sub.add_parser("preflight", help="Pull task images and print data/image provenance.")
+    p.add_argument("--experiment", default="pilot")
+    p.add_argument("--expect", default="", help="Expected dataset manifest hash.")
+    p.set_defaults(func=_cmd_preflight)
 
     p = sub.add_parser("smoke", help="Single-task dry run with the mock model.")
     p.add_argument("--experiment", default="pilot")

@@ -176,11 +176,16 @@ under `runs/<experiment_id>/attempts/...`. Secrets are never logged.
 * How many main tasks (the current subset is 5; 20/25/30 are the candidates)?
 * Random vs. stratified main-phase sampling (this pilot is one-per-repo).
 * Confirm the local `python-repo-maintenance` skill wording is the frozen text.
-* Pin the dataset to a resolved commit sha (currently recorded as the string
-  `"main"`, not the revision the records were actually pulled from).
 
 Decided: **3 repeats per (task, condition)**; **A/B/C only** (no fourth
 "pre-loaded skill" condition); reported runs execute under **Linux/WSL**.
+
+**Reproducibility anchors (frozen):** dataset revision pinned to the sha
+`b0dde1093fe417d83b7184254edf8199c1f0dff5`; `data/instances/` is committed so the
+task bytes are versioned; every run records a `benchmark_dataset_hash` and writes
+`dataset_manifest.json`; every attempt records its Docker image digest, RNG seed,
+UTC start time, and the framework git commit. `preflight` pulls/verifies images
+before a run.
 
 ## 12a. Platform: Linux/WSL
 

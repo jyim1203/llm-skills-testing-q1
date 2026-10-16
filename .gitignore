@@ -25,8 +25,9 @@ dist/
 runs/
 !runs/.gitkeep
 
-# Cached benchmark data (re-fetchable; keep the selection file, ignore the blobs)
-data/instances/
+# Raw benchmark downloads (not needed once instances are cached). The cached
+# per-instance definitions under data/instances/ ARE committed so a run is
+# reproducible byte-for-byte; they are small (~100 KB total for the subset).
 data/raw/
 
 # Tooling caches

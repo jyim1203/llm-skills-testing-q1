@@ -42,6 +42,7 @@ Once Docker and the harness are set up (see below):
 
 ```bash
 python -m skills_experiment select-tasks --dev --cache   # dev/smoke subset
+python -m skills_experiment preflight --experiment pilot-dev  # pull images + print manifest
 python -m skills_experiment run  --experiment pilot-dev   # attempt -> patch
 python -m skills_experiment grade --experiment pilot-dev  # patch -> resolved/unresolved
 python -m skills_experiment analyze --experiment pilot-dev
@@ -122,7 +123,7 @@ configs/
 data/
   task_selection.json      the frozen 5-task main subset + metadata
   task_selection_dev.json  the 3-task dev/smoke subset (never reported)
-  instances/               cached SWE-bench Lite records (git-ignored)
+  instances/               cached SWE-bench Lite records (committed; frozen data)
 src/skills_experiment/
   models/          ModelClient + registry + openai/anthropic/gemini/mock
   conditions/      baseline / prompt_instructions / skill
@@ -133,7 +134,7 @@ src/skills_experiment/
   runlog/          one row per attempt (handoff schema)
   analysis.py      per-condition stats + task-level bootstrap effects
   runner.py        tasks x conditions x repeats, fully isolated
-  cli.py           list-models | build-skill | select-tasks | plan | run | grade | rerun | analyze | smoke
+  cli.py           list-models | build-skill | select-tasks | plan | preflight | run | grade | rerun | analyze | smoke
   assets/          base system prompt + workflow instructions (+ generated SKILL.md)
 scripts/           thin CLI wrappers (+ validate_harness.py, validate_sandbox.py, wsl_setup_harness.sh)
 tests/             registry, fairness, conditions, loop, isolation, policy, analysis
@@ -307,7 +308,7 @@ kept under `runs/<experiment_id>/harness/`.
 - ✅ Agent loop, tools, sandboxes, run logging, CLI.
 - ✅ **Grading** via the official SWE-bench harness (`swebench==5.0.2`), grouped
   per (condition, attempt), with a documented failure-handling + rerun policy.
-- ✅ Analysis: resolved rate + task-level bootstrap effects, cost/token/tool
+- ✅ Analysis: resolved rate + task-level bootstrap effects, token/tool
   accounting, and per-attempt tests-passed counts in the run log.
 - ✅ **Docker sandbox** validated end to end on a real dev image
   (`python scripts/validate_sandbox.py`): container start, exec, read/write/list,
@@ -319,8 +320,12 @@ kept under `runs/<experiment_id>/harness/`.
   shakedown runs with `deepseek-flash` / `groq-gpt-oss-120b`.)
 - Cost is **not** computed in-repo: run logs record input/output/total tokens only;
   derive dollar cost externally as tokens × the provider's current per-token rate.
-- ⚠️ The dataset `revision` is recorded as the configured string (`"main"`), not a
-  resolved commit sha — pin/record the sha before the main phase.
+- ✅ **Reproducibility anchors**: the dataset revision is pinned to an exact sha
+  (`b0dde10…`), `data/instances/` is committed so the task bytes are frozen, each
+  run records a `benchmark_dataset_hash` (a content hash over the exact instances
+  used) and writes `dataset_manifest.json`, and each attempt logs its Docker image
+  digest, seed, UTC start time, and the framework git commit. Run `preflight` to
+  pull images and print the manifest before a real run.
 - ⚠️ The Anthropic and Gemini adapters are written against their public APIs but
   have **not** been executed against live endpoints. Validate with one call each.
 - ⚠️ The `local` sandbox is smoke-only; trustworthy runs need `docker`.

@@ -34,9 +34,10 @@ tool_timeout_seconds = 120
 
 [dataset]
 name = "SWE-bench/SWE-bench_Lite"
-# Dataset revision is pinned to the HuggingFace `main` revision for now; record
-# the resolved commit sha in the run log when the loader supports it.
-revision = "main"
+# Pinned to an exact HuggingFace commit sha so fetched rows are frozen (resolved
+# 2026-08-16). The per-run instance set is additionally content-hashed into the
+# log (`benchmark_dataset_hash`) and written as `dataset_manifest.json`.
+revision = "b0dde1093fe417d83b7184254edf8199c1f0dff5"
 split = "test"
 selection_file = "data/task_selection.json"
 # Prefer the local cache; only hit the network if an instance is missing.

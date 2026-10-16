@@ -13,6 +13,7 @@ cache for grading/auditing but must never reach the agent -- see
 from __future__ import annotations
 
 import ast
+import hashlib
 import json
 import time
 import urllib.error
@@ -140,21 +141,29 @@ def _http_get_json(url: str, retries: int = 3, timeout: int = 60) -> dict[str, A
 
 
 def fetch_rows(
-    dataset: str = DEFAULT_DATASET, split: str = "test", page_size: int = 100
+    dataset: str = DEFAULT_DATASET,
+    split: str = "test",
+    revision: str = "",
+    page_size: int = 100,
 ) -> list[dict[str, Any]]:
-    """Fetch every row for a dataset split from the datasets-server."""
+    """Fetch every row for a dataset split from the datasets-server.
+
+    When ``revision`` is set (a Git commit sha of the dataset repo), the fetch
+    is pinned to those exact bytes instead of the mutable ``main`` branch.
+    """
     rows: list[dict[str, Any]] = []
     offset = 0
     while True:
-        params = urllib.parse.urlencode(
-            {
-                "dataset": dataset,
-                "config": "default",
-                "split": split,
-                "offset": offset,
-                "length": page_size,
-            }
-        )
+        query: dict[str, Any] = {
+            "dataset": dataset,
+            "config": "default",
+            "split": split,
+            "offset": offset,
+            "length": page_size,
+        }
+        if revision:
+            query["revision"] = revision
+        params = urllib.parse.urlencode(query)
         payload = _http_get_json(f"{_DATASETS_SERVER}?{params}")
         page = payload.get("rows", [])
         rows.extend(r["row"] for r in page)
@@ -171,6 +180,7 @@ def load_instance(
     cache_dir: Optional[Path] = None,
     dataset: str = DEFAULT_DATASET,
     split: str = "test",
+    revision: str = "",
     offline: bool = False,
 ) -> TaskInstance:
     """Load one instance, preferring the local JSON cache."""
@@ -186,7 +196,7 @@ def load_instance(
             f"Instance {instance_id} is not cached at {cache_file} and offline=True."
         )
 
-    for row in fetch_rows(dataset=dataset, split=split):
+    for row in fetch_rows(dataset=dataset, split=split, revision=revision):
         if row.get("instance_id") == instance_id:
             task = _row_to_task(row)
             cache_file.write_text(json.dumps(task.to_dict(), indent=2), encoding="utf-8")
@@ -200,6 +210,7 @@ def load_instances(
     cache_dir: Optional[Path] = None,
     dataset: str = DEFAULT_DATASET,
     split: str = "test",
+    revision: str = "",
     offline: bool = False,
 ) -> list[TaskInstance]:
     return [
@@ -208,10 +219,32 @@ def load_instances(
             cache_dir=cache_dir,
             dataset=dataset,
             split=split,
+            revision=revision,
             offline=offline,
         )
         for iid in instance_ids
     ]
+
+
+def instances_manifest(instances: list[TaskInstance]) -> dict[str, Any]:
+    """A content hash over the exact instance definitions used by a run.
+
+    This is the reproducibility anchor for the *task data*: two runs with the
+    same ``hash`` used byte-identical task definitions (problem statement, gold
+    patch, test lists, base commit, image), independent of whatever the live
+    dataset ``main`` branch happens to point at. Recorded in the run log and
+    written alongside the run as ``dataset_manifest.json``.
+    """
+    entries: list[dict[str, str]] = []
+    for task in sorted(instances, key=lambda t: t.instance_id):
+        canonical = json.dumps(task.to_dict(), sort_keys=True, separators=(",", ":"))
+        entries.append(
+            {"instance_id": task.instance_id, "sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest()}
+        )
+    combined = hashlib.sha256(
+        "\n".join(f"{e['instance_id']}:{e['sha256']}" for e in entries).encode("utf-8")
+    ).hexdigest()
+    return {"hash": combined, "instances": entries}
 
 
 def load_selection(selection_file: str | Path) -> dict[str, Any]:

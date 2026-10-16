@@ -79,6 +79,7 @@ class DockerSandbox(Sandbox):
     def prepare(self, task: "TaskInstance") -> None:
         self._require_docker()
         image = self._image_for(task)
+        self.image = image
         self._run_host(
             [
                 "docker",
@@ -176,6 +177,27 @@ class DockerSandbox(Sandbox):
             return f"[error] could not list {path}: {result.stderr.strip()}"
         return result.stdout.strip() or "(empty)"
 
+    # -- provenance --------------------------------------------------------- #
+    def provenance(self) -> dict[str, str]:
+        """The exact image tag plus its immutable digest, for the run log."""
+        info: dict[str, str] = {"docker_image": self.image}
+        try:
+            proc = self._run_host(
+                [
+                    "docker",
+                    "inspect",
+                    "--format",
+                    "{{if .RepoDigests}}{{index .RepoDigests 0}}{{end}}",
+                    self.container_name,
+                ]
+            )
+        except SandboxError:
+            return info
+        digest = proc.stdout.strip()
+        if digest:
+            info["docker_image_digest"] = digest
+        return info
+
     # -- host-side docker calls --------------------------------------------- #
     def _run_host(self, cmd: list[str]) -> subprocess.CompletedProcess[str]:
         proc = subprocess.run(
@@ -189,3 +211,42 @@ class DockerSandbox(Sandbox):
         if proc.returncode != 0:
             raise SandboxError(f"{' '.join(cmd)} failed:\n{proc.stderr.strip()}")
         return proc
+
+
+# --------------------------------------------------------------------------- #
+# Image helpers (used by the `preflight` command for reproducibility)
+# --------------------------------------------------------------------------- #
+def image_digest(image: str) -> str:
+    """Return the immutable registry digest of a local image, or ``""``."""
+    try:
+        proc = subprocess.run(
+            [
+                "docker",
+                "inspect",
+                "--format",
+                "{{if .RepoDigests}}{{index .RepoDigests 0}}{{end}}",
+                image,
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=120,
+        )
+    except Exception:  # noqa: BLE001 - best-effort
+        return ""
+    return proc.stdout.strip() if proc.returncode == 0 else ""
+
+
+def pull_image(image: str, timeout: int = 1800) -> None:
+    """Pull ``image`` from its registry (idempotent)."""
+    proc = subprocess.run(
+        ["docker", "pull", image],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=timeout,
+    )
+    if proc.returncode != 0:
+        raise SandboxError(f"docker pull {image} failed:\n{proc.stderr.strip()}")

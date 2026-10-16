@@ -23,14 +23,18 @@ RUN_COLUMNS = [
     "condition",
     "model_id",
     "agent_framework_version",
+    "framework_git_commit",
     "benchmark_dataset_id",
     "benchmark_dataset_revision",
+    "benchmark_dataset_hash",
     "split",
     "instance_id",
     "repo",
     "topic",
     "attempt_number",
     "run_order",
+    "seed",
+    "started_at",
     "skill_version_or_hash",
     "prompt_version_or_hash",
     "max_steps",
@@ -46,6 +50,8 @@ RUN_COLUMNS = [
     "skill_loaded",
     "patch_path",
     "harness_version",
+    "docker_image",
+    "docker_image_digest",
     "tests_passed",
     "tests_total",
     "fail_to_pass_passed",
@@ -64,14 +70,18 @@ class RunRecord:
     condition: str = ""
     model_id: str = ""
     agent_framework_version: str = ""
+    framework_git_commit: str = ""
     benchmark_dataset_id: str = ""
     benchmark_dataset_revision: str = ""
+    benchmark_dataset_hash: str = ""
     split: str = ""
     instance_id: str = ""
     repo: str = ""
     topic: str = ""
     attempt_number: int = 1
     run_order: int = 0
+    seed: int = 0
+    started_at: str = ""
     skill_version_or_hash: str = ""
     prompt_version_or_hash: str = ""
     max_steps: int = 0
@@ -87,6 +97,8 @@ class RunRecord:
     skill_loaded: bool = False
     patch_path: str = ""
     harness_version: str = ""
+    docker_image: str = ""
+    docker_image_digest: str = ""
     # Test tallies from the graded run (0 when never evaluated).
     tests_passed: int = 0
     tests_total: int = 0

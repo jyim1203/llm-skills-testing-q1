@@ -24,7 +24,8 @@ tool_timeout_seconds = 120
 
 [dataset]
 name = "SWE-bench/SWE-bench_Lite"
-revision = "main"
+# Pinned to an exact HuggingFace commit sha (resolved 2026-08-16); see pilot.toml.
+revision = "b0dde1093fe417d83b7184254edf8199c1f0dff5"
 split = "dev"
 selection_file = "data/task_selection_dev.json"
 offline = false

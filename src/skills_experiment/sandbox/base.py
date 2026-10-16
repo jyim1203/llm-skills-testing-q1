@@ -144,3 +144,7 @@ class Sandbox(ABC):
     # -- introspection ------------------------------------------------------ #
     def backend(self) -> str:
         return type(self).__name__
+
+    def provenance(self) -> dict[str, str]:
+        """Environment provenance for reproducibility. Default: nothing."""
+        return {}
