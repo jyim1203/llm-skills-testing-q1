@@ -7,7 +7,7 @@
 
 [experiment]
 id = "pilot-dev-01"
-model = "gpt-6-luna"
+model = "deepseek-flash"
 conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
 repeats = 1
 seed = 20261015

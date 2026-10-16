@@ -7,8 +7,10 @@
 [experiment]
 id = "pilot-01"
 # Model profile name from `configs/models/`. Swap this single value to change
-# the model under test (gpt-6-luna | claude-opus | gemini-pro | mock).
-model = "gpt-6-luna"
+# the model under test. Provisional default: `deepseek-flash` (cheap,
+# OpenAI-compatible). The final study model is still an open item (PROTOCOL 12)
+# -- treat deepseek as a stand-in, not the decided model.
+model = "deepseek-flash"
 conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
 # Frozen in PROTOCOL.md §10: 3 repeats per (task, condition).
 repeats = 3
