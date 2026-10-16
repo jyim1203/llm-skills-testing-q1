@@ -83,6 +83,16 @@ Set in the experiment config (`[budgets]`): `max_steps`, `max_tokens`,
 `elapsed_seconds`, `tool_timeout_seconds`. Identical across conditions so the
 comparison is fair. Stop reasons are recorded per attempt.
 
+`max_tokens` is a **cumulative** per-attempt budget (input + output summed across
+steps), checked after each step. Because the loop resends the growing transcript
+every step, input tokens dominate this total, so the limit must be **non-binding**
+— otherwise a condition can exhaust it before writing a patch. In the dev
+shakedown, condition B hit the original 120k limit at step 11 with an **empty
+patch**; both configs now use `max_tokens = 600000` (still far below the model's
+context window, since any single request stays small). Always check per-attempt
+`stop_reason`: a `token_budget` stop is a fairness warning, not a normal
+completion.
+
 ## 7. Isolation
 
 * Fresh workspace per attempt.
@@ -222,4 +232,8 @@ decisions plus one live call.
 * Groq's free tier (`groq-gpt-oss-120b`) turned out **unusable** for the agent
   loop: 8,000 TPM / 200,000 TPD per model, while a single request already
   exceeds 8K tokens (HTTP 413). Kept in `configs/models/` for Dev-Tier use.
+* ✅ Dev shakedown (astroid, `deepseek-flash`, 3 conditions × 1 repeat) ran end to
+  end on Linux/WSL with the official harness: 3/3 attempts produced patches, 0
+  infrastructure errors, and per-attempt time / tokens / tests-passed were
+  recorded. n=1 per condition — this validates plumbing, it is **not** a result.
 

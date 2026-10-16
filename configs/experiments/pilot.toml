@@ -20,7 +20,13 @@ fresh = true
 
 [budgets]
 max_steps = 40
-max_tokens = 120000
+# Cumulative tokens per attempt (input+output summed across steps). Must be
+# generous enough NOT to bind on any condition: the loop resends the growing
+# transcript every step, so input tokens dominate the total. At 120k, condition
+# B exhausted the budget before writing a patch (empty patch) -- a confound.
+# 600k is non-binding for 40 steps at these context sizes (still << the model's
+# context window, since per-request context stays small).
+max_tokens = 600000
 elapsed_seconds = 1800
 tool_timeout_seconds = 120
 

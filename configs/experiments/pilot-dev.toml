@@ -16,7 +16,9 @@ fresh = true
 
 [budgets]
 max_steps = 40
-max_tokens = 120000
+# Cumulative tokens per attempt; raised from 120k to be non-binding (see
+# pilot.toml). At 120k, condition B ran out before writing a patch.
+max_tokens = 600000
 elapsed_seconds = 1800
 tool_timeout_seconds = 120
 
