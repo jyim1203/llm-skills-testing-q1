@@ -45,3 +45,35 @@ def test_noop_diff_reflects_writes(tmp_path):
     diff = sandbox.diff()
     assert "pkg/module.py" in diff
     assert "+    return a + b + 1" in diff
+
+
+def test_provenance_reads_digest_from_image_not_container(tmp_path, monkeypatch):
+    """Regression: the digest is a field of the *image*.
+
+    ``docker inspect`` on a container has no ``RepoDigests`` key, so inspecting
+    the container silently produced an empty ``docker_image_digest`` in every
+    run log. ``provenance()`` must resolve the digest from the image tag.
+    """
+    from skills_experiment.sandbox import docker as docker_mod
+
+    seen: list[str] = []
+
+    def fake_image_digest(image: str) -> str:
+        seen.append(image)
+        return f"{image}@sha256:deadbeef"
+
+    monkeypatch.setattr(docker_mod, "image_digest", fake_image_digest)
+
+    img = "swebench/sweb.eval.x86_64.astroid-1268:latest"
+    sandbox = DockerSandbox(tmp_path / "work", image=img)
+
+    assert sandbox.provenance() == {
+        "docker_image": img,
+        "docker_image_digest": f"{img}@sha256:deadbeef",
+    }
+    assert seen == [img], "digest must be resolved from the image tag"
+
+
+def test_provenance_without_image_records_tag_only(tmp_path):
+    sandbox = DockerSandbox(tmp_path / "work")
+    assert sandbox.provenance() == {"docker_image": ""}
