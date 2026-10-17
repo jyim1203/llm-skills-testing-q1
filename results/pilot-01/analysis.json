@@ -1,0 +1,85 @@
+{
+  "n_records": 45,
+  "reference": "A_baseline",
+  "conditions": {
+    "A_baseline": {
+      "condition": "A_baseline",
+      "attempts": 15,
+      "tasks": 5,
+      "resolved": 15,
+      "unresolved": 0,
+      "infrastructure_errors": 0,
+      "not_evaluated": 0,
+      "counted": 15,
+      "resolved_rate": 1.0,
+      "mean_total_tokens": 355733.6,
+      "mean_tool_calls": 30.87,
+      "mean_steps": 26.8,
+      "mean_elapsed_seconds": 104.27,
+      "graded_attempts": 15,
+      "total_tests_passed": 522,
+      "total_tests_total": 522,
+      "mean_tests_passed": 34.8
+    },
+    "B_prompt_instructions": {
+      "condition": "B_prompt_instructions",
+      "attempts": 15,
+      "tasks": 5,
+      "resolved": 14,
+      "unresolved": 1,
+      "infrastructure_errors": 0,
+      "not_evaluated": 0,
+      "counted": 15,
+      "resolved_rate": 0.9333,
+      "mean_total_tokens": 336707.3,
+      "mean_tool_calls": 28.8,
+      "mean_steps": 25.07,
+      "mean_elapsed_seconds": 137.34,
+      "graded_attempts": 14,
+      "total_tests_passed": 446,
+      "total_tests_total": 446,
+      "mean_tests_passed": 31.9
+    },
+    "C_skill": {
+      "condition": "C_skill",
+      "attempts": 15,
+      "tasks": 5,
+      "resolved": 15,
+      "unresolved": 0,
+      "infrastructure_errors": 0,
+      "not_evaluated": 0,
+      "counted": 15,
+      "resolved_rate": 1.0,
+      "mean_total_tokens": 305197.1,
+      "mean_tool_calls": 27.67,
+      "mean_steps": 25.13,
+      "mean_elapsed_seconds": 76.21,
+      "graded_attempts": 15,
+      "total_tests_passed": 522,
+      "total_tests_total": 522,
+      "mean_tests_passed": 34.8
+    }
+  },
+  "effects": [
+    {
+      "contrast": "B_prompt_instructions - A_baseline",
+      "diff": -0.0667,
+      "ci95": [
+        -0.2,
+        0.0
+      ],
+      "n_tasks": 5,
+      "n_resamples": 5000
+    },
+    {
+      "contrast": "C_skill - A_baseline",
+      "diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "n_tasks": 5,
+      "n_resamples": 5000
+    }
+  ]
+}

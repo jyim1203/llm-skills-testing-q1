@@ -16,8 +16,10 @@ The study compares three conditions on the same SWE-bench Lite tasks:
 The primary comparison is **C vs B** (skill delivery vs. equivalent direct
 instructions). Condition A anchors the comparison.
 
-This repo currently covers **setup, the agent framework, and model access**.
-The main evaluation phase is intentionally out of scope for now.
+This repo covers **setup, the agent framework, model access, and a completed
+main run**. See [`results/pilot-01/RESULTS.md`](results/pilot-01/RESULTS.md) for
+the outcome — headline: all three conditions resolve nearly every task (a
+**ceiling effect**), with the caveats and sensitivity check documented there.
 
 ---
 

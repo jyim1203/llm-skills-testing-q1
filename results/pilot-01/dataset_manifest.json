@@ -1,0 +1,25 @@
+{
+  "hash": "0f1b68ad2a902be63c40d6f9cd027f6f35b272b4330d73fb1b34ce759e0a2e73",
+  "instances": [
+    {
+      "instance_id": "django__django-11099",
+      "sha256": "19d150aa3d6feec79880663abbaa8891308d0d1b136d6bbbfc6bcbf864bee9dc"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-22835",
+      "sha256": "f936f8845b0aa5a03594a487a74e1b6a2fd5e4461dd793eb873f708175b31529"
+    },
+    {
+      "instance_id": "psf__requests-3362",
+      "sha256": "0c3cb37414682d85c9db974cb883cce6f79c4dd7b21a31793017d096bbe7b525"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-10297",
+      "sha256": "8b673188521a84ddda21d98adb18568436bfafcb4c66a5b38c8cebd3e35d2c2c"
+    },
+    {
+      "instance_id": "sympy__sympy-20590",
+      "sha256": "8cfb0a8385266590d0faf4687cf52d0dab83beb2a8191eaa6030d18d85f050d8"
+    }
+  ]
+}
