@@ -61,11 +61,11 @@ Models are **config, not code**. Each model is one TOML file in
 `configs/models/`:
 
 ```toml
-# configs/models/gpt-6-luna.toml
-name = "gpt-6-luna"
-provider = "openai"          # openai | anthropic | google | mock
-model_id = "gpt-6-luna"      # <-- the real, pinned model id
-api_key_env = "OPENAI_API_KEY"
+# configs/models/deepseek-flash.toml
+name = "deepseek-flash"
+provider = "openai"            # openai | anthropic | google | mock
+model_id = "deepseek-flash"    # <-- the real, pinned model id
+api_key_env = "DEEPSEEK_API_KEY"
 [params]
 temperature = 0.0
 max_tokens = 8192
@@ -75,7 +75,7 @@ Switch model under test by changing **one line** in `configs/experiments/pilot.t
 
 ```toml
 [experiment]
-model = "claude-opus"   # or "gemini-pro", "gpt-6-luna", "mock"
+model = "claude-opus"   # or "gemini-pro", "deepseek-flash", "mock"
 ```
 
 …or override it on the command line:
@@ -88,7 +88,6 @@ python -m skills_experiment run --experiment pilot --model claude-opus
 
 | Profile | Provider | Notes |
 |---|---|---|
-| `gpt-6-luna` | `openai` | **Placeholder** (fictional name) standing in for ChatGPT |
 | `claude-opus` | `anthropic` | Claude Opus (pin the exact snapshot) |
 | `gemini-pro` | `google` | Gemini (`google-genai` SDK) |
 | `deepseek-flash` | `openai` | DeepSeek V4.1 Flash via `api.deepseek.com` (cheap; shakedowns) |
@@ -206,7 +205,7 @@ Dev results are never reported as main results.
 pip install -e ".[openai]"        # or .[anthropic] / .[google]
 cp .env.example .env              # add your key
 python scripts/select_tasks.py --cache
-python -m skills_experiment run --experiment pilot --model gpt-6-luna
+python -m skills_experiment run --experiment pilot --model claude-opus
 ```
 
 **Docker is required** for trustworthy runs (the `docker` sandbox uses each
@@ -315,7 +314,6 @@ kept under `runs/<experiment_id>/harness/`.
 - ✅ **Docker sandbox** validated end to end on a real dev image
   (`python scripts/validate_sandbox.py`): container start, exec, read/write/list,
   and patch capture.
-- ⚠️ **`gpt-6-luna` is a fictional placeholder** — set a real `model_id` before any run.
 - ⚠️ No provider SDK is installed yet in the agent environment; install the one
   you use (`pip install -e ".[openai]"`, `.[anthropic]`, or `.[google]`) and add
   a key to `.env`. (The OpenAI SDK is installed in the Linux harness venv for

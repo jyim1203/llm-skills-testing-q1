@@ -70,8 +70,7 @@ Gold `patch`/`test_patch` are eval-only and never exposed to the agent.
 ## 5. Model under test
 
 * One model per experiment, pinned by exact id in `configs/models/<name>.toml`.
-* `configs/models/gpt-6-luna.toml` is a **fictional placeholder** for ChatGPT;
-  set a real `model_id` before any reported run.
+  The study model is `deepseek-flash` (see §12).
 * `params` (temperature, max tokens) are part of the protocol and recorded.
 * Provider adapters: `openai`, `anthropic`, `google`, `mock`. Anthropic/Gemini
   adapters are written but must be smoke-tested with one live call each before

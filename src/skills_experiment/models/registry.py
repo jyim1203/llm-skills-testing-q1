@@ -4,7 +4,7 @@ This is the seam that makes models swappable. Adding or changing a model is a
 matter of editing a file in ``configs/models/`` -- no Python changes required.
 
     from skills_experiment.models import get_registry
-    client = get_registry().create("gpt-6-luna")   # or "claude-opus", "gemini-pro"
+    client = get_registry().create("claude-opus")   # or "gemini-pro", "deepseek-flash"
 """
 
 from __future__ import annotations

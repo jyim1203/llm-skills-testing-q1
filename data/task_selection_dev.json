@@ -1,7 +1,7 @@
 {
   "subset": "dev",
   "dataset": "SWE-bench/SWE-bench_Lite",
-  "dataset_revision": "main",
+  "dataset_revision": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
   "split": "test",
   "selection_procedure": "one instance per repository, fixed a priori",
   "seed": 20261015,
