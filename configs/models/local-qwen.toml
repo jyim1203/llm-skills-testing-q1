@@ -1,0 +1,29 @@
+# Local / self-hosted Qwen via an OpenAI-compatible server.
+#
+# This uses the same adapter as DeepSeek/Groq: `provider = "openai"` plus a
+# `base_url`. Works with Ollama, vLLM, llama.cpp, LM Studio, etc.
+#
+# Before a run:
+#   1. Serve the model with tool calling enabled and a context window large
+#      enough for the agent loop (>= 32k; see README "Running on a local model").
+#   2. Put a dummy value in .env:  LOCAL_LLM_API_KEY=not-needed
+#      (local servers ignore the key, but the registry requires one for the
+#      `openai` provider).
+#   3. `python scripts/list_models.py` should list this profile.
+
+name = "local-qwen"
+provider = "openai"
+model_id = "qwen3.5:9b"                  # <-- exact tag your server exposes
+api_key_env = "LOCAL_LLM_API_KEY"        # dummy; see .env.example
+base_url = "http://localhost:11434/v1"   # Ollama; vLLM :8000, llama.cpp :8080, LM Studio :1234
+notes = """
+Self-hosted Qwen 3.5 9B. Record the exact model tag, quantization, server
+(Ollama/vLLM/llama.cpp) and server version before reporting results.
+"""
+
+[params]
+temperature = 0.0
+max_tokens = 8192
+# `timeout` and `max_retries` are passed to the provider SDK, not the request.
+timeout = 600
+max_retries = 3

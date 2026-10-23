@@ -1,0 +1,46 @@
+# Local-model run: the same frozen tasks, conditions, budgets, and dataset as
+# pilot-01, with the generator swapped to a self-hosted model.
+#
+# This is a *different model* run, not a repeat of pilot-01, so it gets its own
+# id: runs/ and analysis stay separate.
+#
+#   python -m skills_experiment run --experiment pilot-local
+#
+# Before the first run, write the image lock (same five images as pilot-01):
+#   python -m skills_experiment preflight --experiment pilot-local --write-lock
+
+[experiment]
+id = "pilot-local-01"
+model = "local-qwen"
+conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
+# Same protocol as pilot-01. Lower this only for a shakedown (never per condition).
+repeats = 3
+seed = 20261015
+interleave = true
+fresh = true
+
+[budgets]
+# Kept identical to pilot-01 so the only difference is the model.
+max_steps = 40
+max_tokens = 600000
+elapsed_seconds = 1800
+tool_timeout_seconds = 120
+
+[dataset]
+name = "SWE-bench/SWE-bench_Lite"
+revision = "b0dde1093fe417d83b7184254edf8199c1f0dff5"
+split = "test"
+selection_file = "data/task_selection.json"
+offline = false
+
+[sandbox]
+kind = "docker"
+docker_image_template = "swebench/sweb.eval.x86_64.{repo_slug}:latest"
+
+[agent]
+base_system_prompt = "base_system_prompt.md"
+
+[harness]
+python = ""
+max_workers = 4
+timeout_seconds = 1800

@@ -92,6 +92,7 @@ python -m skills_experiment run --experiment pilot --model claude-opus
 | `gemini-pro` | `google` | Gemini (`google-genai` SDK) |
 | `deepseek-flash` | `openai` | DeepSeek V4.1 Flash via `api.deepseek.com` (cheap; shakedowns) |
 | `groq-gpt-oss-120b` | `openai` | Groq free tier, `openai/gpt-oss-120b` — tool calling works, but 8K TPM free cap is too low for agent runs |
+| `local-qwen` | `openai` | Self-hosted model served over an OpenAI-compatible API (see below) |
 | `mock` | `mock` | Deterministic, offline, no credentials |
 
 ### Why it's easy to swap
@@ -107,6 +108,31 @@ python -m skills_experiment run --experiment pilot --model claude-opus
 - **New provider:** add an adapter implementing `ModelClient` and register a
   factory in `models/registry.py` (`_FACTORY_REGISTRY`). Nothing else changes.
 
+### Running on a local model
+
+Any OpenAI-compatible server works with **no code changes**: copy
+`configs/models/local-qwen.toml`, set `model_id` to your server's tag and
+`base_url` to its `/v1` endpoint (Ollama `:11434`, vLLM `:8000`, llama.cpp
+`:8080`, LM Studio `:1234`), then run:
+
+```bash
+python -m skills_experiment run --experiment pilot-local
+```
+
+Three things to get right:
+
+- **Tool calling** must be enabled on the server, or the agent cannot act.
+  vLLM: `--enable-auto-tool-choice --tool-call-parser hermes`;
+  llama.cpp: `--jinja`; Ollama/LM Studio: a tools-capable model + current version.
+- **Context window** must be >= 32k. Ollama's default (~2–4k) is far too small
+  because the loop resends the transcript each step; raise it in the Modelfile
+  (`PARAMETER num_ctx 32768`) or via `OLLAMA_CONTEXT_LENGTH`.
+- **Key**: the `openai` provider requires one even for local servers. Put
+  `LOCAL_LLM_API_KEY=not-needed` in `.env`.
+
+If the server runs on Windows while the harness runs in WSL, `localhost` will
+not reach it — use the Windows host IP (or run the server inside WSL).
+
 ### Credentials
 
 Copy `.env.example` → `.env` and set only the keys you use. The framework loads
@@ -120,7 +146,7 @@ Copy `.env.example` → `.env` and set only the keys you use. The framework load
 configs/
   models/          one TOML per model  <-- swap models here
   conditions/      A/B/C definitions (+ fairness wiring)
-  experiments/     pilot.toml, pilot-dev.toml (model, budgets, dataset, sandbox, harness)
+  experiments/     pilot.toml, pilot-dev.toml, pilot-local.toml (model, budgets, dataset, sandbox, harness)
 data/
   task_selection.json      the frozen 5-task main subset + metadata
   task_selection_dev.json  the 3-task dev/smoke subset (never reported)
