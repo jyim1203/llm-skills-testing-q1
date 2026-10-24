@@ -131,22 +131,29 @@ See `PROTOCOL-main-local.md` for the pre-registered design.
 
 ### Overnight runs
 
-For the 90-attempt main run, launch it detached so it does not depend on the
-terminal or OpenCode session:
+Launch the 90-attempt main run from **Windows PowerShell** so an independent
+`wsl.exe` process owns it:
 
-```bash
-# From WSL, in the repo root:
-bash scripts/launch_main_local.sh
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/launch_main_local.ps1
 ```
 
-The launcher starts `run_main_local.sh` under `nohup setsid`, prints the PID and
-log path, and returns immediately. You can close OpenCode or the terminal; the
-run continues. `run_main_local.sh` waits for Docker/Ollama, runs `main-local`
-with `--resume --grade`, and appends to `runs/main-local-01/run.log`. `--resume`
-skips attempts already in `runs.jsonl`, so a crashed run can be restarted with
-the same launcher. Do not run the 6-9 hour command as a foreground OpenCode
-shell call; it will hit the tool timeout. Use the launcher, or keep a dedicated
-WSL/tmux session open and run `run_main_local.sh` directly.
+The launcher starts `run_main_local.sh` in a persistent `wsl.exe` process,
+prints its PID, and returns immediately. You can close OpenCode or the terminal;
+the run continues. Do not launch it with a one-shot `wsl -d Ubuntu -- bash
+scripts/launch_main_local.sh` call: that command exits immediately and WSL can
+clean up the background process before the run starts.
+
+`run_main_local.sh` waits for Docker/Ollama, runs `main-local` with `--resume
+--grade`, and appends to `runs/logs/main-local-01.log`. The log is deliberately
+outside `runs/main-local-01` because the runner resets its own run directory at
+startup. `--resume` skips attempts already in `runs.jsonl`, so a crashed run can
+be restarted with the same launcher.
+
+If you prefer a WSL terminal you keep open, `bash scripts/run_main_local.sh` also
+works; `bash scripts/launch_main_local.sh` is the `nohup setsid` variant for that
+case. Do not run the 6-9 hour command as a foreground OpenCode shell call; it
+will hit the tool timeout.
 
 Windows may sleep on an idle timer even while Docker/Ollama are working. Set the
 AC sleep timeout to Never for the duration (elevated PowerShell if needed):
@@ -216,7 +223,7 @@ src/skills_experiment/
   runner.py        tasks x conditions x repeats, fully isolated
   cli.py           list-models | build-skill | select-tasks | plan | preflight | run | grade | rerun | analyze | smoke
   assets/          base system prompt + workflow instructions (+ generated SKILL.md)
-scripts/           thin CLI wrappers (+ launch_main_local.sh, run_main_local.sh, validate_harness.py, validate_sandbox.py, wsl_setup_harness.sh)
+scripts/           thin CLI wrappers (+ launch_main_local.ps1, launch_main_local.sh, run_main_local.sh, validate_harness.py, validate_sandbox.py, wsl_setup_harness.sh)
 tests/             registry, fairness, conditions, loop, isolation, policy, analysis
 PROTOCOL.md        the frozen protocol for the DeepSeek setup run (pilot-01)
 PROTOCOL-main-local.md  the pre-registered protocol for main-local-01

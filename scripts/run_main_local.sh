@@ -6,12 +6,15 @@
 #
 # The script waits for Docker and Ollama, then runs:
 #   python -m skills_experiment run --experiment main-local --resume --grade
-# and appends the output to runs/main-local-01/run.log.
+# and appends the output to runs/logs/main-local-01.log.
+#
+# The log lives outside runs/main-local-01 on purpose: the runner resets its own
+# run directory at startup, so a log inside it can be deleted mid-run.
 #
 # --resume skips attempts already present in runs.jsonl, so restarting after a
 # crash does not redo completed attempts. Keep the machine awake for the run.
 set -uo pipefail
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/.." || exit 1
 
 export PATH="/root/.local/bin:$PATH"
 export SWEBENCH_PYTHON="${SWEBENCH_PYTHON:-/root/skills-harness/bin/python}"
@@ -19,8 +22,8 @@ export PYTHONPATH=src
 export PYTHONUNBUFFERED=1
 
 PY="$SWEBENCH_PYTHON"
-LOG="runs/main-local-01/run.log"
-mkdir -p runs/main-local-01
+LOG="runs/logs/main-local-01.log"
+mkdir -p runs/logs
 
 {
   echo "=== START $(date -u +%FT%TZ) ==="
