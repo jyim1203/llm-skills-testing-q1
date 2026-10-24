@@ -92,7 +92,8 @@ python -m skills_experiment run --experiment pilot --model claude-opus
 | `gemini-pro` | `google` | Gemini (`google-genai` SDK) |
 | `deepseek-flash` | `openai` | DeepSeek V4.1 Flash via `api.deepseek.com` (cheap; shakedowns) |
 | `groq-gpt-oss-120b` | `openai` | Groq free tier, `openai/gpt-oss-120b` — tool calling works, but 8K TPM free cap is too low for agent runs |
-| `local-qwen` | `openai` | Self-hosted model served over an OpenAI-compatible API (see below) |
+| `local-qwen` | `openai` | Self-hosted Qwen 3.5 9B at temperature 0 (deterministic smoke tests) |
+| `local-qwen-sampling` | `openai` | Same model at temperature 0.2 for repeated-run variance (`main-local`) |
 | `mock` | `mock` | Deterministic, offline, no credentials |
 
 ### Why it's easy to swap
@@ -116,8 +117,17 @@ Any OpenAI-compatible server works with **no code changes**: copy
 `:8080`, LM Studio `:1234`), then run:
 
 ```bash
-python -m skills_experiment run --experiment pilot-local
+# Validate the 6-task local setup first (18 attempts).
+python -m skills_experiment run --experiment main-local-pilot --grade
+
+# Main local experiment: 6 tasks x 3 conditions x 10 repeats (180 attempts).
+# --resume skips attempts already in runs.jsonl after a crash.
+python -m skills_experiment run --experiment main-local --resume --grade
 ```
+
+The main local experiment uses `local-qwen-sampling` (temperature 0.2) so the
+ten repeats are independent samples rather than copies of one greedy trajectory.
+See `PROTOCOL-main-local.md` for the pre-registered design.
 
 Three things to get right:
 
@@ -157,10 +167,12 @@ Copy `.env.example` → `.env` and set only the keys you use. The framework load
 configs/
   models/          one TOML per model  <-- swap models here
   conditions/      A/B/C definitions (+ fairness wiring)
-  experiments/     pilot.toml, pilot-dev.toml, pilot-local.toml (model, budgets, dataset, sandbox, harness)
+  experiments/     pilot.toml, pilot-dev.toml, pilot-local.toml,
+                   main-local.toml, main-local-pilot.toml
 data/
-  task_selection.json      the frozen 5-task main subset + metadata
-  task_selection_dev.json  the 3-task dev/smoke subset (never reported)
+  task_selection.json        the frozen 5-task main subset + metadata
+  task_selection_local.json  the 6-task local subset (5 main + pytest-5495)
+  task_selection_dev.json    the 3-task dev/smoke subset (never reported)
   instances/               cached SWE-bench Lite records (committed; frozen data)
 src/skills_experiment/
   models/          ModelClient + registry + openai/anthropic/gemini/mock
@@ -176,7 +188,8 @@ src/skills_experiment/
   assets/          base system prompt + workflow instructions (+ generated SKILL.md)
 scripts/           thin CLI wrappers (+ validate_harness.py, validate_sandbox.py, wsl_setup_harness.sh)
 tests/             registry, fairness, conditions, loop, isolation, policy, analysis
-PROTOCOL.md        the frozen protocol (decide-before-running record)
+PROTOCOL.md        the frozen protocol for the DeepSeek setup run (pilot-01)
+PROTOCOL-main-local.md  the pre-registered protocol for main-local-01
 ```
 
 ---
