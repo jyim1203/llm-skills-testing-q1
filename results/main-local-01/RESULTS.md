@@ -96,6 +96,62 @@ On `requests`, B/C gain one resolution over A (4/5 to 5/5), but B costs 2.25M
 tokens and 70.8 steps on average. `sympy` is the only task where A beats B/C
 (2/5 versus 0/5), and B/C are much more expensive there.
 
+### Why the unresolved tasks failed
+
+The three unresolved tasks account for 45 attempts: 2 resolved, 33 near-misses,
+9 empty patches, and 1 unusable patch. "Near-miss" means the patch applied and
+all pass-to-pass tests passed, but the fail-to-pass target tests failed.
+
+| Task | Cond | Resolved | Near-miss | Empty | Bad patch |
+|---|---|---:|---:|---:|---:|
+| `pytest-dev__pytest-5495` | A | 0 | 4 | 1 | 0 |
+| | B | 0 | 3 | 1 | 1 |
+| | C | 0 | 4 | 1 | 0 |
+| `matplotlib__matplotlib-22835` | A | 0 | 5 | 0 | 0 |
+| | B | 0 | 3 | 2 | 0 |
+| | C | 0 | 4 | 1 | 0 |
+| `sympy__sympy-20590` | A | 2 | 3 | 0 | 0 |
+| | B | 0 | 3 | 2 | 0 |
+| | C | 0 | 4 | 1 | 0 |
+| **Total** | | **2** | **33** | **9** | **1** |
+
+| Task | Cond | Step cap | Length cap | Token cap | Natural stop |
+|---|---|---:|---:|---:|---:|
+| `pytest-dev__pytest-5495` | A | 2 | 2 | 1 | 0 |
+| | B | 4 | 1 | 0 | 0 |
+| | C | 3 | 2 | 0 | 0 |
+| `matplotlib__matplotlib-22835` | A | 5 | 0 | 0 | 0 |
+| | B | 1 | 3 | 0 | 1 |
+| | C | 3 | 1 | 0 | 1 |
+| `sympy__sympy-20590` | A | 0 | 5 | 0 | 0 |
+| | B | 4 | 1 | 0 | 0 |
+| | C | 4 | 1 | 0 | 0 |
+| **Total** | | **26** | **16** | **1** | **2** |
+
+The cap counts are the proximate reason each attempt ended: **26 step-cap, 16
+response-length, 1 token-budget, 2 natural stops**, and no time-cap stops. The
+substantive failure is different: 33 of the 45 attempts produced a patch that
+applied and passed every pass-to-pass test but failed only the target tests:
+
+- `pytest`: 86/88 tests pass, fail-to-pass 0/2.
+- `matplotlib`: 24/25, fail-to-pass 0/1.
+- `sympy`: 21/22, fail-to-pass 0/1.
+
+So the agents usually produced a plausible but incorrect/incomplete fix, not a
+random regression. The caps often ended the attempt before another iteration;
+they do not explain the wrong patch itself. The two attempts that stopped
+naturally (`matplotlib` B4 and C5) also had wrong patches. On `sympy`, A
+resolved 2/5 despite every A attempt ending on the response-length cap, including
+successes at 18 and 61 steps, so the length cap alone does not explain B/C's 0/5;
+B/C mostly exhausted the 80-step cap (8/10 attempts) and still missed the target.
+
+The one unusable patch is `pytest`/B/attempt 2: it produced a non-empty diff but
+a syntactically broken edit (over-indented branch), so the harness returned 0/0
+tests. Examples of wrong-but-plausible patches: a bytes-specific assertion-diff
+change in `pytest`, a `try/except ValueError` around `BoundaryNorm.inverse` in
+`matplotlib`, and assigning `Printable.__slots__ = ()` after class creation in
+`sympy`.
+
 ### Termination outcomes
 
 | Outcome | A | B | C | Total |
