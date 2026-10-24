@@ -1,9 +1,10 @@
 # Local Qwen 3.5 9B with sampling enabled for repeated-run variance.
 #
-# Same model and server as local-qwen.toml, but temperature 0.2 instead of 0.
-# The deterministic profile remains available for smoke tests. This profile is
-# for the main local experiment, where 10 repeats should be independent samples
-# rather than ten copies of the same greedy trajectory.
+# Same model and server as local-qwen.toml, but temperature 0.2 instead of 0 and
+# a 16384-token per-response cap (the pilot hit the old 8192 cap on long
+# reasoning blocks). The deterministic profile remains available for smoke
+# tests. This profile is for the main local experiment, where 10 repeats should
+# be independent samples rather than ten copies of the same greedy trajectory.
 #
 # If Ollama is serving with a fixed default seed, pass a varying `seed` in the
 # request; the OpenAI adapter currently forwards temperature/top_p/max_tokens.
@@ -21,7 +22,7 @@ local-qwen. Use local-qwen (temperature 0) for deterministic smoke tests.
 
 [params]
 temperature = 0.2
-max_tokens = 8192
+max_tokens = 16384
 # `timeout` and `max_retries` are passed to the provider SDK, not the request.
 timeout = 600
 max_retries = 3

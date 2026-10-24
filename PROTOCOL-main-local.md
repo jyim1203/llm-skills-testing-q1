@@ -55,7 +55,7 @@ Everything else (tool set, budgets, stop conditions, loop) is shared.
   `qwen3.5-9b-agent-64k`.
 * Context: 65,536 tokens, q8_0 KV cache, flash attention on, `num_parallel 1`,
   100% GPU on a 12 GB RTX 5070.
-* Decoding: **temperature 0.2**, `max_tokens = 8192` per response, SDK timeout
+* Decoding: **temperature 0.2**, `max_tokens = 16384` per response, SDK timeout
   600 s, 3 retries.
 
 Temperature 0.2 is intentional. At temperature 0 the 9B is deterministic or
@@ -89,7 +89,7 @@ test patches are eval-only and never exposed to the agent.
 
 * 6 tasks x 3 conditions x **10 repeats** = **180 attempts**.
 * Interleaved condition order per task; fixed seed `20261015`.
-* Budgets: `max_steps = 80`, `max_tokens = 1500000` cumulative,
+* Budgets: `max_steps = 80`, `max_tokens = 2500000` cumulative,
   `elapsed_seconds = 1800`, `tool_timeout_seconds = 120`.
 * Identical budgets across conditions.
 
@@ -97,6 +97,14 @@ Ten repeats give a per-task resolved count out of 10 and a within-task variance
 estimate. The 9B is verbose and loop-prone; the step/token limits cap runaway
 loops. Token-budget stops are recorded and reported as a secondary outcome, not
 silently dropped.
+
+**Budget calibration.** The completed 18-attempt pilot ran at 1,500,000
+cumulative tokens and 8,192 per response. It stopped 10/18 attempts on the
+cumulative budget and 3/18 on the per-response length cap, so the token cap was
+binding before the 80-step cap. The main run therefore uses 2,500,000 cumulative
+and 16,384 per response. This lets the step cap bind for most attempts while
+still bounding runaway loops. The pilot is not re-run and is not pooled; its
+budget-bound attempts are the reason for the change.
 
 ## 7. Isolation and environments
 
@@ -164,7 +172,7 @@ Interpretation rule, fixed in advance:
 | Skill load | optional | required (`require_load = true`) |
 | Repeats | 3 | 10 |
 | Tasks | 5 | 6 (adds pytest-5495) |
-| Budgets | 60 steps / 600k tokens | 80 steps / 1.5M tokens |
+| Budgets | 60 steps / 600k tokens | 80 steps / 2.5M tokens; 16k per response |
 
 `pilot-01` is not re-run or pooled with the local study.
 
@@ -177,8 +185,8 @@ SHA-256 of the frozen inputs (lowercase):
 | `assets/prompts/base_system_prompt_minimal.md` | `1d3d8d624f0077c0321fa4f856971787eb71a37a9388a1a0b0c9b09c79cfe84b` |
 | `assets/prompts/workflow_instructions_v2.md` | `d130ac89aedb06475dda023cd3368b86fac2f49322454ce535647d3e7b1c2293` |
 | `data/task_selection_local.json` | `953f8ff0d1dfb8d27add1887eb3b120c113e9eb05febe2cd8b3859678a8e9cbc` |
-| `configs/experiments/main-local.toml` | `56a3f98ca031e5c4b6ac230135f60576c71e7347d8edc28f79082d18a694726e` |
-| `configs/models/local-qwen-sampling.toml` | `a390c165ef76f2b7b52b227d1177ba5fd582f65077a4769b33e8d3f280d908ab` |
+| `configs/experiments/main-local.toml` | `ebee103418e6008294b27fc3e8c46c99fae5b3f72ea8336d3e29242f06c89ef7` |
+| `configs/models/local-qwen-sampling.toml` | `1cba867946cc50edba439feb30cde67d569a638f9055e78d81302f5ebf9ba514` |
 | `data/image_locks/main-local-01.json` | `558b8ec822c8e6771689b4f1cf364176020cde225c1e9bf5d98d2aebee85b0c9` |
 
 B/C fairness hash: `586b13769c48f7fea32d0723a4948f58f016c14094063e3bf4606376f5dc78ab`.
@@ -199,8 +207,12 @@ must be reported with the results.
 
 ## 13. Pilot
 
-`main-local-pilot-01` uses the same six tasks, conditions, prompts, model
-profile, budgets, and image lock, with **one repeat** (18 attempts). It validates
-the new pytest image, the tightened v2 workflow, `require_load`, and grading.
-Pilot results are not pooled with the main run. If the pilot exposes a bug, fix
-it, document the change, and re-freeze this protocol before the main run.
+The completed `main-local-pilot-01` used the same six tasks, conditions,
+prompts, model profile, and image lock, with **one repeat** (18 attempts) at the
+earlier 1,500,000/8,192 budgets. It validated the new pytest image, the tightened
+v2 workflow, `require_load`, and grading: 18/18 completed, 0 infrastructure
+errors, 10/18 resolved, C loaded the skill 6/6. Its results are not pooled with
+the main run. The pilot's 10/18 token-budget stops and 3/18 length stops are what
+motivated the main run's 2,500,000/16,384 budgets; the pilot itself is not
+re-run. If a future pilot exposes a bug, fix it, document the change, and
+re-freeze this protocol before the main run.

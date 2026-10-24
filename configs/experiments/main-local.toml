@@ -22,11 +22,12 @@ interleave = true
 fresh = true
 
 [budgets]
-# Local adaptation: the 9B is verbose and loop-prone. 80 steps / 1.5M tokens
-# with a 64k context lets it finish; A/C can still hit the token budget on
-# harder tasks, so those stop reasons are recorded as data rather than hidden.
+# Calibrated from the 1.5M/8192 pilot: 10/18 attempts stopped on the cumulative
+# token budget and 3/18 on the per-response length cap. 2.5M cumulative lets the
+# 80-step cap bind for most attempts while still capping runaway loops; the
+# per-response cap is 16384 in local-qwen-sampling.toml.
 max_steps = 80
-max_tokens = 1500000
+max_tokens = 2500000
 elapsed_seconds = 1800
 tool_timeout_seconds = 120
 
