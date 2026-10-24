@@ -31,13 +31,24 @@ class SkillCondition(Condition):
         run_skill_dir = Path(ctx.skills_dir) / skill_slug
         skill_path = write_skill_md(skill, run_skill_dir)
 
+        if self.config.require_load:
+            skill_instruction = (
+                "Before you make any edits or run any fix commands, you MUST call "
+                "the `load_skill` tool with the name of the skill that covers this "
+                "task, and then follow the instructions it returns."
+            )
+        else:
+            skill_instruction = (
+                "A skill's name and description are shown below; call the "
+                "`load_skill` tool with the skill's name to load its full "
+                "instructions before you begin work that it covers."
+            )
+
         system_prompt = (
             f"{self._base_system_prompt()}\n\n"
             f"# Skills\n\n"
             f"You have access to skills: reusable sets of instructions you can load "
-            f"on demand. A skill's name and description are shown below; call the "
-            f"`load_skill` tool with the skill's name to load its full instructions "
-            f"before you begin work that it covers.\n\n"
+            f"on demand. {skill_instruction}\n\n"
             f"Available skills:\n"
             f"- {skill.name}: {skill.description}"
         )
@@ -57,5 +68,6 @@ class SkillCondition(Condition):
                 "skill_body_hash": skill.body_hash,
                 "skill_path": str(skill_path),
                 "skill_enabled": True,
+                "require_load": self.config.require_load,
             },
         )

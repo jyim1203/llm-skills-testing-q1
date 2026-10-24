@@ -116,9 +116,16 @@ class ExperimentRunner:
             skill=skill,
         )
 
+    def _condition_configs(self):
+        return load_condition_configs(
+            self.config.conditions, overrides=self.config.condition_options
+        )
+
     def _workflow_file(self) -> Optional[Path]:
         for name in self.config.conditions:
-            cfg = load_condition_configs([name])[0]
+            cfg = load_condition_configs(
+                [name], overrides=self.config.condition_options
+            )[0]
             if cfg.instructions_file:
                 return paths.PROMPTS_DIR / cfg.instructions_file
         return None
@@ -126,8 +133,7 @@ class ExperimentRunner:
     def verify_fairness(self, assets: ConditionAssets) -> dict[str, Any]:
         """Assert that B and C use byte-identical instruction text."""
         hashes: dict[str, Optional[str]] = {}
-        for name in self.config.conditions:
-            cfg = load_condition_configs([name])[0]
+        for cfg in self._condition_configs():
             if cfg.impl == "prompt_instructions":
                 hashes["B"] = sha256_text(assets.workflow_instructions.strip())
             elif cfg.impl == "skill":
@@ -163,8 +169,7 @@ class ExperimentRunner:
         assets = self._load_assets()
         fairness = self.verify_fairness(assets)
         conditions = {
-            cc.name: get_condition(cc, assets)
-            for cc in load_condition_configs(self.config.conditions)
+            cc.name: get_condition(cc, assets) for cc in self._condition_configs()
         }
         tasks = self._load_tasks()
         if self.config.sandbox.kind == "docker" and not self.dry_run:

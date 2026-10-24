@@ -66,3 +66,51 @@ def test_fairness_b_and_c_share_instruction_text():
     configs = {c.name: c for c in load_condition_configs(["B_prompt_instructions", "C_skill"])}
     assert configs["B_prompt_instructions"].instructions_file == configs["C_skill"].instructions_file
     assert assets.skill.body.strip() == assets.workflow_instructions.strip()
+
+
+def test_skill_condition_require_load_override(fake_task, tmp_path):
+    """A study can require the load call without changing the frozen default."""
+    assets = _assets()
+    config = load_condition_configs(
+        ["C_skill"], overrides={"C_skill": {"require_load": True}}
+    )[0]
+    assert config.require_load is True
+    condition = get_condition(config, assets)
+    ctx = ConditionContext(
+        task=fake_task, workspace=tmp_path / "c", skills_dir=tmp_path / "c" / "skills"
+    )
+    spec = condition.build(ctx)
+    assert "MUST call" in spec.system_prompt
+    assert "load_skill" in spec.system_prompt
+    assert spec.metadata["require_load"] is True
+
+
+def test_skill_condition_default_keeps_metadata_only_wording(fake_task, tmp_path):
+    assets = _assets()
+    config = load_condition_configs(["C_skill"])[0]
+    assert config.require_load is False
+    condition = get_condition(config, assets)
+    ctx = ConditionContext(
+        task=fake_task, workspace=tmp_path / "c", skills_dir=tmp_path / "c" / "skills"
+    )
+    spec = condition.build(ctx)
+    assert "MUST call" not in spec.system_prompt
+    assert spec.metadata["require_load"] is False
+
+
+def test_unknown_condition_override_is_rejected():
+    import pytest
+
+    with pytest.raises(ValueError, match="Unknown condition option"):
+        load_condition_configs(["C_skill"], overrides={"C_skill": {"nope": True}})
+
+
+def test_local_experiment_requires_skill_load_but_frozen_pilot_does_not():
+    from skills_experiment.config import load_experiment
+
+    assert load_experiment("pilot").condition_options == {}
+    assert load_experiment("pilot-local").condition_options == {
+        "C_skill": {"require_load": True}
+    }
+
+

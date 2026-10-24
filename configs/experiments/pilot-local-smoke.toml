@@ -39,6 +39,10 @@ docker_image_template = "swebench/sweb.eval.x86_64.{repo_slug}:latest"
 [agent]
 base_system_prompt = "base_system_prompt.md"
 
+# Same local adaptation as pilot-local.toml: force the 9B to load the skill body.
+[condition_options.C_skill]
+require_load = true
+
 [harness]
 python = ""
 max_workers = 2

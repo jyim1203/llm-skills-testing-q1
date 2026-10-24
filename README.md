@@ -124,11 +124,19 @@ Three things to get right:
 - **Tool calling** must be enabled on the server, or the agent cannot act.
   vLLM: `--enable-auto-tool-choice --tool-call-parser hermes`;
   llama.cpp: `--jinja`; Ollama/LM Studio: a tools-capable model + current version.
-- **Context window** must be >= 32k. Ollama's default (~2–4k) is far too small
-  because the loop resends the transcript each step; raise it in the Modelfile
-  (`PARAMETER num_ctx 32768`) or via `OLLAMA_CONTEXT_LENGTH`.
+- **Context window** must be >= 64k for the raised local budgets. Ollama's
+  default (~2–4k) is far too small because the loop resends the transcript each
+  step; by step 80 the prompt is already ~27k tokens. Raise it in the Modelfile
+  (`PARAMETER num_ctx 65536`) or via `OLLAMA_CONTEXT_LENGTH`. The committed
+  `qwen3.5-9b-agent-64k` profile uses 64k with a q8_0 KV cache.
 - **Key**: the `openai` provider requires one even for local servers. Put
   `LOCAL_LLM_API_KEY=not-needed` in `.env`.
+
+The local experiment sets `[condition_options.C_skill] require_load = true`:
+the 9B ignored the original "load the skill when it covers the task" wording,
+so Condition C never received the skill body. Requiring the call before editing
+keeps C a real skill-delivery condition. `pilot-01` does not set this override,
+so its frozen metadata-only C prompt is unchanged.
 
 If the server runs on Windows while the harness runs in WSL, `localhost` will
 not reach it — use the Windows host IP (or run the server inside WSL).

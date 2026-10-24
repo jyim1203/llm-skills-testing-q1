@@ -34,6 +34,9 @@ class ConditionConfig:
     skill_enabled: bool = False
     skill_name: str = ""
     skill_dir: str = ""
+    # Condition C only: require the agent to call `load_skill` before editing.
+    # Off by default so the frozen pilot-01 C prompt remains reproducible.
+    require_load: bool = False
     notes: str = ""
     source_path: Path | None = None
 
@@ -47,15 +50,26 @@ class ConditionConfig:
             skill_enabled=bool(data.get("skill_enabled", False)),
             skill_name=data.get("skill_name", "") or "",
             skill_dir=data.get("skill_dir", "") or "",
+            require_load=bool(data.get("require_load", False)),
             notes=data.get("notes", "") or "",
             source_path=Path(path),
         )
 
 
 def load_condition_configs(
-    names: list[str], directory: Path | None = None
+    names: list[str],
+    directory: Path | None = None,
+    overrides: dict[str, dict[str, Any]] | None = None,
 ) -> list[ConditionConfig]:
+    """Load condition configs, optionally applying per-experiment overrides.
+
+    ``overrides`` maps a condition name to fields that replace the values in
+    that condition's TOML. This keeps a study-level change (e.g. requiring
+    ``load_skill`` for a new model run) out of the shared condition file, so
+    earlier frozen runs keep their original prompt.
+    """
     directory = directory or paths.CONDITIONS_DIR
+    overrides = overrides or {}
     configs: list[ConditionConfig] = []
     for name in names:
         matches = list(directory.glob(f"{name}.toml"))
@@ -63,7 +77,15 @@ def load_condition_configs(
             raise FileNotFoundError(
                 f"No condition config for '{name}' in {directory}"
             )
-        configs.append(ConditionConfig.from_file(matches[0]))
+        config = ConditionConfig.from_file(matches[0])
+        for key, value in overrides.get(name, {}).items():
+            if not hasattr(config, key):
+                raise ValueError(
+                    f"Unknown condition option {key!r} for '{name}'. "
+                    f"Known: {sorted(config.__dataclass_fields__)}"
+                )
+            setattr(config, key, value)
+        configs.append(config)
     return configs
 
 
@@ -166,6 +188,8 @@ class ExperimentConfig:
     sandbox: SandboxConfig = field(default_factory=SandboxConfig)
     agent: AgentConfig = field(default_factory=AgentConfig)
     harness: HarnessConfig = field(default_factory=HarnessConfig)
+    # Per-experiment condition overrides: {condition_name: {field: value}}.
+    condition_options: dict[str, dict[str, Any]] = field(default_factory=dict)
     source_path: Path | None = None
 
     @classmethod
@@ -185,6 +209,10 @@ class ExperimentConfig:
             sandbox=SandboxConfig.from_dict(data.get("sandbox", {})),
             agent=AgentConfig.from_dict(data.get("agent", {})),
             harness=HarnessConfig.from_dict(data.get("harness", {})),
+            condition_options={
+                str(name): dict(options)
+                for name, options in (data.get("condition_options", {}) or {}).items()
+            },
             source_path=Path(path),
         )
 

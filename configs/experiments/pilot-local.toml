@@ -1,5 +1,7 @@
-# Local-model run: the same frozen tasks, conditions, budgets, and dataset as
-# pilot-01, with the generator swapped to a self-hosted model.
+# Local-model run: the same frozen tasks and dataset as pilot-01, with the
+# generator swapped to a self-hosted model. Budgets are raised (see below) and
+# Condition C requires an explicit `load_skill` call (see condition_options);
+# both are documented local-run adaptations, not changes to pilot-01.
 #
 # This is a *different model* run, not a repeat of pilot-01, so it gets its own
 # id: runs/ and analysis stay separate.
@@ -42,6 +44,14 @@ docker_image_template = "swebench/sweb.eval.x86_64.{repo_slug}:latest"
 
 [agent]
 base_system_prompt = "base_system_prompt.md"
+
+# Local-model adaptation. The 9B ignored the original "call load_skill when the
+# skill covers the task" wording: across 6 smoke attempts it made 0 load_skill
+# calls, so Condition C never received the skill body. Requiring the call before
+# editing makes C an actual skill-delivery condition. pilot-01 did not set this,
+# so its frozen metadata-only C prompt is unchanged.
+[condition_options.C_skill]
+require_load = true
 
 [harness]
 python = ""
