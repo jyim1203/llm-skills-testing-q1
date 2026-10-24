@@ -14,7 +14,7 @@
 
 [experiment]
 id = "main-local-01"
-model = "local-qwen"
+model = "local-qwen-sampling"
 conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
 repeats = 10
 seed = 20261015

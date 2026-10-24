@@ -65,6 +65,23 @@ def test_local_main_configs_use_six_task_selection():
     assert full.condition_options["C_skill"]["require_load"] is True
 
 
+def test_resume_skips_completed_attempts(tmp_path, fake_task):
+    from skills_experiment.config import load_experiment
+    from skills_experiment.runner import ExperimentRunner
+
+    config = load_experiment("pilot")
+    config.repeats = 1
+    runner = ExperimentRunner(config, dry_run=True, base_dir=tmp_path / "runs")
+    runner._load_tasks = lambda: [{"task": fake_task, "topic": "t", "why": ""}]
+
+    first = runner.run()
+    assert first.completed == 3  # three conditions, one repeat
+    second = runner.run(resume=True)
+    assert second.completed == 0
+    rows = list(csv.DictReader(runner.logger.csv_path.open(encoding="utf-8")))
+    assert len(rows) == 3
+
+
 def test_run_log_carries_provenance(tmp_path, fake_task):
     from skills_experiment.config import load_experiment
     from skills_experiment.runner import ExperimentRunner

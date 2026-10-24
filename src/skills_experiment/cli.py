@@ -191,7 +191,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
 
     runner = ExperimentRunner(config, dry_run=dry_run, base_dir=_base_dir(args))
     try:
-        summary = _run_with_limit(runner, limit)
+        summary = _run_with_limit(runner, limit, resume=bool(getattr(args, "resume", False)))
     except ImageLockError as exc:
         print(str(exc))
         return 2
@@ -209,9 +209,11 @@ def _cmd_run(args: argparse.Namespace) -> int:
     return 0
 
 
-def _run_with_limit(runner: ExperimentRunner, limit: Optional[int]):
+def _run_with_limit(
+    runner: ExperimentRunner, limit: Optional[int], *, resume: bool = False
+):
     if not limit:
-        return runner.run()
+        return runner.run(resume=resume)
 
     original = runner._load_tasks
 
@@ -219,7 +221,7 @@ def _run_with_limit(runner: ExperimentRunner, limit: Optional[int]):
         return original()[:limit]
 
     runner._load_tasks = limited  # type: ignore[assignment]
-    return runner.run()
+    return runner.run(resume=resume)
 
 
 def _cmd_grade(args: argparse.Namespace) -> int:
@@ -322,6 +324,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--dry-run", action="store_true", help="Use the mock model + noop sandbox.")
     p.add_argument("--limit", type=int, default=0, help="Only run the first N tasks.")
     p.add_argument("--base-dir", default="", help="Output directory (default: runs/).")
+    p.add_argument(
+        "--resume",
+        action="store_true",
+        help="Skip attempts already present in runs.jsonl (do not reset the run).",
+    )
     p.add_argument("--grade", action="store_true", help="Grade with the harness after running.")
     p.set_defaults(func=_cmd_run)
 

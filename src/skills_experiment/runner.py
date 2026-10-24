@@ -271,11 +271,21 @@ class ExperimentRunner:
         return plan
 
     # -- execution ---------------------------------------------------------- #
-    def run(self) -> RunSummary:
-        if self.config.fresh:
+    def run(self, *, resume: bool = False) -> RunSummary:
+        if self.config.fresh and not resume:
             self.logger.reset()
         ctx = self._prepare()
         plan = self.build_plan(list(ctx.task_by_id))
+        if resume:
+            existing = {
+                (r.instance_id, r.condition, r.attempt_number)
+                for r in self.logger.load_records()
+            }
+            plan = [
+                item
+                for item in plan
+                if (item.instance_id, item.condition, item.attempt) not in existing
+            ]
         summary = self.run_plan(plan, ctx)
         if hasattr(ctx.client, "close"):
             ctx.client.close()

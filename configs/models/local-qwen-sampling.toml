@@ -1,0 +1,27 @@
+# Local Qwen 3.5 9B with sampling enabled for repeated-run variance.
+#
+# Same model and server as local-qwen.toml, but temperature 0.2 instead of 0.
+# The deterministic profile remains available for smoke tests. This profile is
+# for the main local experiment, where 10 repeats should be independent samples
+# rather than ten copies of the same greedy trajectory.
+#
+# If Ollama is serving with a fixed default seed, pass a varying `seed` in the
+# request; the OpenAI adapter currently forwards temperature/top_p/max_tokens.
+
+name = "local-qwen-sampling"
+provider = "openai"
+model_id = "qwen3.5-9b-agent-64k"
+api_key_env = "LOCAL_LLM_API_KEY"        # dummy; see .env.example
+base_url = "http://localhost:11434/v1"   # Ollama; vLLM :8000, llama.cpp :8080, LM Studio :1234
+notes = """
+Self-hosted Qwen 3.5 9B (Q4_K_M, Ollama 0.40.10) at temperature 0.2 for the
+main repeated-run experiment. Same 64k context / q8_0 KV cache setup as
+local-qwen. Use local-qwen (temperature 0) for deterministic smoke tests.
+"""
+
+[params]
+temperature = 0.2
+max_tokens = 8192
+# `timeout` and `max_retries` are passed to the provider SDK, not the request.
+timeout = 600
+max_retries = 3
