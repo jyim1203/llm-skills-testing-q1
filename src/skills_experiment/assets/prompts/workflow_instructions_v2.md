@@ -34,9 +34,11 @@ Use this workflow for any issue in a Python repository.
 - Run the narrow test first; if it passes, run the related test module.
 - When a test fails, read the failure and adjust the implementation. Do not
   revert your work or run `git checkout` to start over.
-- Check `git diff` before finishing: it should contain only the intended change.
+- Check `git diff` once before finishing: it should contain only the intended
+  change. Do not repeat a command unless something has changed since it last ran.
 
 ## 5. Stop
 
-- Stop calling tools when the relevant tests pass and the diff is clean.
+- Once the relevant tests pass and the diff is clean, stop calling tools.
+- Do not keep re-checking the same output after it is clean.
 - Summarize the change and the tests you ran.
