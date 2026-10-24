@@ -132,11 +132,14 @@ Three things to get right:
 - **Key**: the `openai` provider requires one even for local servers. Put
   `LOCAL_LLM_API_KEY=not-needed` in `.env`.
 
-The local experiment sets `[condition_options.C_skill] require_load = true`:
-the 9B ignored the original "load the skill when it covers the task" wording,
-so Condition C never received the skill body. Requiring the call before editing
-keeps C a real skill-delivery condition. `pilot-01` does not set this override,
-so its frozen metadata-only C prompt is unchanged.
+The local experiment uses a deliberately bare-bones base prompt
+(`base_system_prompt_minimal.md`) and a stronger v2 workflow
+(`workflow_instructions_v2.md`) shared by B and C. It also sets
+`[condition_options.C_skill] require_load = true`: the 9B ignored the original
+"load the skill when it covers the task" wording, so Condition C never received
+the skill body. Requiring the call before editing keeps C a real skill-delivery
+condition. `pilot-01` sets none of these overrides, so its frozen prompts are
+unchanged.
 
 If the server runs on Windows while the harness runs in WSL, `localhost` will
 not reach it — use the Windows host IP (or run the server inside WSL).

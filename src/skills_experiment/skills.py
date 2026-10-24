@@ -2,10 +2,10 @@
 
 A ``SKILL.md`` file has YAML-ish front matter (``name`` + ``description``)
 followed by a Markdown body. To satisfy the study's fairness requirement
-(handoff section 5), the skill **body is generated from the single workflow file**
-``assets/prompts/workflow_instructions.md`` -- the same text Condition B injects
-directly. ``scripts/build_skill.py`` and the runner both regenerate it, so the
-two can never drift.
+(handoff section 5), the skill **body is generated from the same workflow file**
+that Condition B injects directly (default:
+``assets/prompts/workflow_instructions.md``). ``scripts/build_skill.py`` and the
+runner both regenerate it, so the two can never drift.
 """
 
 from __future__ import annotations
@@ -36,6 +36,7 @@ class SkillDoc:
     description: str
     body: str
     path: Optional[Path] = None
+    source: str = "assets/prompts/workflow_instructions.md"
 
     @property
     def body_hash(self) -> str:
@@ -86,8 +87,14 @@ def build_skill_doc(
     *,
     name: str = DEFAULT_SKILL_NAME,
     description: str = DEFAULT_SKILL_DESCRIPTION,
+    source: str = "assets/prompts/workflow_instructions.md",
 ) -> SkillDoc:
-    return SkillDoc(name=name, description=description, body=workflow_instructions.strip())
+    return SkillDoc(
+        name=name,
+        description=description,
+        body=workflow_instructions.strip(),
+        source=source,
+    )
 
 
 def write_skill_md(skill: SkillDoc, skill_dir: Path) -> Path:
@@ -99,7 +106,7 @@ def write_skill_md(skill: SkillDoc, skill_dir: Path) -> Path:
             skill.description,
             skill.body,
             meta_extra={
-                "generated_from": "assets/prompts/workflow_instructions.md",
+                "generated_from": skill.source,
                 "body_sha256": skill.body_hash,
             },
         ),
@@ -123,10 +130,12 @@ def load_skill_doc(path: Path) -> SkillDoc:
 def ensure_skill_built(
     workflow_instructions: str,
     skill_dir: Optional[Path] = None,
+    *,
+    source: str = "assets/prompts/workflow_instructions.md",
     **kwargs,
 ) -> SkillDoc:
     """Regenerate the on-disk SKILL.md from the workflow text and return it."""
-    skill = build_skill_doc(workflow_instructions, **kwargs)
+    skill = build_skill_doc(workflow_instructions, source=source, **kwargs)
     target_dir = skill_dir or (paths.SKILLS_DIR / "python_repo_maintenance")
     write_skill_md(skill, target_dir)
     skill.path = (target_dir / "SKILL.md")

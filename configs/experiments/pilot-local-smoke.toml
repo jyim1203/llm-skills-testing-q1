@@ -37,10 +37,15 @@ kind = "docker"
 docker_image_template = "swebench/sweb.eval.x86_64.{repo_slug}:latest"
 
 [agent]
-base_system_prompt = "base_system_prompt.md"
+base_system_prompt = "base_system_prompt_minimal.md"
 
-# Same local adaptation as pilot-local.toml: force the 9B to load the skill body.
+# Same local adaptation as pilot-local.toml: bare-bones base prompt, stronger
+# v2 workflow for B and C, and a required load_skill call for C.
+[condition_options.B_prompt_instructions]
+instructions_file = "workflow_instructions_v2.md"
+
 [condition_options.C_skill]
+instructions_file = "workflow_instructions_v2.md"
 require_load = true
 
 [harness]

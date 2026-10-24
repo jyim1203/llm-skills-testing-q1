@@ -32,7 +32,7 @@ from .evaluation import policy
 from .models.registry import ModelRegistry, get_registry
 from .runlog import RunLogger, RunRecord
 from .sandbox import make_sandbox
-from .skills import ensure_skill_built, sha256_text
+from .skills import build_skill_doc, sha256_text
 
 
 @dataclass
@@ -109,7 +109,17 @@ class ExperimentRunner:
         )
         workflow_file = self._workflow_file()
         workflow_text = workflow_file.read_text(encoding="utf-8") if workflow_file else ""
-        skill = ensure_skill_built(workflow_text) if workflow_text else None
+        # Build the skill in memory; Condition C writes it into the attempt's own
+        # skills dir. Avoid touching the committed default SKILL.md when an
+        # experiment selects a versioned workflow file.
+        skill = (
+            build_skill_doc(
+                workflow_text,
+                source=f"assets/prompts/{workflow_file.name}",
+            )
+            if workflow_text
+            else None
+        )
         return ConditionAssets(
             base_system_prompt=base_prompt,
             workflow_instructions=workflow_text,

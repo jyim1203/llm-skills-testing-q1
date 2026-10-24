@@ -110,7 +110,63 @@ def test_local_experiment_requires_skill_load_but_frozen_pilot_does_not():
 
     assert load_experiment("pilot").condition_options == {}
     assert load_experiment("pilot-local").condition_options == {
-        "C_skill": {"require_load": True}
+        "B_prompt_instructions": {
+            "instructions_file": "workflow_instructions_v2.md"
+        },
+        "C_skill": {
+            "instructions_file": "workflow_instructions_v2.md",
+            "require_load": True,
+        },
     }
+
+
+def test_local_experiment_uses_minimal_base_and_v2_workflow():
+    from skills_experiment.config import load_experiment
+
+    exp = load_experiment("pilot-local")
+    assert exp.agent.base_system_prompt == "base_system_prompt_minimal.md"
+    configs = {
+        c.name: c
+        for c in load_condition_configs(exp.conditions, overrides=exp.condition_options)
+    }
+    assert configs["A_baseline"].instructions_file == ""
+    assert configs["B_prompt_instructions"].instructions_file == "workflow_instructions_v2.md"
+    assert configs["C_skill"].instructions_file == "workflow_instructions_v2.md"
+    assert configs["C_skill"].require_load is True
+
+
+def test_local_condition_c_loads_v2_skill_and_records_source(fake_task, tmp_path):
+    from skills_experiment.config import load_experiment
+    from skills_experiment.skills import build_skill_doc
+
+    exp = load_experiment("pilot-local")
+    base = (paths.PROMPTS_DIR / exp.agent.base_system_prompt).read_text(encoding="utf-8")
+    workflow = (paths.PROMPTS_DIR / "workflow_instructions_v2.md").read_text(encoding="utf-8")
+    skill = build_skill_doc(
+        workflow, source="assets/prompts/workflow_instructions_v2.md"
+    )
+    assets = ConditionAssets(
+        base_system_prompt=base, workflow_instructions=workflow, skill=skill
+    )
+    cfg = load_condition_configs(
+        ["C_skill"], overrides=exp.condition_options
+    )[0]
+    spec = get_condition(cfg, assets).build(
+        ConditionContext(
+            task=fake_task,
+            workspace=tmp_path / "c",
+            skills_dir=tmp_path / "c" / "skills",
+        )
+    )
+    assert base.strip() in spec.system_prompt
+    assert "MUST call" in spec.system_prompt
+    assert workflow.strip() not in spec.system_prompt
+    assert spec.metadata["instructions_file"] == "workflow_instructions_v2.md"
+
+    skill_md = tmp_path / "c" / "skills" / "python_repo_maintenance" / "SKILL.md"
+    meta, body = parse_front_matter(skill_md.read_text(encoding="utf-8"))
+    assert meta["generated_from"] == "assets/prompts/workflow_instructions_v2.md"
+    assert body.strip() == workflow.strip()
+
 
 
