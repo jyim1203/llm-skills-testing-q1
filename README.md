@@ -131,16 +131,22 @@ See `PROTOCOL-main-local.md` for the pre-registered design.
 
 ### Overnight runs
 
-For the 90-attempt main run, keep the machine awake and log the output:
+For the 90-attempt main run, launch it detached so it does not depend on the
+terminal or OpenCode session:
 
 ```bash
 # From WSL, in the repo root:
-bash scripts/run_main_local.sh
+bash scripts/launch_main_local.sh
 ```
 
-The script waits for Docker and Ollama, runs `main-local` with `--resume
---grade`, and appends to `runs/main-local-01/run.log`. `--resume` skips attempts
-already in `runs.jsonl`, so a crashed run can be restarted with the same script.
+The launcher starts `run_main_local.sh` under `nohup setsid`, prints the PID and
+log path, and returns immediately. You can close OpenCode or the terminal; the
+run continues. `run_main_local.sh` waits for Docker/Ollama, runs `main-local`
+with `--resume --grade`, and appends to `runs/main-local-01/run.log`. `--resume`
+skips attempts already in `runs.jsonl`, so a crashed run can be restarted with
+the same launcher. Do not run the 6-9 hour command as a foreground OpenCode
+shell call; it will hit the tool timeout. Use the launcher, or keep a dedicated
+WSL/tmux session open and run `run_main_local.sh` directly.
 
 Windows may sleep on an idle timer even while Docker/Ollama are working. Set the
 AC sleep timeout to Never for the duration (elevated PowerShell if needed):
@@ -210,7 +216,7 @@ src/skills_experiment/
   runner.py        tasks x conditions x repeats, fully isolated
   cli.py           list-models | build-skill | select-tasks | plan | preflight | run | grade | rerun | analyze | smoke
   assets/          base system prompt + workflow instructions (+ generated SKILL.md)
-scripts/           thin CLI wrappers (+ run_main_local.sh, validate_harness.py, validate_sandbox.py, wsl_setup_harness.sh)
+scripts/           thin CLI wrappers (+ launch_main_local.sh, run_main_local.sh, validate_harness.py, validate_sandbox.py, wsl_setup_harness.sh)
 tests/             registry, fairness, conditions, loop, isolation, policy, analysis
 PROTOCOL.md        the frozen protocol for the DeepSeek setup run (pilot-01)
 PROTOCOL-main-local.md  the pre-registered protocol for main-local-01
