@@ -34,7 +34,10 @@ from .skills import ensure_skill_built
 
 def _base_dir(args: argparse.Namespace) -> Optional[Path]:
     value = getattr(args, "base_dir", "") or ""
-    return Path(value) if value else None
+    # Resolve relative paths: artifacts are handed to subprocesses that run with
+    # a different cwd (e.g. the SWE-bench harness), where "runs/x" would not
+    # resolve to the same place.
+    return Path(value).expanduser().resolve() if value else None
 
 
 def _resolve_experiment_id(name: str) -> str:

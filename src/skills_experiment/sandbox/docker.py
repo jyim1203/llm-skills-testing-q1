@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import time
 import uuid
 from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, Optional
@@ -210,26 +211,37 @@ class DockerSandbox(Sandbox):
 # --------------------------------------------------------------------------- #
 # Image helpers (used by the `preflight` command for reproducibility)
 # --------------------------------------------------------------------------- #
-def image_digest(image: str) -> str:
-    """Return the immutable registry digest of a local image, or ``""``."""
-    try:
-        proc = subprocess.run(
-            [
-                "docker",
-                "inspect",
-                "--format",
-                "{{if .RepoDigests}}{{index .RepoDigests 0}}{{end}}",
-                image,
-            ],
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=120,
-        )
-    except Exception:  # noqa: BLE001 - best-effort
-        return ""
-    return proc.stdout.strip() if proc.returncode == 0 else ""
+def image_digest(image: str, *, attempts: int = 3, delay: float = 2.0) -> str:
+    """Return the immutable registry digest of a local image, or ``""``.
+
+    Retries briefly because Docker Desktop can report an image as absent while
+    its image index is still loading right after startup. A genuinely missing
+    image still returns ``""`` after the retries, so the lock stays fail-closed.
+    """
+    for attempt in range(attempts):
+        try:
+            proc = subprocess.run(
+                [
+                    "docker",
+                    "inspect",
+                    "--format",
+                    "{{if .RepoDigests}}{{index .RepoDigests 0}}{{end}}",
+                    image,
+                ],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=120,
+            )
+        except Exception:  # noqa: BLE001 - best-effort
+            return ""
+        digest = proc.stdout.strip() if proc.returncode == 0 else ""
+        if digest:
+            return digest
+        if attempt + 1 < attempts:
+            time.sleep(delay)
+    return ""
 
 
 def pull_image(image: str, timeout: int = 1800) -> None:

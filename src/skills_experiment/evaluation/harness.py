@@ -217,9 +217,16 @@ def run_harness(
 ) -> HarnessResult:
     """Invoke the harness for one predictions file and parse its report."""
     py = resolve_harness_python(python)
-    work_dir = Path(work_dir)
+    # The harness runs with cwd=work_dir, so every path crossing that boundary
+    # must be absolute or it will be resolved against the wrong directory.
+    predictions_path = Path(predictions_path).expanduser().resolve()
+    work_dir = Path(work_dir).expanduser().resolve()
     work_dir.mkdir(parents=True, exist_ok=True)
-    report_dir = Path(report_dir) if report_dir else (work_dir / "reports")
+    report_dir = (
+        Path(report_dir).expanduser().resolve()
+        if report_dir
+        else (work_dir / "reports")
+    )
     report_dir.mkdir(parents=True, exist_ok=True)
 
     cmd = [

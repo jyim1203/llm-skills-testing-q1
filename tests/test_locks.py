@@ -80,3 +80,77 @@ def test_runner_enforces_image_lock(tmp_path, fake_task, monkeypatch):
     monkeypatch.setattr(docker_mod, "image_digest", lambda image: "sha256:locked")
     runner._verify_image_lock(tasks)  # no raise
 
+
+def _fake_docker(monkeypatch, outputs):
+    """Patch docker.subprocess/time; return the fake subprocess for call counts."""
+    from skills_experiment.sandbox import docker as docker_mod
+
+    class _Proc:
+        def __init__(self, stdout: str, returncode: int = 0) -> None:
+            self.stdout = stdout
+            self.returncode = returncode
+
+    class _FakeSubprocess:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def run(self, *args, **kwargs):
+            self.calls += 1
+            return _Proc(outputs[min(self.calls - 1, len(outputs) - 1)])
+
+    class _FakeTime:
+        @staticmethod
+        def sleep(_seconds: float) -> None:
+            return None
+
+    fake = _FakeSubprocess()
+    monkeypatch.setattr(docker_mod, "subprocess", fake)
+    monkeypatch.setattr(docker_mod, "time", _FakeTime)
+    return fake
+
+
+def test_image_digest_retries_transient_empty(monkeypatch):
+    """Docker can briefly report an image as absent while indexing it."""
+    from skills_experiment.sandbox import docker as docker_mod
+
+    fake = _fake_docker(monkeypatch, ["", "", "sha256:ok\n"])
+    assert docker_mod.image_digest("img:latest") == "sha256:ok"
+    assert fake.calls == 3
+
+
+def test_image_digest_gives_up_after_retries(monkeypatch):
+    """A genuinely missing image still resolves to '' (lock stays fail-closed)."""
+    from skills_experiment.sandbox import docker as docker_mod
+
+    fake = _fake_docker(monkeypatch, [""])
+    assert docker_mod.image_digest("img:latest") == ""
+    assert fake.calls == 3
+
+
+def test_runner_lock_allows_partial_run(tmp_path, fake_task, monkeypatch):
+    """A `--limit` subset must not be flagged for lock entries it won't use."""
+    from skills_experiment import locks
+    from skills_experiment.config import load_experiment
+    from skills_experiment.runner import ExperimentRunner
+    from skills_experiment.sandbox import docker as docker_mod
+
+    config = load_experiment("pilot")
+    config.sandbox.kind = "docker"
+    runner = ExperimentRunner(config, base_dir=tmp_path / "runs")
+
+    monkeypatch.setattr(
+        locks,
+        "load_lock",
+        lambda *a, **k: locks.ImageLock(
+            experiment_id=config.id,
+            images={
+                fake_task.instance_id: {"image": "img", "digest": "sha256:locked"},
+                "other__task-2": {"image": "img2", "digest": "sha256:other"},
+            },
+        ),
+    )
+    monkeypatch.setattr(docker_mod, "image_digest", lambda image: "sha256:locked")
+
+    # Only fake_task is part of this limited run; the other lock entry is unused.
+    runner._verify_image_lock([{"task": fake_task, "topic": "", "why": ""}])  # no raise
+

@@ -64,6 +64,21 @@ def test_loop_respects_token_budget(tmp_path):
     assert result.usage.total_tokens >= 250
 
 
+def test_read_file_output_is_capped(tmp_path):
+    """A large file read must not exceed the shared tool-output cap."""
+    from skills_experiment.agent.tools import MAX_OUTPUT_CHARS
+
+    sandbox = NoopSandbox(tmp_path)
+    sandbox.write_file("big.txt", "x" * (MAX_OUTPUT_CHARS + 500))
+    executor = ToolExecutor(sandbox=sandbox)
+    outcome = executor.execute(
+        ToolCall(id="c1", name="read_file", arguments={"path": "big.txt"})
+    )
+    assert outcome.ok
+    assert len(outcome.content) < MAX_OUTPUT_CHARS + 100
+    assert "truncated" in outcome.content
+
+
 def test_default_mock_discovers_and_loads_skill(tmp_path):
     """The mock exercises Condition C's discovery path when a skill is present."""
     from skills_experiment.agent.tools import load_skill_tool_spec

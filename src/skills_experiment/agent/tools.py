@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
-from ..sandbox.base import Sandbox
+from ..sandbox.base import MAX_OUTPUT_CHARS, Sandbox
 from ..models.types import ToolCall, ToolSpec
 
 
@@ -171,6 +171,13 @@ class ToolExecutor:
             end_line=_as_int(args.get("end_line")),
         )
         ok = not text.startswith("[error]")
+        # Match the shell-output cap: an uncapped read can blow a small model's
+        # context window and silently truncate its system prompt.
+        if ok and len(text) > MAX_OUTPUT_CHARS:
+            text = (
+                text[:MAX_OUTPUT_CHARS]
+                + f"\n... [truncated {len(text) - MAX_OUTPUT_CHARS} chars]"
+            )
         return ToolOutcome(ok=ok, content=text, error=None if ok else text)
 
     def _write_file(self, args: dict[str, Any]) -> ToolOutcome:

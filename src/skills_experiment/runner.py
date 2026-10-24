@@ -200,7 +200,7 @@ class ExperimentRunner:
         Without a lock we warn (dev convenience); with a lock we enforce, so a
         moved ``:latest`` tag cannot silently change the environment mid-study.
         """
-        from .locks import ImageLockError, load_lock, lock_path, verify
+        from .locks import ImageLock, ImageLockError, load_lock, lock_path, verify
         from .sandbox.docker import image_digest
 
         lock = load_lock(self.config.id)
@@ -216,7 +216,16 @@ class ExperimentRunner:
             entry["task"].instance_id: image_digest(self._resolve_image(entry["task"]))
             for entry in tasks
         }
-        problems = verify(lock, resolved)
+        # A partial run (e.g. `--limit`) intentionally uses only a subset of the
+        # locked tasks. Verify the entries this run will actually use; the
+        # "stale lock" check still catches run tasks missing from the lock.
+        lock_for_run = ImageLock(
+            experiment_id=lock.experiment_id,
+            dataset_revision=lock.dataset_revision,
+            created_at=lock.created_at,
+            images={k: v for k, v in lock.images.items() if k in resolved},
+        )
+        problems = verify(lock_for_run, resolved)
         if problems:
             raise ImageLockError(
                 "image lock mismatch -- refusing to run (environments would differ):\n"
