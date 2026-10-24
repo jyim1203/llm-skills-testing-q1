@@ -1,0 +1,27 @@
+{
+  "experiment_id": "pilot-local-smoke-01",
+  "dataset_revision": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "created_at": "2026-10-24T03:46:00.572531+00:00",
+  "images": {
+    "django__django-11099": {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-11099:latest",
+      "digest": "swebench/sweb.eval.x86_64.django_1776_django-11099@sha256:cca302934edd881cc4f1e4647a389a25cdaa3c02bfa33667a4204934a09c4fb1"
+    },
+    "psf__requests-3362": {
+      "image": "swebench/sweb.eval.x86_64.psf_1776_requests-3362:latest",
+      "digest": "swebench/sweb.eval.x86_64.psf_1776_requests-3362@sha256:c5dc4ba64a2d97d6cff6b82fe9c0561589df13f23df6883d05e99b630942bbd1"
+    },
+    "matplotlib__matplotlib-22835": {
+      "image": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-22835:latest",
+      "digest": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-22835@sha256:ffe240330bab2ef382e4aba3e09fd624dccef459312defe3c815a58c4a0edd47"
+    },
+    "sympy__sympy-20590": {
+      "image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-20590:latest",
+      "digest": "swebench/sweb.eval.x86_64.sympy_1776_sympy-20590@sha256:3a282752833ce34730ee0621e22033501c993f45742775ca57f04c9ff27178a0"
+    },
+    "scikit-learn__scikit-learn-10297": {
+      "image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-10297:latest",
+      "digest": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-10297@sha256:58b80e9100f9d107291b5ea37c76583ed4851d8e18ec07aef197f1803a290986"
+    }
+  }
+}

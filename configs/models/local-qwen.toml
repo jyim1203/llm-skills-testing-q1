@@ -14,14 +14,16 @@
 name = "local-qwen"
 provider = "openai"
 # Derived from qwen3.5:9b with deterministic settings baked in:
-#   PARAMETER num_ctx 32768 / temperature 0 / presence_penalty 0
-model_id = "qwen3.5-9b-agent"
+#   PARAMETER num_ctx 65536 / temperature 0 / presence_penalty 0
+# Server flags (Ollama): OLLAMA_KV_CACHE_TYPE=q8_0, OLLAMA_FLASH_ATTENTION=1,
+# OLLAMA_NUM_PARALLEL=1 -- 64k at q8_0 KV cache fits the 12 GB RTX 5070.
+model_id = "qwen3.5-9b-agent-64k"
 api_key_env = "LOCAL_LLM_API_KEY"        # dummy; see .env.example
 base_url = "http://localhost:11434/v1"   # Ollama; vLLM :8000, llama.cpp :8080, LM Studio :1234
 notes = """
-Self-hosted Qwen 3.5 9B (Q4_K_M, Ollama 0.40.10) as `qwen3.5-9b-agent`:
-num_ctx 32768, temperature 0, presence_penalty 0. Thinking is ON by default
-in the base model; record whether it stays on for reported runs.
+Self-hosted Qwen 3.5 9B (Q4_K_M, Ollama 0.40.10) as `qwen3.5-9b-agent-64k`:
+num_ctx 65536 with q8_0 KV cache, temperature 0, presence_penalty 0. Thinking
+is ON by default in the base model; record whether it stays on for reported runs.
 """
 
 [params]

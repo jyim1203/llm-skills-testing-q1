@@ -20,9 +20,12 @@ interleave = true
 fresh = true
 
 [budgets]
-# Kept identical to pilot-01 so the only difference is the model.
-max_steps = 40
-max_tokens = 600000
+# Local-model adaptation (not identical to pilot-01). The 9B is far more
+# verbose and loop-prone: at 40 steps it hit the step cap with ~540k cumulative
+# tokens and a ~27k-token final prompt. Raised to 80 steps / 1.5M tokens with a
+# 64k context so the model has room to finish rather than being censored.
+max_steps = 80
+max_tokens = 1500000
 elapsed_seconds = 1800
 tool_timeout_seconds = 120
 

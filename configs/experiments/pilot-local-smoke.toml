@@ -1,0 +1,45 @@
+# Local-model pilot on the first two main tasks (django, requests), 1 repeat.
+#
+# Purpose: decide whether the raised local budgets (80 steps / 1.5M tokens /
+# 64k context) let the 9B produce patches on the actual study tasks before
+# committing to the full 45-attempt run.
+#
+#   python -m skills_experiment preflight --experiment pilot-local-smoke --write-lock
+#   python -m skills_experiment run --experiment pilot-local-smoke --limit 2 --grade
+#
+# --limit 2 selects django__django-11099 and psf__requests-3362 (selection order).
+# 2 tasks x 3 conditions x 1 repeat = 6 attempts.
+
+[experiment]
+id = "pilot-local-smoke-01"
+model = "local-qwen"
+conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
+repeats = 1
+seed = 20261015
+interleave = true
+fresh = true
+
+[budgets]
+max_steps = 80
+max_tokens = 1500000
+elapsed_seconds = 1800
+tool_timeout_seconds = 120
+
+[dataset]
+name = "SWE-bench/SWE-bench_Lite"
+revision = "b0dde1093fe417d83b7184254edf8199c1f0dff5"
+split = "test"
+selection_file = "data/task_selection.json"
+offline = false
+
+[sandbox]
+kind = "docker"
+docker_image_template = "swebench/sweb.eval.x86_64.{repo_slug}:latest"
+
+[agent]
+base_system_prompt = "base_system_prompt.md"
+
+[harness]
+python = ""
+max_workers = 2
+timeout_seconds = 1800
