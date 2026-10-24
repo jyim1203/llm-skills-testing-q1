@@ -4,6 +4,8 @@ Two curated subsets, both frozen *before* outcomes are examined:
 
 * ``MAIN_TASKS``  -- the 5-instance Lite **test**-split subset used for the
   experiment proper (one instance per repository, wide topic spread).
+* ``LOCAL_TASKS`` -- ``MAIN_TASKS`` plus one pre-registered medium-proxy task
+  (``pytest-dev__pytest-5495``) for the local-model experiment.
 * ``DEV_TASKS``   -- 3 Lite **dev**-split instances used only for smoke-testing
   the full pipeline (setup, patch capture, grading). Dev results are never
   reported as main results.
@@ -60,6 +62,22 @@ MAIN_TASKS: list[dict[str, str]] = [
 SELECTED_TASKS = MAIN_TASKS
 
 # --------------------------------------------------------------------------- #
+# Local-model subset -- main tasks + one pre-registered medium-proxy task
+# --------------------------------------------------------------------------- #
+LOCAL_TASKS: list[dict[str, str]] = [
+    *MAIN_TASKS,
+    {
+        "instance_id": "pytest-dev__pytest-5495",
+        "repo": "pytest-dev/pytest",
+        "topic": "test framework / assertion-rewriting diagnostics",
+        "why": (
+            "Pre-registered medium-proxy robustness task: one file, 25 changed "
+            "lines, 2 FAIL_TO_PASS tests; adds a testing-tooling domain."
+        ),
+    },
+]
+
+# --------------------------------------------------------------------------- #
 # Dev subset -- for smoke tests only, dev split
 # --------------------------------------------------------------------------- #
 DEV_TASKS: list[dict[str, str]] = [
@@ -92,6 +110,10 @@ def dev_instance_ids() -> list[str]:
     return [t["instance_id"] for t in DEV_TASKS]
 
 
+def local_instance_ids() -> list[str]:
+    return [t["instance_id"] for t in LOCAL_TASKS]
+
+
 def build_selection(
     tasks: Optional[list[dict[str, str]]] = None,
     *,
@@ -102,13 +124,22 @@ def build_selection(
     seed: int = 20261015,
 ) -> dict[str, Any]:
     """Assemble a selection document (metadata + frozen task list)."""
-    tasks = tasks if tasks is not None else (DEV_TASKS if subset == "dev" else MAIN_TASKS)
+    if tasks is None:
+        tasks = {
+            "dev": DEV_TASKS,
+            "local": LOCAL_TASKS,
+        }.get(subset, MAIN_TASKS)
     return {
         "subset": subset,
         "dataset": dataset,
         "dataset_revision": dataset_revision,
         "split": split,
-        "selection_procedure": "one instance per repository, fixed a priori",
+        "selection_procedure": (
+            "one instance per repository, fixed a priori; local subset adds one "
+            "pre-registered medium-proxy task (pytest-dev__pytest-5495)"
+            if subset == "local"
+            else "one instance per repository, fixed a priori"
+        ),
         "seed": seed,
         "num_tasks": len(tasks),
         "tasks": tasks,
@@ -119,7 +150,10 @@ def write_selection(
     path: Optional[str | Path] = None, *, subset: str = "main", **kwargs: Any
 ) -> Path:
     if path is None:
-        filename = "task_selection_dev.json" if subset == "dev" else "task_selection.json"
+        filename = {
+            "dev": "task_selection_dev.json",
+            "local": "task_selection_local.json",
+        }.get(subset, "task_selection.json")
         target = paths.DATA_DIR / filename
     else:
         target = Path(path)

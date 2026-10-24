@@ -68,19 +68,27 @@ def _cmd_build_skill(args: argparse.Namespace) -> int:
 
 
 def _cmd_select_tasks(args: argparse.Namespace) -> int:
-    subset = "dev" if getattr(args, "dev", False) else "main"
-    path = selection_mod.write_selection(subset=subset)
-    print(f"Wrote selection -> {path}")
-    ids = (
-        selection_mod.dev_instance_ids()
-        if subset == "dev"
-        else selection_mod.selected_instance_ids()
+    if getattr(args, "dev", False):
+        subset = "dev"
+    elif getattr(args, "local", False):
+        subset = "local"
+    else:
+        subset = "main"
+    path = selection_mod.write_selection(
+        subset=subset, dataset_revision=args.revision
     )
+    print(f"Wrote selection -> {path}")
+    ids = {
+        "dev": selection_mod.dev_instance_ids,
+        "local": selection_mod.local_instance_ids,
+    }.get(subset, selection_mod.selected_instance_ids)()
     print(f"Selected {len(ids)} instances ({subset}): {', '.join(ids)}")
     if args.cache:
         split = "dev" if subset == "dev" else "test"
         for iid in ids:
-            task = swebench_lite.load_instance(iid, split=split, offline=False)
+            task = swebench_lite.load_instance(
+                iid, split=split, revision=args.revision, offline=False
+            )
             print(f"  cached {iid} ({task.repo})")
     return 0
 
@@ -292,7 +300,14 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=_cmd_build_skill)
 
     p = sub.add_parser("select-tasks", help="Write the frozen task selection.")
-    p.add_argument("--dev", action="store_true", help="Write the dev/smoke subset instead.")
+    group = p.add_mutually_exclusive_group()
+    group.add_argument("--dev", action="store_true", help="Write the dev/smoke subset instead.")
+    group.add_argument("--local", action="store_true", help="Write the 6-task local-model subset.")
+    p.add_argument(
+        "--revision",
+        default="b0dde1093fe417d83b7184254edf8199c1f0dff5",
+        help="Dataset revision to record (default: the pinned study revision).",
+    )
     p.add_argument("--cache", action="store_true", help="Also download+cache the instances.")
     p.set_defaults(func=_cmd_select_tasks)
 

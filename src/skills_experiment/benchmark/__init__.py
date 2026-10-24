@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from .selection import (
     DEV_TASKS,
+    LOCAL_TASKS,
     MAIN_TASKS,
     SELECTED_TASKS,
     dev_instance_ids,
+    local_instance_ids,
     selected_instance_ids,
     write_selection,
 )
@@ -32,8 +34,10 @@ __all__ = [
     "selection_instance_ids",
     "SELECTED_TASKS",
     "MAIN_TASKS",
+    "LOCAL_TASKS",
     "DEV_TASKS",
     "selected_instance_ids",
+    "local_instance_ids",
     "dev_instance_ids",
     "write_selection",
 ]

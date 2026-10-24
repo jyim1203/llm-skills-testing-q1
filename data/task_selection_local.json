@@ -1,0 +1,47 @@
+{
+  "subset": "local",
+  "dataset": "SWE-bench/SWE-bench_Lite",
+  "dataset_revision": "b0dde1093fe417d83b7184254edf8199c1f0dff5",
+  "split": "test",
+  "selection_procedure": "one instance per repository, fixed a priori; local subset adds one pre-registered medium-proxy task (pytest-dev__pytest-5495)",
+  "seed": 20261015,
+  "num_tasks": 6,
+  "tasks": [
+    {
+      "instance_id": "django__django-11099",
+      "repo": "django/django",
+      "topic": "web framework / input validation (regex)",
+      "why": "Django exercises a large, mature codebase with a subtle regex-validation bug."
+    },
+    {
+      "instance_id": "psf__requests-3362",
+      "repo": "psf/requests",
+      "topic": "HTTP client / response decoding semantics",
+      "why": "Small, widely used networking library; behavior is easy to reason about."
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-22835",
+      "repo": "matplotlib/matplotlib",
+      "topic": "plotting / color-normalization edge cases",
+      "why": "Numerics + API surface differ from pure logic bugs."
+    },
+    {
+      "instance_id": "sympy__sympy-20590",
+      "repo": "sympy/sympy",
+      "topic": "symbolic math core / object model (Symbol __dict__)",
+      "why": "Core object-model bug in a computer-algebra system; a distinct problem type."
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-10297",
+      "repo": "scikit-learn/scikit-learn",
+      "topic": "ML estimator / model-selection API",
+      "why": "Adds an ML library and a parameter-handling bug to the mix."
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5495",
+      "repo": "pytest-dev/pytest",
+      "topic": "test framework / assertion-rewriting diagnostics",
+      "why": "Pre-registered medium-proxy robustness task: one file, 25 changed lines, 2 FAIL_TO_PASS tests; adds a testing-tooling domain."
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+# 6-task, 1-repeat pilot for the local-model main experiment.
+#
+# Purpose: validate the new pytest task/image and the tightened v2 workflow
+# before committing to the 180-attempt run. 6 tasks x 3 conditions x 1 repeat
+# = 18 attempts, roughly 1-1.5 hours.
+#
+#   python -m skills_experiment select-tasks --local
+#   python -m skills_experiment preflight --experiment main-local-pilot --write-lock
+#   python -m skills_experiment run --experiment main-local-pilot --grade
+
+[experiment]
+id = "main-local-pilot-01"
+model = "local-qwen"
+conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
+repeats = 1
+seed = 20261015
+interleave = true
+fresh = true
+
+[budgets]
+max_steps = 80
+max_tokens = 1500000
+elapsed_seconds = 1800
+tool_timeout_seconds = 120
+
+[dataset]
+name = "SWE-bench/SWE-bench_Lite"
+revision = "b0dde1093fe417d83b7184254edf8199c1f0dff5"
+split = "test"
+selection_file = "data/task_selection_local.json"
+offline = false
+
+[sandbox]
+kind = "docker"
+docker_image_template = "swebench/sweb.eval.x86_64.{repo_slug}:latest"
+
+[agent]
+base_system_prompt = "base_system_prompt_minimal.md"
+
+[condition_options.B_prompt_instructions]
+instructions_file = "workflow_instructions_v2.md"
+
+[condition_options.C_skill]
+instructions_file = "workflow_instructions_v2.md"
+require_load = true
+
+[harness]
+python = ""
+max_workers = 2
+timeout_seconds = 1800
