@@ -202,6 +202,12 @@ does not confirm a C advantage.
 - 5 repeats x 6 tasks per condition; task-level bootstrap with only 6 tasks.
 - Two ceiling tasks and two floor tasks consume 60/90 attempts; effective
   discrimination is concentrated in `requests` and `sympy`.
+- `pytest-5495` was added before the main run as a pre-registered
+  medium-proxy/domain-coverage task (one file, 25 changed lines, 2 FAIL_TO_PASS,
+  86 PASS_TO_PASS), but it behaved as a floor: 0/15. It consumed 25.6M tokens
+  (19.8% of the run) and 1.03 h of agent time for no condition signal. Excluding
+  it gives A 16/25, B 15/25, C 15/25, so the null conclusion is unchanged; it is
+  retained in the primary analysis to avoid post-hoc task selection.
 - The planner randomizes condition order per task but runs each condition's five
   repeats as a block, so condition blocks are not strictly interleaved by repeat;
   repeat-level results were stable, but time drift is not fully controlled.
