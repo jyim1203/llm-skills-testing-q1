@@ -54,6 +54,48 @@ The net -1 for B/C versus A is exactly those two tasks: +1 on `requests` and -2 
   not resolved outcomes relative to B.
 - C averaged 64.8 steps and 64.3 tool calls per attempt, versus 59.1/58.9 for B
   and 50.2/49.7 for A. C did **not** buy a higher resolve rate.
+### Per-task cost and gradability
+
+Each cell has 5 attempts. **Non-empty** means the attempt produced a patch;
+**gradable** means the harness returned test counts (`tests_total > 0` or
+`tests_passed > 0`). Means are over all 5 attempts, including empty/ungradable
+ones, so they reflect the cost of running that task/condition.
+
+| Task | Cond | Non-empty | Gradable | Resolved | Mean tokens | Mean steps | Mean time (s) |
+|---|---|---:|---:|---:|---:|---:|---:|
+| `django__django-11099` | A | 5 | 5 | 5 | 10,832 | 7.4 | 12.7 |
+| | B | 5 | 5 | 5 | 422,904 | 33.0 | 70.5 |
+| | C | 5 | 5 | 5 | 342,559 | 31.8 | 76.0 |
+| `matplotlib__matplotlib-22835` | A | 5 | 5 | 0 | 1,929,324 | 80.0 | 245.2 |
+| | B | 3 | 3 | 0 | 991,993 | 46.2 | 246.7 |
+| | C | 4 | 4 | 0 | 1,740,128 | 67.6 | 224.7 |
+| `psf__requests-3362` | A | 4 | 4 | 4 | 1,766,978 | 54.8 | 245.3 |
+| | B | 5 | 5 | 5 | 2,251,911 | 70.8 | 206.3 |
+| | C | 5 | 5 | 5 | 1,856,859 | 78.2 | 212.4 |
+| `pytest-dev__pytest-5495` | A | 4 | 4 | 0 | 1,468,228 | 56.8 | 264.7 |
+| | B | 4 | 3 | 0 | 1,852,605 | 78.0 | 226.4 |
+| | C | 4 | 4 | 0 | 1,794,212 | 72.0 | 250.7 |
+| `scikit-learn__scikit-learn-10297` | A | 5 | 5 | 5 | 2,026,783 | 61.4 | 152.4 |
+| | B | 5 | 5 | 5 | 2,170,298 | 55.8 | 149.9 |
+| | C | 5 | 5 | 5 | 1,919,233 | 63.4 | 162.3 |
+| `sympy__sympy-20590` | A | 5 | 5 | 2 | 813,819 | 40.8 | 313.9 |
+| | B | 3 | 3 | 0 | 1,223,959 | 71.0 | 255.8 |
+| | C | 4 | 4 | 0 | 1,223,549 | 75.6 | 278.6 |
+| **All tasks** | **A** | **28** | **28** | **16** | **1,335,994** | **50.2** | **205.7** |
+| | **B** | **25** | **24** | **15** | **1,485,611** | **59.1** | **192.6** |
+| | **C** | **27** | **27** | **15** | **1,479,423** | **64.8** | **200.8** |
+| | **All** | **80** | **79** | **46** | **1,433,676** | **58.0** | **199.7** |
+
+The one gap between non-empty and gradable is `pytest__pytest-5495` / B /
+attempt 2: the patch was non-empty but the harness returned 0 tests
+(`tests_failed`, 0/0), so it is unresolved but not counted as gradable.
+
+Two patterns stand out. On `django`, all conditions resolve 5/5, but A spends
+only 10.8k tokens and 7.4 steps while B/C spend 343k-423k tokens and ~32 steps.
+On `requests`, B/C gain one resolution over A (4/5 to 5/5), but B costs 2.25M
+tokens and 70.8 steps on average. `sympy` is the only task where A beats B/C
+(2/5 versus 0/5), and B/C are much more expensive there.
+
 ### Termination outcomes
 
 | Outcome | A | B | C | Total |
