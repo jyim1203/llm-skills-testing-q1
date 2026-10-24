@@ -120,14 +120,38 @@ Any OpenAI-compatible server works with **no code changes**: copy
 # Validate the 6-task local setup first (18 attempts).
 python -m skills_experiment run --experiment main-local-pilot --grade
 
-# Main local experiment: 6 tasks x 3 conditions x 10 repeats (180 attempts).
+# Main local experiment: 6 tasks x 3 conditions x 5 repeats (90 attempts).
 # --resume skips attempts already in runs.jsonl after a crash.
 python -m skills_experiment run --experiment main-local --resume --grade
 ```
 
 The main local experiment uses `local-qwen-sampling` (temperature 0.2) so the
-ten repeats are independent samples rather than copies of one greedy trajectory.
+five repeats are independent samples rather than copies of one greedy trajectory.
 See `PROTOCOL-main-local.md` for the pre-registered design.
+
+### Overnight runs
+
+For the 90-attempt main run, keep the machine awake and log the output:
+
+```bash
+# From WSL, in the repo root:
+bash scripts/run_main_local.sh
+```
+
+The script waits for Docker and Ollama, runs `main-local` with `--resume
+--grade`, and appends to `runs/main-local-01/run.log`. `--resume` skips attempts
+already in `runs.jsonl`, so a crashed run can be restarted with the same script.
+
+Windows may sleep on an idle timer even while Docker/Ollama are working. Set the
+AC sleep timeout to Never for the duration (elevated PowerShell if needed):
+
+```powershell
+powercfg /change standby-timeout-ac 0
+powercfg /change hibernate-timeout-ac 0
+```
+
+Restore your normal timeout afterward. Keep the machine plugged in and do not
+log out of the WSL/Ollama session.
 
 Three things to get right:
 
@@ -186,7 +210,7 @@ src/skills_experiment/
   runner.py        tasks x conditions x repeats, fully isolated
   cli.py           list-models | build-skill | select-tasks | plan | preflight | run | grade | rerun | analyze | smoke
   assets/          base system prompt + workflow instructions (+ generated SKILL.md)
-scripts/           thin CLI wrappers (+ validate_harness.py, validate_sandbox.py, wsl_setup_harness.sh)
+scripts/           thin CLI wrappers (+ run_main_local.sh, validate_harness.py, validate_sandbox.py, wsl_setup_harness.sh)
 tests/             registry, fairness, conditions, loop, isolation, policy, analysis
 PROTOCOL.md        the frozen protocol for the DeepSeek setup run (pilot-01)
 PROTOCOL-main-local.md  the pre-registered protocol for main-local-01

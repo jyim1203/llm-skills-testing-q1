@@ -59,7 +59,8 @@ def test_local_main_configs_use_six_task_selection():
     full = load_experiment("main-local")
     pilot = load_experiment("main-local-pilot")
     assert full.dataset.selection_file == "data/task_selection_local.json"
-    assert full.repeats == 10
+    assert full.repeats == 5
+    assert full.budgets.max_tokens == 2500000
     assert pilot.repeats == 1
     assert full.agent.base_system_prompt == "base_system_prompt_minimal.md"
     assert full.condition_options["C_skill"]["require_load"] is True

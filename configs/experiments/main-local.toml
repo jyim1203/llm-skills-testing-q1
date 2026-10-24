@@ -1,22 +1,21 @@
-# Main experiment: local Qwen 3.5 9B, 6 tasks x 3 conditions x 10 repeats.
+# Main experiment: local Qwen 3.5 9B, 6 tasks x 3 conditions x 5 repeats.
 #
 # The DeepSeek pilot-01 run remains the setup proof (pipeline, fairness,
 # grading). This config is the reported local-model comparison.
 #
-# 180 attempts. At the observed local pace (~3-4 min/attempt for hard tasks)
-# expect roughly 10-12 hours plus grading. Stage it: validate with
-# main-local-pilot first, then run this config overnight.
+# 90 attempts. At the observed local pace (~4-5 min/attempt at the calibrated
+# 2.5M/16k budgets) expect roughly 6-9 hours plus grading. Run it overnight.
+# The 18-attempt main-local-pilot-01 calibration is complete; see
+# results/main-local-pilot-01/RESULTS.md.
 #
-# Before the first run:
-#   python -m skills_experiment select-tasks --local
-#   python -m skills_experiment preflight --experiment main-local --write-lock
-#   python -m skills_experiment run --experiment main-local --grade
+# The selection and image lock are already committed. To launch:
+#   python -m skills_experiment run --experiment main-local --resume --grade
 
 [experiment]
 id = "main-local-01"
 model = "local-qwen-sampling"
 conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
-repeats = 10
+repeats = 5
 seed = 20261015
 interleave = true
 fresh = true

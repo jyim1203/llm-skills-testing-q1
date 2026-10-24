@@ -1,8 +1,8 @@
 # 6-task, 1-repeat pilot for the local-model main experiment.
 #
 # Purpose: validate the new pytest task/image and the tightened v2 workflow
-# before committing to the 180-attempt run. 6 tasks x 3 conditions x 1 repeat
-# = 18 attempts, roughly 1-1.5 hours at the current budgets.
+# before committing to the 90-attempt run. 6 tasks x 3 conditions x 1 repeat
+# = 18 attempts, roughly 1.5-2 hours at the current budgets.
 #
 # NOTE: the 2026-10-24 pilot run actually used max_tokens=1500000 cumulative and
 # 8192 per response; those are the settings recorded in its run rows. This file

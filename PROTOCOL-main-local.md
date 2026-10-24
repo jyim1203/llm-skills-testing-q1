@@ -59,7 +59,7 @@ Everything else (tool set, budgets, stop conditions, loop) is shared.
   600 s, 3 retries.
 
 Temperature 0.2 is intentional. At temperature 0 the 9B is deterministic or
-near-deterministic, so ten repeats would be ten copies of one trajectory. The
+near-deterministic, so five repeats would be five copies of one trajectory. The
 main run needs independent samples to estimate within-task variance. The
 deterministic `local-qwen` profile remains available for smoke tests.
 
@@ -87,16 +87,20 @@ test patches are eval-only and never exposed to the agent.
 
 ## 6. Design and budgets
 
-* 6 tasks x 3 conditions x **10 repeats** = **180 attempts**.
+* 6 tasks x 3 conditions x **5 repeats** = **90 attempts**.
 * Interleaved condition order per task; fixed seed `20261015`.
 * Budgets: `max_steps = 80`, `max_tokens = 2500000` cumulative,
   `elapsed_seconds = 1800`, `tool_timeout_seconds = 120`.
 * Identical budgets across conditions.
 
-Ten repeats give a per-task resolved count out of 10 and a within-task variance
+Five repeats give a per-task resolved count out of 5 and a within-task variance
 estimate. The 9B is verbose and loop-prone; the step/token limits cap runaway
 loops. Token-budget stops are recorded and reported as a secondary outcome, not
 silently dropped.
+
+Five repeats is an overnight-budget compromise: per-task rates are coarse
+(0, 0.2, ..., 1.0) and the task-level CI will be wide. A null result means
+"not detectable at this sample size," not "no effect."
 
 **Budget calibration.** The completed 18-attempt pilot ran at 1,500,000
 cumulative tokens and 8,192 per response. It stopped 10/18 attempts on the
@@ -146,9 +150,10 @@ passed / total, stop reasons, and — for C — skill discovery/load rate.
 
 Analysis plan:
 
-1. Per-task table: resolved count out of 10 for each condition.
+1. Per-task table: resolved count out of 5 for each condition.
 2. Aggregate resolved rate per condition with a task-level bootstrap 95% CI
-   (the task, not the attempt, is the resampling unit; n = 6).
+   (the task, not the attempt, is the resampling unit; n = 6). The denominator is
+   30 counted attempts per condition unless infrastructure errors remain.
 3. Pairwise task-level differences: A vs B, A vs C, B vs C, with bootstrap CIs.
 4. Report all attempts, including failures and token-budget stops. Do not
    condition on producing a patch.
@@ -170,7 +175,7 @@ Interpretation rule, fixed in advance:
 | Base prompt | `base_system_prompt.md` | `base_system_prompt_minimal.md` |
 | Workflow | `workflow_instructions.md` | `workflow_instructions_v2.md` |
 | Skill load | optional | required (`require_load = true`) |
-| Repeats | 3 | 10 |
+| Repeats | 3 | 5 |
 | Tasks | 5 | 6 (adds pytest-5495) |
 | Budgets | 60 steps / 600k tokens | 80 steps / 2.5M tokens; 16k per response |
 
@@ -185,7 +190,7 @@ SHA-256 of the frozen inputs (lowercase):
 | `assets/prompts/base_system_prompt_minimal.md` | `1d3d8d624f0077c0321fa4f856971787eb71a37a9388a1a0b0c9b09c79cfe84b` |
 | `assets/prompts/workflow_instructions_v2.md` | `d130ac89aedb06475dda023cd3368b86fac2f49322454ce535647d3e7b1c2293` |
 | `data/task_selection_local.json` | `953f8ff0d1dfb8d27add1887eb3b120c113e9eb05febe2cd8b3859678a8e9cbc` |
-| `configs/experiments/main-local.toml` | `ebee103418e6008294b27fc3e8c46c99fae5b3f72ea8336d3e29242f06c89ef7` |
+| `configs/experiments/main-local.toml` | `ba673154393cc05c16e8d6c0bab1551a3dfe9f51e108e44ad7c092a4c98a0db8` |
 | `configs/models/local-qwen-sampling.toml` | `1cba867946cc50edba439feb30cde67d569a638f9055e78d81302f5ebf9ba514` |
 | `data/image_locks/main-local-01.json` | `558b8ec822c8e6771689b4f1cf364176020cde225c1e9bf5d98d2aebee85b0c9` |
 
@@ -197,7 +202,7 @@ must be reported with the results.
 
 ## 12. Stopping and decision rules
 
-* Run all 180 attempts. No optional stopping based on interim results.
+* Run all 90 attempts. No optional stopping based on interim results.
 * If infrastructure errors remain after one rerun, report them and the counted
   denominator explicitly.
 * Do not add or remove tasks, change prompts, or change the model after seeing
