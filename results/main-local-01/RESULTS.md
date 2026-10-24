@@ -54,11 +54,35 @@ The net -1 for B/C versus A is exactly those two tasks: +1 on `requests` and -2 
   not resolved outcomes relative to B.
 - C averaged 64.8 steps and 64.3 tool calls per attempt, versus 59.1/58.9 for B
   and 50.2/49.7 for A. C did **not** buy a higher resolve rate.
-- Stop reasons (A / B / C): `max_steps` 8/11/14, `length` 9/6/5,
-  `token_budget` 5/5/1, natural `stop` 8/8/10.
-- Failure categories: 46 resolved; 34 `tests_failed`; 10 `empty_patch`
-  (A 2, B 5, C 3). Empty-patch attempts are unresolved without a harness grade,
-  so compare resolved status rather than raw test totals.
+### Termination outcomes
+
+| Outcome | A | B | C | Total |
+|---|---:|---:|---:|---:|
+| Natural finish (`stop`) | 8 | 8 | 10 | 26 |
+| Cumulative token budget (`token_budget`, 2.5M) | 5 | 5 | 1 | 11 |
+| Per-response length (`length`, 16,384) | 9 | 6 | 5 | 20 |
+| Step limit (`max_steps`, 80) | 8 | 11 | 14 | 33 |
+| Time limit (1,800 s) | 0 | 0 | 0 | 0 |
+| Infrastructure error | 0 | 0 | 0 | 0 |
+| **Total** | **30** | **30** | **30** | **90** |
+
+All 90 attempts reached a terminal state. The time limit never bound (maximum
+observed attempt was 438 s). One additional A/`scikit-learn` attempt finished
+naturally at 2,545,359 tokens, just over the 2.5M cap; the 11 `token_budget`
+stops are the attempts the budget actually terminated.
+
+| Outcome | n | Resolved | Unresolved | Empty patch |
+|---|---:|---:|---:|---:|
+| Natural finish | 26 | 24 | 2 | 0 |
+| Step limit | 33 | 7 | 26 | 3 |
+| Token budget | 11 | 10 | 1 | 0 |
+| Response length | 20 | 5 | 15 | 7 |
+| Time limit | 0 | 0 | 0 | 0 |
+| **Total** | **90** | **46** | **44** | **10** |
+
+Empty-patch counts overlap the outcome rows; all 10 occur in step-limit or
+response-length stops. Empty-patch attempts are unresolved without a harness
+grade, so compare resolved status rather than raw test totals.
 - Total agent time was 4.99 h; total tokens were 129,030,867. Wall time including
   grading was 5h 11m.
 
