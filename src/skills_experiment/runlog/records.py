@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import csv
 import json
+import threading
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Optional
@@ -134,6 +135,7 @@ class RunLogger:
         self.jsonl_path = self.base_dir / "runs.jsonl"
         self.csv_path = self.base_dir / "runs.csv"
         self.attempts_dir = self.base_dir / "attempts"
+        self._append_lock = threading.Lock()
         self.base_dir.mkdir(parents=True, exist_ok=True)
         self.work_dir.mkdir(parents=True, exist_ok=True)
         self.attempts_dir.mkdir(parents=True, exist_ok=True)
@@ -161,15 +163,18 @@ class RunLogger:
         return path
 
     def append(self, record: RunRecord) -> None:
+        # Parallel workers share one logger. Serialize the JSONL/CSV pair so a
+        # row can never be interleaved or duplicated across files.
         row = record.to_row()
-        with self.jsonl_path.open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps(record.to_json()) + "\n")
-        write_header = not self.csv_path.exists()
-        with self.csv_path.open("a", encoding="utf-8", newline="") as fh:
-            writer = csv.DictWriter(fh, fieldnames=RUN_COLUMNS)
-            if write_header:
-                writer.writeheader()
-            writer.writerow(row)
+        with self._append_lock:
+            with self.jsonl_path.open("a", encoding="utf-8") as fh:
+                fh.write(json.dumps(record.to_json()) + "\n")
+            write_header = not self.csv_path.exists()
+            with self.csv_path.open("a", encoding="utf-8", newline="") as fh:
+                writer = csv.DictWriter(fh, fieldnames=RUN_COLUMNS)
+                if write_header:
+                    writer.writeheader()
+                writer.writerow(row)
 
     # -- batch read/update (used by grading and reruns) --------------------- #
     def load_records(self) -> list[RunRecord]:
@@ -225,6 +230,7 @@ class RunLogger:
                                 "tool_calls": [asdict(tc) for tc in msg.tool_calls],
                                 "tool_call_id": msg.tool_call_id,
                                 "name": msg.name,
+                                "reasoning_content": msg.reasoning_content,
                             }
                         )
                         + "\n"

@@ -1,0 +1,121 @@
+{
+  "subset": "verified-hard-weighted",
+  "dataset": "SWE-bench/SWE-bench_Verified",
+  "dataset_revision": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+  "split": "test",
+  "selection_procedure": "purposive hard-weighted subset selected before outcomes: one instance per repository; 2 easy, 3 medium, 5 hard, with exactly one >4h task; no overlap with earlier Lite task IDs",
+  "seed": 20261015,
+  "num_tasks": 10,
+  "tasks": [
+    {
+      "instance_id": "pallets__flask-5014",
+      "repo": "pallets/flask",
+      "tier": "easy",
+      "topic": "Empty Blueprint name must raise ValueError",
+      "why": "Empty Blueprint name must raise ValueError",
+      "gold_patch_lines_added": 3,
+      "gold_patch_lines_removed": 0,
+      "fail_to_pass": 1,
+      "pass_to_pass": 59
+    },
+    {
+      "instance_id": "psf__requests-5414",
+      "repo": "psf/requests",
+      "tier": "easy",
+      "topic": "Invalid IDNA host should raise InvalidURL",
+      "why": "Invalid IDNA host should raise InvalidURL",
+      "gold_patch_lines_added": 1,
+      "gold_patch_lines_removed": 1,
+      "fail_to_pass": 1,
+      "pass_to_pass": 130
+    },
+    {
+      "instance_id": "astropy__astropy-13033",
+      "repo": "astropy/astropy",
+      "tier": "medium",
+      "topic": "TimeSeries error must name required columns",
+      "why": "TimeSeries error must name required columns",
+      "gold_patch_lines_added": 11,
+      "gold_patch_lines_removed": 3,
+      "fail_to_pass": 1,
+      "pass_to_pass": 20
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "repo": "mwaskom/seaborn",
+      "tier": "medium",
+      "topic": "ScalarFormatter offset must be preserved in legend labels",
+      "why": "ScalarFormatter offset must be preserved in legend labels",
+      "gold_patch_lines_added": 12,
+      "gold_patch_lines_removed": 0,
+      "fail_to_pass": 2,
+      "pass_to_pass": 248
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-12973",
+      "repo": "scikit-learn/scikit-learn",
+      "tier": "medium",
+      "topic": "LassoLarsIC.fit(copy_X=...) must not override constructor value",
+      "why": "LassoLarsIC.fit(copy_X=...) must not override constructor value",
+      "gold_patch_lines_added": 7,
+      "gold_patch_lines_removed": 3,
+      "fail_to_pass": 1,
+      "pass_to_pass": 32
+    },
+    {
+      "instance_id": "django__django-15957",
+      "repo": "django/django",
+      "tier": "hard",
+      "topic": "Prefetch() with a sliced queryset",
+      "why": "Prefetch() with a sliced queryset",
+      "gold_patch_lines_added": 26,
+      "gold_patch_lines_removed": 7,
+      "fail_to_pass": 4,
+      "pass_to_pass": 89
+    },
+    {
+      "instance_id": "sympy__sympy-14248",
+      "repo": "sympy/sympy",
+      "tier": "hard",
+      "topic": "MatrixSymbol subtraction printing",
+      "why": "MatrixSymbol subtraction printing",
+      "gold_patch_lines_added": 56,
+      "gold_patch_lines_removed": 9,
+      "fail_to_pass": 2,
+      "pass_to_pass": 433
+    },
+    {
+      "instance_id": "pytest-dev__pytest-6197",
+      "repo": "pytest-dev/pytest",
+      "tier": "hard",
+      "topic": "Do not collect arbitrary __init__.py files",
+      "why": "Do not collect arbitrary __init__.py files",
+      "gold_patch_lines_added": 6,
+      "gold_patch_lines_removed": 18,
+      "fail_to_pass": 2,
+      "pass_to_pass": 145
+    },
+    {
+      "instance_id": "pylint-dev__pylint-8898",
+      "repo": "pylint-dev/pylint",
+      "tier": "hard",
+      "topic": "bad-names-rgxs must not split regex commas",
+      "why": "bad-names-rgxs must not split regex commas",
+      "gold_patch_lines_added": 30,
+      "gold_patch_lines_removed": 2,
+      "fail_to_pass": 1,
+      "pass_to_pass": 18
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-7590",
+      "repo": "sphinx-doc/sphinx",
+      "tier": "hard_gt4h",
+      "topic": "Large multi-file Sphinx build fix; >4h stress case",
+      "why": "Large multi-file Sphinx build fix; >4h stress case",
+      "gold_patch_lines_added": 89,
+      "gold_patch_lines_removed": 18,
+      "fail_to_pass": 1,
+      "pass_to_pass": 24
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+# SWE-bench Verified pilot: 10 tasks x 3 conditions x 1 repeat = 30 attempts.
+#
+# Purpose: validate the new Verified selection, the DeepSeek thinking-mode
+# adapter, two-worker concurrency, and the image/data setup before committing
+# to the 240-attempt run. This is a calibration run, not a reported result.
+#
+#   python -m skills_experiment plan --experiment verified-pilot
+#   python -m skills_experiment preflight --experiment verified-pilot --write-lock
+#   python -m skills_experiment run --experiment verified-pilot --resume --grade
+#
+# The run plan is written to runs/verified-pilot-01/plan.json. Workers pull
+# from that seeded, repeat-major, condition-balanced plan.
+
+[experiment]
+id = "verified-pilot-01"
+model = "deepseek-flash-1017"
+conditions = ["A_baseline", "B_prompt_instructions", "C_skill"]
+repeats = 1
+seed = 20261015
+interleave = true
+fresh = true
+workers = 2
+
+[budgets]
+max_steps = 80
+max_tokens = 1000000
+elapsed_seconds = 1800
+tool_timeout_seconds = 120
+
+[dataset]
+name = "SWE-bench/SWE-bench_Verified"
+revision = "78f471bf655a3137b2e8a75af1501690ec009ec3"
+split = "test"
+selection_file = "data/task_selection_verified.json"
+offline = true
+
+[sandbox]
+kind = "docker"
+docker_image_template = "swebench/sweb.eval.x86_64.{repo_slug}:latest"
+
+[agent]
+base_system_prompt = "base_system_prompt_minimal.md"
+
+# Same condition text as the local main run; C must load the skill body.
+[condition_options.B_prompt_instructions]
+instructions_file = "workflow_instructions_v2.md"
+
+[condition_options.C_skill]
+instructions_file = "workflow_instructions_v2.md"
+require_load = true
+
+[harness]
+python = ""
+max_workers = 2
+timeout_seconds = 1800

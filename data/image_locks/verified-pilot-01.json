@@ -1,0 +1,47 @@
+{
+  "experiment_id": "verified-pilot-01",
+  "dataset_revision": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+  "created_at": "2026-11-03T04:18:07.056636+00:00",
+  "images": {
+    "pallets__flask-5014": {
+      "image": "swebench/sweb.eval.x86_64.pallets_1776_flask-5014:latest",
+      "digest": "swebench/sweb.eval.x86_64.pallets_1776_flask-5014@sha256:bde4fbdafa36141d4396944da88ec37aabdef612ed36920090675bccd0ca5d72"
+    },
+    "psf__requests-5414": {
+      "image": "swebench/sweb.eval.x86_64.psf_1776_requests-5414:latest",
+      "digest": "swebench/sweb.eval.x86_64.psf_1776_requests-5414@sha256:71c78211f16803c111ed1807ded20f8defd5f6917fb958ace4e076d5ea7d8b10"
+    },
+    "astropy__astropy-13033": {
+      "image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-13033:latest",
+      "digest": "swebench/sweb.eval.x86_64.astropy_1776_astropy-13033@sha256:22f4f193fbf69d61c59e285494be18041934f8b528190dfe8c6c0d8051d8d6de"
+    },
+    "mwaskom__seaborn-3187": {
+      "image": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3187:latest",
+      "digest": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3187@sha256:aea7e43b20703256f5cb807b54cd78a12601f21086d3a62a41de18c254771f4e"
+    },
+    "scikit-learn__scikit-learn-12973": {
+      "image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-12973:latest",
+      "digest": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-12973@sha256:0ded1c3401a3e88cc39a5bc976b572d4f08c570bcbf599bf822814440aa45767"
+    },
+    "django__django-15957": {
+      "image": "swebench/sweb.eval.x86_64.django_1776_django-15957:latest",
+      "digest": "swebench/sweb.eval.x86_64.django_1776_django-15957@sha256:0bd385831cbdab9d5b49d502708eeb831c290b856a8bd7b49ad889945b96452b"
+    },
+    "sympy__sympy-14248": {
+      "image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-14248:latest",
+      "digest": "swebench/sweb.eval.x86_64.sympy_1776_sympy-14248@sha256:eb3a63364062801d29fbdf423d80ac39157f00ec4f30a0ded10c332ecb1090fd"
+    },
+    "pytest-dev__pytest-6197": {
+      "image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-6197:latest",
+      "digest": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-6197@sha256:5dbfbcf23210a5a0ccdc4dbf1a55c894255b28fe6c56c13c9a4724d6c13bab4e"
+    },
+    "pylint-dev__pylint-8898": {
+      "image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-8898:latest",
+      "digest": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-8898@sha256:a78e6034f627c1ae69c67b5a25ae5420192afb7279a4fd032a74095752e707d7"
+    },
+    "sphinx-doc__sphinx-7590": {
+      "image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7590:latest",
+      "digest": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7590@sha256:5c86dab7120b83b3bdb4af86743a3910da328029ed92183477fe9865ea76cb2f"
+    }
+  }
+}

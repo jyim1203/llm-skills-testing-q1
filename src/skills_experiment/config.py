@@ -183,6 +183,10 @@ class ExperimentConfig:
     seed: int = 0
     interleave: bool = True
     fresh: bool = True
+    # Number of concurrent attempt workers. Each worker owns one Docker
+    # container and one model client; the default preserves the old
+    # sequential behavior.
+    workers: int = 1
     budgets: Budgets = field(default_factory=Budgets)
     dataset: DatasetConfig = field(default_factory=DatasetConfig)
     sandbox: SandboxConfig = field(default_factory=SandboxConfig)
@@ -204,6 +208,7 @@ class ExperimentConfig:
             seed=int(exp.get("seed", 0)),
             interleave=bool(exp.get("interleave", True)),
             fresh=bool(exp.get("fresh", True)),
+            workers=max(1, int(exp.get("workers", 1))),
             budgets=Budgets.from_dict(data.get("budgets", {})),
             dataset=DatasetConfig.from_dict(data.get("dataset", {})),
             sandbox=SandboxConfig.from_dict(data.get("sandbox", {})),

@@ -45,6 +45,9 @@ class Message:
     tool_calls: list[ToolCall] = field(default_factory=list)
     tool_call_id: Optional[str] = None
     name: Optional[str] = None
+    # DeepSeek thinking mode returns this beside `content`. It must be passed
+    # back on subsequent tool-calling turns or the API rejects the request.
+    reasoning_content: Optional[str] = None
 
     # -- convenience constructors ------------------------------------------- #
     @classmethod
@@ -57,9 +60,17 @@ class Message:
 
     @classmethod
     def assistant(
-        cls, content: str = "", tool_calls: Optional[list[ToolCall]] = None
+        cls,
+        content: str = "",
+        tool_calls: Optional[list[ToolCall]] = None,
+        reasoning_content: Optional[str] = None,
     ) -> "Message":
-        return cls(role="assistant", content=content, tool_calls=tool_calls or [])
+        return cls(
+            role="assistant",
+            content=content,
+            tool_calls=tool_calls or [],
+            reasoning_content=reasoning_content,
+        )
 
     @classmethod
     def tool_result(cls, tool_call_id: str, content: str, name: Optional[str] = None) -> "Message":
@@ -116,10 +127,17 @@ class ModelResponse:
     model_id: str = ""
     stop_reason: Optional[str] = None
     raw: Any = None
+    # DeepSeek thinking-mode chain of thought. Kept separate from `text` so it
+    # is never mistaken for an assistant answer.
+    reasoning_content: str = ""
 
     @property
     def wants_tools(self) -> bool:
         return bool(self.tool_calls)
 
     def to_message(self) -> Message:
-        return Message.assistant(self.text, self.tool_calls)
+        return Message.assistant(
+            self.text,
+            self.tool_calls,
+            reasoning_content=self.reasoning_content or None,
+        )

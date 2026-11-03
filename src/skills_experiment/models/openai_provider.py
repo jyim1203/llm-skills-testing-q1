@@ -14,7 +14,15 @@ from .base import ModelClient, ModelClientError
 from .types import Message, ModelResponse, ToolCall, ToolSpec, Usage
 
 # Parameters we forward verbatim from the model profile to the SDK call.
-_PASSTHROUGH_PARAMS = ("temperature", "top_p", "max_tokens", "max_completion_tokens")
+# `thinking` is handled separately because the OpenAI SDK requires DeepSeek's
+# vendor-specific toggle under `extra_body`.
+_PASSTHROUGH_PARAMS = (
+    "temperature",
+    "top_p",
+    "max_tokens",
+    "max_completion_tokens",
+    "reasoning_effort",
+)
 
 
 class OpenAIChatClient(ModelClient):
@@ -69,6 +77,12 @@ class OpenAIChatClient(ModelClient):
         for key in _PASSTHROUGH_PARAMS:
             if key in self.params and self.params[key] is not None:
                 payload[key] = self.params[key]
+        thinking = self.params.get("thinking")
+        if thinking is not None:
+            # Accept either `thinking = "enabled"` or a full
+            # `thinking = { type = "enabled" }` table in the profile.
+            thinking_body = {"type": thinking} if isinstance(thinking, str) else dict(thinking)
+            payload["extra_body"] = {"thinking": thinking_body}
         if tools:
             payload["tools"] = [_to_openai_tool(t) for t in tools]
             payload["tool_choice"] = "auto"
@@ -100,7 +114,7 @@ def _to_openai_message(m: Message) -> dict[str, Any]:
             "content": m.content or "",
         }
     if m.role == "assistant" and m.tool_calls:
-        return {
+        message = {
             "role": "assistant",
             "content": m.content or None,
             "tool_calls": [
@@ -114,6 +128,15 @@ def _to_openai_message(m: Message) -> dict[str, Any]:
                 }
                 for tc in m.tool_calls
             ],
+        }
+        if m.reasoning_content:
+            message["reasoning_content"] = m.reasoning_content
+        return message
+    if m.role == "assistant" and m.reasoning_content:
+        return {
+            "role": "assistant",
+            "content": m.content or "",
+            "reasoning_content": m.reasoning_content,
         }
     return {"role": m.role, "content": m.content or ""}
 
@@ -152,6 +175,7 @@ def _from_openai_response(raw: Any, model_id: str) -> ModelResponse:
         model_id=getattr(raw, "model", model_id),
         stop_reason=choice.finish_reason,
         raw=raw,
+        reasoning_content=getattr(msg, "reasoning_content", "") or "",
     )
 
 

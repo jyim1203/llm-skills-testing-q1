@@ -16,8 +16,10 @@ from __future__ import annotations
 import json
 import random
 import subprocess
+import threading
 from collections import defaultdict
-from dataclasses import dataclass, field
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
@@ -51,6 +53,7 @@ class RunSummary:
     planned: int = 0
     completed: int = 0
     infrastructure_errors: int = 0
+    workers: int = 1
     by_condition: dict[str, int] = field(default_factory=dict)
     records: list[RunRecord] = field(default_factory=list)
 
@@ -62,6 +65,7 @@ class RunSummary:
             "planned": self.planned,
             "completed": self.completed,
             "infrastructure_errors": self.infrastructure_errors,
+            "workers": self.workers,
             "by_condition": self.by_condition,
         }
 
@@ -249,16 +253,24 @@ class ExperimentRunner:
 
     # -- planning ----------------------------------------------------------- #
     def build_plan(self, task_ids: list[str]) -> list[RunPlanItem]:
+        """Build a seeded, repeat-major, condition-balanced run plan.
+
+        For every repeat, the task order is a fresh random permutation. Within
+        each task x repeat, every condition appears exactly once and the
+        condition order is independently shuffled. This keeps the design
+        balanced while avoiding a fixed "A always first" order.
+        """
         rng = random.Random(self.config.seed)
+        task_ids = list(task_ids)
         plan: list[RunPlanItem] = []
         order = 0
-        for instance_id in task_ids:
-            conditions = list(self.config.conditions)
-            if self.config.interleave:
-                conditions = sorted(conditions)
-                rng.shuffle(conditions)
-            for condition in conditions:
-                for attempt in range(1, self.config.repeats + 1):
+        for attempt in range(1, self.config.repeats + 1):
+            rng.shuffle(task_ids)
+            for instance_id in task_ids:
+                conditions = list(self.config.conditions)
+                if self.config.interleave:
+                    rng.shuffle(conditions)
+                for condition in conditions:
                     order += 1
                     plan.append(
                         RunPlanItem(
@@ -270,12 +282,31 @@ class ExperimentRunner:
                     )
         return plan
 
+    def _write_plan(
+        self, plan: list[RunPlanItem], *, resume_requested: bool
+    ) -> None:
+        """Persist the full planned order next to the run artifacts."""
+        document = {
+            "experiment_id": self.config.id,
+            "seed": self.config.seed,
+            "repeats": self.config.repeats,
+            "conditions": list(self.config.conditions),
+            "workers": self.config.workers,
+            "resume_requested": resume_requested,
+            "planned": len(plan),
+            "items": [asdict(item) for item in plan],
+        }
+        (self.logger.base_dir / "plan.json").write_text(
+            json.dumps(document, indent=2), encoding="utf-8"
+        )
+
     # -- execution ---------------------------------------------------------- #
     def run(self, *, resume: bool = False) -> RunSummary:
         if self.config.fresh and not resume:
             self.logger.reset()
         ctx = self._prepare()
         plan = self.build_plan(list(ctx.task_by_id))
+        self._write_plan(plan, resume_requested=resume)
         if resume:
             existing = {
                 (r.instance_id, r.condition, r.attempt_number)
@@ -292,28 +323,126 @@ class ExperimentRunner:
         return summary
 
     def run_plan(self, plan: list[RunPlanItem], ctx: _RunContext) -> RunSummary:
+        workers = max(1, min(int(self.config.workers), len(plan) or 1))
         summary = RunSummary(
-            experiment_id=self.config.id, model=ctx.model_name, dry_run=self.dry_run, planned=len(plan)
+            experiment_id=self.config.id,
+            model=ctx.model_name,
+            dry_run=self.dry_run,
+            planned=len(plan),
+            workers=workers,
         )
-        for item in plan:
-            task_entry = ctx.task_by_id.get(item.instance_id)
-            if task_entry is None:
-                continue
-            record = self._run_item(
-                item=item,
-                task_entry=task_entry,
-                condition=ctx.conditions[item.condition],
-                client=ctx.client,
-                profile=ctx.profile,
-                fairness=ctx.fairness,
-                dataset_hash=ctx.dataset_hash,
-            )
+
+        def account(record: RunRecord) -> None:
             summary.records.append(record)
             summary.completed += 1
             if record.evaluation_status == policy.INFRASTRUCTURE_ERROR:
                 summary.infrastructure_errors += 1
-            summary.by_condition[record.condition] = summary.by_condition.get(record.condition, 0) + 1
+            summary.by_condition[record.condition] = (
+                summary.by_condition.get(record.condition, 0) + 1
+            )
+
+        if workers == 1:
+            for item in plan:
+                task_entry = ctx.task_by_id.get(item.instance_id)
+                if task_entry is None:
+                    continue
+                account(
+                    self._run_item(
+                        item=item,
+                        task_entry=task_entry,
+                        condition=ctx.conditions[item.condition],
+                        client=ctx.client,
+                        profile=ctx.profile,
+                        fairness=ctx.fairness,
+                        dataset_hash=ctx.dataset_hash,
+                    )
+                )
+            return summary
+
+        # Parallel workers. Each worker gets its own model client, which avoids
+        # racing on the OpenAI SDK's internal HTTP state. The runner's injected
+        # test client is shared deliberately (tests use the mock client).
+        created_clients: list[Any] = []
+        created_lock = threading.Lock()
+        local = threading.local()
+
+        def worker_client() -> Any:
+            if self._client is not None:
+                return ctx.client
+            client = getattr(local, "client", None)
+            if client is None:
+                client = self._make_client()
+                local.client = client
+                with created_lock:
+                    created_clients.append(client)
+            return client
+
+        def run_one(item: RunPlanItem) -> RunRecord:
+            task_entry = ctx.task_by_id[item.instance_id]
+            return self._run_item(
+                item=item,
+                task_entry=task_entry,
+                condition=ctx.conditions[item.condition],
+                client=worker_client(),
+                profile=ctx.profile,
+                fairness=ctx.fairness,
+                dataset_hash=ctx.dataset_hash,
+            )
+
+        records_by_order: dict[int, RunRecord] = {}
+        try:
+            with ThreadPoolExecutor(max_workers=workers) as pool:
+                futures = {pool.submit(run_one, item): item for item in plan}
+                for future in as_completed(futures):
+                    item = futures[future]
+                    try:
+                        record = future.result()
+                    except Exception as exc:  # noqa: BLE001 - cannot lose an attempt
+                        record = self._infrastructure_record(item, ctx, exc)
+                        self.logger.append(record)
+                    records_by_order[item.run_order] = record
+        finally:
+            for client in created_clients:
+                if hasattr(client, "close"):
+                    client.close()
+
+        for item in plan:
+            record = records_by_order.get(item.run_order)
+            if record is not None:
+                account(record)
         return summary
+
+    def _infrastructure_record(
+        self, item: RunPlanItem, ctx: _RunContext, exc: Exception
+    ) -> RunRecord:
+        """Last-resort record if a worker raises outside `_run_item`."""
+        task_entry = ctx.task_by_id.get(item.instance_id, {})
+        task = task_entry.get("task")
+        return RunRecord(
+            experiment_id=self.config.id,
+            condition=item.condition,
+            model_id=ctx.profile.model_id,
+            agent_framework_version=__version__,
+            framework_git_commit=self._git_commit(),
+            benchmark_dataset_id=self.config.dataset.name,
+            benchmark_dataset_revision=self.config.dataset.revision,
+            benchmark_dataset_hash=ctx.dataset_hash,
+            split=self.config.dataset.split,
+            instance_id=item.instance_id,
+            repo=getattr(task, "repo", ""),
+            topic=task_entry.get("topic", ""),
+            attempt_number=item.attempt,
+            run_order=item.run_order,
+            seed=self.config.seed,
+            started_at=datetime.now(timezone.utc).isoformat(),
+            max_steps=self.config.budgets.max_steps,
+            max_tokens=self.config.budgets.max_tokens,
+            skill_version_or_hash=ctx.fairness.get("C", ""),
+            prompt_version_or_hash=ctx.fairness.get("B", ""),
+            evaluation_status=policy.INFRASTRUCTURE_ERROR,
+            failure_category=type(exc).__name__,
+            notes=f"{type(exc).__name__}: {exc}",
+        )
 
     def rerun(self, *, max_reruns: int = 1) -> RunSummary:
         """Re-run attempts that ended in a rerunnable failure.

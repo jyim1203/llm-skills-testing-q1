@@ -104,6 +104,7 @@ def _cmd_plan(args: argparse.Namespace) -> int:
     print(f"Model      : {'mock (dry-run)' if args.dry_run else config.model}")
     print(f"Conditions : {config.conditions}")
     print(f"Repeats    : {config.repeats}")
+    print(f"Workers    : {config.workers}")
     print(f"Dataset    : {config.dataset.name}:{config.dataset.split}")
     print(f"Sandbox    : {config.sandbox.kind}")
     print(f"Tasks      : {len(tasks)}")
@@ -186,6 +187,9 @@ def _cmd_run(args: argparse.Namespace) -> int:
     model = getattr(args, "model", "") or ""
     if model:
         config.model = model
+    workers = int(getattr(args, "workers", 0) or 0)
+    if workers:
+        config.workers = max(1, workers)
     dry_run = bool(getattr(args, "dry_run", False))
     limit = int(getattr(args, "limit", 0) or 0)
 
@@ -245,6 +249,9 @@ def _cmd_grade(args: argparse.Namespace) -> int:
 
 def _cmd_rerun(args: argparse.Namespace) -> int:
     config = load_experiment(args.experiment)
+    workers = int(getattr(args, "workers", 0) or 0)
+    if workers:
+        config.workers = max(1, workers)
     runner = ExperimentRunner(config, dry_run=args.dry_run, base_dir=_base_dir(args))
     try:
         summary = runner.rerun(max_reruns=args.max_reruns)
@@ -323,6 +330,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--model", default="", help="Override the model profile name.")
     p.add_argument("--dry-run", action="store_true", help="Use the mock model + noop sandbox.")
     p.add_argument("--limit", type=int, default=0, help="Only run the first N tasks.")
+    p.add_argument("--workers", type=int, default=0, help="Override parallel attempt workers.")
     p.add_argument("--base-dir", default="", help="Output directory (default: runs/).")
     p.add_argument(
         "--resume",
@@ -345,6 +353,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("rerun", help="Re-run attempts that failed for infrastructure reasons.")
     p.add_argument("--experiment", default="pilot")
     p.add_argument("--max-reruns", type=int, default=1)
+    p.add_argument("--workers", type=int, default=0)
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--base-dir", default="")
     p.set_defaults(func=_cmd_rerun)

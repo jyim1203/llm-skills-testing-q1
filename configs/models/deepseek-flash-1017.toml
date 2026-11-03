@@ -1,0 +1,32 @@
+# DeepSeek V4.1 Flash 1017 - sampling profile for the Verified experiment.
+#
+# This is a new profile rather than an edit to deepseek-flash.toml, so the
+# frozen pilot-01 provenance stays intact. The public API exposes the model
+# name `deepseek-flash`; 1017 is the service build. There is no documented
+# dated alias, so record the provider-returned model string in the run log.
+#
+# DeepSeek's Chat Completions API has no `seed` parameter, and thinking mode
+# ignores temperature. Repeats therefore rely on the provider's own
+# nondeterminism; the experiment seed controls only the run order. `medium` is
+# accepted for compatibility and maps to DeepSeek's `high` reasoning effort.
+
+name = "deepseek-flash-1017"
+provider = "openai"
+model_id = "deepseek-flash"
+api_key_env = "DEEPSEEK_API_KEY"
+base_url = "https://api.deepseek.com"
+notes = """
+DeepSeek V4.1 Flash 1017 via https://api.deepseek.com (OpenAI-compatible).
+Thinking enabled, reasoning_effort=medium (maps to high on DeepSeek), 16384
+response cap, 600 s SDK timeout, 3 retries. Temperature is recorded for
+provenance but has no effect in thinking mode; the API exposes no sampling seed.
+"""
+
+[params]
+temperature = 0.2
+top_p = 1.0
+max_tokens = 16384
+timeout = 600
+max_retries = 3
+thinking = "enabled"
+reasoning_effort = "medium"
