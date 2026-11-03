@@ -167,6 +167,7 @@ def _from_openai_response(raw: Any, model_id: str) -> ModelResponse:
         input_tokens=getattr(usage_obj, "prompt_tokens", 0) or 0,
         output_tokens=getattr(usage_obj, "completion_tokens", 0) or 0,
         cache_read_tokens=_nested(usage_obj, "prompt_tokens_details", "cached_tokens"),
+        reasoning_tokens=_nested(usage_obj, "completion_tokens_details", "reasoning_tokens"),
     )
     return ModelResponse(
         text=msg.content or "",

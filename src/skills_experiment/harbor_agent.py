@@ -404,6 +404,7 @@ class HarborSkillsAgent(BaseAgent):
                 "output_tokens": result.usage.output_tokens,
                 "cache_read_tokens": result.usage.cache_read_tokens,
                 "cache_write_tokens": result.usage.cache_write_tokens,
+                "reasoning_tokens": result.usage.reasoning_tokens,
                 "event_log": str(logs_dir / "events.jsonl"),
                 "started_at": started_at,
                 "finished_at": datetime.now(timezone.utc).isoformat(),

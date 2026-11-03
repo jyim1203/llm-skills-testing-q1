@@ -352,6 +352,7 @@ def _event_metrics(raw_events: list[dict[str, Any]]) -> dict[str, Any]:
     prompt_tokens = 0
     completion_tokens = 0
     cache_read_tokens = 0
+    reasoning_tokens = 0
     reasoning_chars = 0
     model_latency_ms = 0.0
     for event in model_calls:
@@ -359,6 +360,7 @@ def _event_metrics(raw_events: list[dict[str, Any]]) -> dict[str, Any]:
         prompt_tokens += int(usage.get("input_tokens") or 0)
         completion_tokens += int(usage.get("output_tokens") or 0)
         cache_read_tokens += int(usage.get("cache_read_tokens") or 0)
+        reasoning_tokens += int(usage.get("reasoning_tokens") or 0)
         reasoning_chars += int(event.get("reasoning_chars") or 0)
         model_latency_ms += float(event.get("latency_ms") or 0)
     tool_duration_ms = sum(float(e.get("duration_ms") or 0) for e in tool_events)
@@ -391,6 +393,7 @@ def _event_metrics(raw_events: list[dict[str, Any]]) -> dict[str, Any]:
         "events_prompt_tokens": prompt_tokens,
         "events_completion_tokens": completion_tokens,
         "events_cache_read_tokens": cache_read_tokens,
+        "events_reasoning_tokens": reasoning_tokens,
         "events_reasoning_chars": reasoning_chars,
         "model_latency_ms": round(model_latency_ms, 3),
         "tool_duration_ms": round(tool_duration_ms, 3),
@@ -598,6 +601,7 @@ def extract_attempt(
         "exception_info": trial.get("exception_info"),
         "input_tokens": int(agent_result.get("n_input_tokens") or 0),
         "output_tokens": int(agent_result.get("n_output_tokens") or 0),
+        "reasoning_tokens": metadata.get("reasoning_tokens"),
         "cache_tokens": agent_result.get("n_cache_tokens"),
         "total_tokens": int(agent_result.get("n_input_tokens") or 0)
         + int(agent_result.get("n_output_tokens") or 0),

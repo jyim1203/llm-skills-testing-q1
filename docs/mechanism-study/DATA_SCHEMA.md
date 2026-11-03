@@ -98,7 +98,7 @@ Extra fields:
 | `text_chars` | int | Assistant text length |
 | `reasoning_chars` | int | Thinking length |
 | `messages_count` | int | Context size before the call |
-| `usage` | object | `input_tokens`, `output_tokens`, `cache_read_tokens`, `cache_write_tokens` |
+| `usage` | object | `input_tokens`, `output_tokens`, `cache_read_tokens`, `cache_write_tokens`, `reasoning_tokens` (0/null if provider does not split them) |
 
 Reasoning text itself is in `messages.jsonl` (`reasoning_content`); the event
 stores its length to keep the event log small.
@@ -143,6 +143,7 @@ Extra fields:
 | Field | Type | Notes |
 |---|---|---|
 | `input_tokens`, `output_tokens` | int | From provider result |
+| `reasoning_tokens` | int/null | Provider reasoning split, if exposed |
 | `total_tokens` | int | Input + output |
 | `cache_tokens` | int/null | Provider cache field |
 | `model_latency_ms` | float | Sum of model calls (events only) |
