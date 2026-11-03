@@ -175,13 +175,13 @@ Completed:
 - [x] WSL integration for Ubuntu is working.
 - [x] Harness gold-patch validation passed for `pylint-dev__astroid-1268`
       (`swebench==5.0.2`, resolved).
+- [x] Pulled all ten Verified task images and wrote the image lock; lock
+      verification reports `Lock OK`.
+- [x] Committed the setup changes (`468509c`); dataset manifest is
+      `952a1d7ee0c8f32bb7f6c35409c4f1ba7c192807970a1b96fcae5c978f8bd59a`.
 
 Still required:
 
-- [ ] Commit the setup changes before running. The worktree is currently dirty
-      and `framework_git_commit` would still record the old HEAD (`193db2e`).
-- [ ] Pull all ten task images and run
-      `preflight --experiment verified-pilot --write-lock`.
 - [ ] Run the **30-attempt pilot**: 10 tasks x 3 conditions x 1 repeat.
 - [ ] Measure wall time, RAM, stop reasons, image failures, and C's skill-load
       rate.
