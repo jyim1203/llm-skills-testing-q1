@@ -1,7 +1,8 @@
 # SWE-bench Verified Experiment Setup - DeepSeek V4.1 Flash 1017
 
-**Status:** setup implemented; do not launch the 240-attempt run until the
-30-attempt pilot, image lock, and live API checks pass.
+**Status:** 30-attempt pilot complete. Operational checks passed, but the task
+set is near ceiling for this model; pause the 240-attempt run until the
+scientific decision is recorded. See `results/verified-pilot-01/RESULTS.md`.
 
 **Date:** 2026-11-02
 
@@ -180,14 +181,20 @@ Completed:
 - [x] Committed the setup changes (`468509c`); dataset manifest is
       `952a1d7ee0c8f32bb7f6c35409c4f1ba7c192807970a1b96fcae5c978f8bd59a`.
 
+Pilot completed:
+
+- [x] Run the **30-attempt pilot**: 10 tasks x 3 conditions x 1 repeat.
+- [x] Measure wall time, RAM, stop reasons, image failures, and C's skill-load
+      rate.
+- [x] Confirm `sphinx-7590` is usable as the `>4h` stress task.
+- [x] Check that `stop_reason=length` is not dominated by reasoning tokens
+      (0 length stops).
+
 Still required:
 
-- [ ] Run the **30-attempt pilot**: 10 tasks x 3 conditions x 1 repeat.
-- [ ] Measure wall time, RAM, stop reasons, image failures, and C's skill-load
-      rate.
-- [ ] Confirm `sphinx-7590` is usable as the `>4h` stress task.
-- [ ] Check that `stop_reason=length` is not dominated by reasoning tokens.
-- [ ] Freeze the analysis plan before looking at outcomes.
+- [ ] Decide whether to run the main set unchanged, freeze a harder set, or
+      treat the main run as a process/cost study.
+- [ ] Record that decision before examining main-run outcomes.
 
 Pilot command (WSL; the harness venv has both `openai` and `swebench`):
 
