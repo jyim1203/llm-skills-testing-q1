@@ -37,8 +37,8 @@ data/derived/
 | `condition` | `A` / `B` / `C` | Normalized from metadata |
 | `repeat` | int/null | Repeat index |
 | `model_id` | string/null | Provider model ID |
-| `workflow_version` | string | `v3` for this study |
-| `workflow_sha256` | string | V3 body hash |
+| `workflow_version` | string | `v2` for this study |
+| `workflow_sha256` | string | v2 body hash |
 | `system_prompt_sha256` | string | Exact system prompt hash |
 | `task_prompt_sha256` | string | Exact task prompt hash |
 | `started_at`, `finished_at` | ISO 8601 | UTC |

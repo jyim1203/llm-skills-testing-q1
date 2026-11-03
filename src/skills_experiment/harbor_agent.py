@@ -169,7 +169,7 @@ class HarborSkillsAgent(BaseAgent):
         trial_paths: Any = None,
         model_name: str | None = None,
         condition: str = "A",
-        workflow_version: str = "v3",
+        workflow_version: str = "v2",
         task_id: str = "",
         repeat: int | None = None,
         run_id: str = "",

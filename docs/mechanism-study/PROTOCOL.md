@@ -39,32 +39,27 @@ A/B/C still use identical workflow content. B injects it into the system prompt;
 
 All three use the same tool set except for `load_skill`, which only C exposes.
 
-### Stronger skill
+### Workflow version
 
-The mechanism study uses `workflow_instructions_v3.md`:
+The mechanism study uses the canonical v2 workflow:
 
-- body SHA-256: `82d69b9866b0e1ffc81de94849d737e3bec0e362156710ba2dac394e4dca75d1`
-- source: `src/skills_experiment/assets/prompts/workflow_instructions_v3.md`
+- body SHA-256: `586b13769c48f7fea32d0723a4948f58f016c14094063e3bf4606376f5dc78ab`
+- source: `src/skills_experiment/assets/prompts/workflow_instructions_v2.md`
 
-V3 is more procedural than v2: it specifies test-command discovery, test-first
-targeting, regression-history checks, parallel-path completeness, Python edge
-cases, widening verification, and budget/stopping rules. It deliberately does
-not contain task-specific solutions or hints.
+B and C must use the same v2 body; the adapter records both hashes.
 
-B and C must use the same V3 body; the adapter records both hashes.
+`workflow_instructions_v3.md` remains in the branch as an optional future arm.
+It is **not** part of this run, and the study makes no claim that v3 is stronger.
+The pilot baseline already suggests the canonical workflow is largely generic:
+A ran a post-edit test in 3/3 tasks, a pre-edit test in 0/3, and read/searched
+before editing in 2/3. That is recorded as a limitation, not a reason to add an
+unaudited second content arm.
 
 ### Content audit
 
-Before the run, classify each V3 instruction as:
-
-- generic prior (likely already in model weights),
-- Python-repository-specific,
-- non-obvious/actionable.
-
-Also compute baseline adherence from existing A pilot traces: read-before-edit,
-test-before-edit, test-after-edit. If A already adheres at a high rate and most
-of V3 is generic, that is a recorded limitation and the expected effect is
-small. Do not change the primary endpoints after seeing the audit.
+The V3 audit is **optional and deferred**. If v3 is ever used, classify each
+instruction as generic prior, Python-repository-specific, or non-obvious before
+running it. Do not add v3 to the 60-attempt mechanism run.
 
 ## 4. Design
 
@@ -205,8 +200,8 @@ artifact unless reviewed.
 ## 10. Pre-registration checklist
 
 - [ ] Freeze task IDs and strata in `TASKS.md`
-- [ ] Freeze V3 skill body and hash
-- [ ] Confirm B/C use identical V3 body
+- [ ] Freeze v2 workflow body and hash
+- [ ] Confirm B/C use identical v2 body
 - [ ] Complete content audit and A-adherence audit
 - [ ] Validate event logging on one non-scored attempt
 - [ ] Validate F2P parser on one known pass and one known fail
@@ -216,7 +211,7 @@ artifact unless reviewed.
 
 ## 11. Known risks
 
-- V3 may still be mostly generic prior; the study may find no behavioral effect.
+- V2 is largely generic prior; the study may find no behavioral effect.
 - Ceiling/floor tasks may dominate variance; stratification is essential.
 - Tool logs are coarse; shell edit detection is heuristic.
 - No sampling seed; repeats are stochastic but not guaranteed independent.

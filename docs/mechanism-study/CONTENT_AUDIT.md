@@ -1,4 +1,7 @@
-# V3 Skill Content Audit (To Fill Before Run)
+# V3 Skill Content Audit (Optional — Not Used in This Run)
+
+**Status:** deferred. The mechanism run uses the canonical v2 workflow. This
+audit would only be needed if v3 becomes a separate content arm.
 
 Purpose: check whether V3 contains information beyond generic model priors. This
 is a manipulation check, not a condition outcome. Do not change the primary

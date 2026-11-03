@@ -1,8 +1,10 @@
 # Mechanism / Behavior Study
 
-Draft branch: `mechanism-study`  
-Base: `a935024` (Harbor/Pro V2 integration pilot)  
-Status: **design and instrumentation only; no runs launched**
+Branch: `mechanism-study`
+
+Base: `a935024` (Harbor/Pro V2 integration pilot)
+
+Status: **instrumentation + frozen task set; v2 smoke in progress**
 
 ## Documents
 
@@ -10,8 +12,8 @@ Status: **design and instrumentation only; no runs launched**
 - `DATA_SCHEMA.md` — raw event and derived attempt schema
 - `ANALYSIS.md` — paired task-level analysis and plots
 - `PILOT_BASELINE.md` — condition-A adherence from the existing pilot logs
-- `CONTENT_AUDIT.md` — V3 novelty audit to fill before the run
-- `TASKS.md` — task strata and freeze checklist (task list not yet frozen)
+- `CONTENT_AUDIT.md` — optional V3 audit (not used in this run)
+- `TASKS.md` — frozen 10-task mechanism set
 
 ## Instrumentation
 
@@ -19,19 +21,23 @@ Status: **design and instrumentation only; no runs launched**
 - `src/skills_experiment/agent/loop.py` — emits `run_start`, `model_call`, `run_end`
 - `src/skills_experiment/agent/tools.py` — emits per-tool duration, exit code,
   output size/hash, and sanitized arguments
-- `src/skills_experiment/harbor_agent.py` — uses V3 skill, writes `events.jsonl`
-  and richer `context.metadata`
+- `src/skills_experiment/harbor_agent.py` — uses v2 by default, writes
+  `events.jsonl` and richer `context.metadata`
 - `src/skills_experiment/behavior.py` — extracts attempt/event tables
 - `scripts/extract_behavior.py` — CLI for Harbor jobs
 
-## Stronger skill
+## Workflow version
 
-`src/skills_experiment/assets/prompts/workflow_instructions_v3.md`
+The mechanism run uses the canonical v2 workflow:
+
+`src/skills_experiment/assets/prompts/workflow_instructions_v2.md`
 
 Body SHA-256:
-`82d69b9866b0e1ffc81de94849d737e3bec0e362156710ba2dac394e4dca75d1`
+`586b13769c48f7fea32d0723a4948f58f016c14094063e3bf4606376f5dc78ab`
 
-B and C use the same V3 body; C must load it through `load_skill`.
+B and C use the same v2 body; C must load it through `load_skill`.
+
+V3 remains an optional, unaudited future arm and is not part of this run.
 
 ## Quick extraction
 
@@ -44,10 +50,10 @@ python scripts/extract_behavior.py \
 
 This writes `attempts.csv`, `events.csv`, and `attempts.json`.
 
-## Next gates before execution
+## Next gates before the 60
 
-1. Content audit + A-adherence audit.
-2. Freeze 10 tasks and image digests.
-3. Validate event logging on one non-scored attempt.
-4. Validate F2P parser.
-5. Record randomized order.
+1. Finish the A/B/C v2 smoke.
+2. Verify `events.jsonl`, skill loading, and extractor output.
+3. Record image digests/checksums.
+4. Generate the randomized 60-attempt order.
+5. Run the 60.
