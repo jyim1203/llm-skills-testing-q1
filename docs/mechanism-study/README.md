@@ -4,7 +4,7 @@ Branch: `mechanism-study`
 
 Base: `a935024` (Harbor/Pro V2 integration pilot)
 
-Status: **instrumentation + frozen task set; v2 smoke in progress**
+Status: **v2 smoke passed; 60-attempt run in progress**
 
 ## Documents
 
@@ -12,6 +12,7 @@ Status: **instrumentation + frozen task set; v2 smoke in progress**
 - `DATA_SCHEMA.md` — raw event and derived attempt schema
 - `ANALYSIS.md` — paired task-level analysis and plots
 - `PILOT_BASELINE.md` — condition-A adherence from the existing pilot logs
+- `SMOKE.md` — v2 A/B/C smoke validation
 - `CONTENT_AUDIT.md` — optional V3 audit (not used in this run)
 - `TASKS.md` — frozen 10-task mechanism set
 

@@ -33,6 +33,10 @@ data/raw/
 # Derived behavior tables (regenerated from immutable Harbor job artifacts)
 data/derived/
 
+# Runtime launcher logs/status for the mechanism run
+data/mechanism-pilot-01/logs/
+data/mechanism-pilot-01/run_status.jsonl
+
 # Tooling caches
 .pytest_cache/
 .mypy_cache/
