@@ -30,6 +30,9 @@ runs/
 # reproducible byte-for-byte; they are small (~100 KB total for the subset).
 data/raw/
 
+# Derived behavior tables (regenerated from immutable Harbor job artifacts)
+data/derived/
+
 # Tooling caches
 .pytest_cache/
 .mypy_cache/

@@ -8,10 +8,12 @@ conditions lack).
 
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
+from ..observability import EventSink, emit, sha256_text
 from ..sandbox.base import MAX_OUTPUT_CHARS, Sandbox
 from ..models.types import ToolCall, ToolSpec
 
@@ -101,6 +103,7 @@ class ToolOutcome:
     content: str
     skill_loaded: bool = False
     error: Optional[str] = None
+    exit_code: Optional[int] = None
 
 
 @dataclass
@@ -111,6 +114,8 @@ class ToolExecutor:
     skills_dir: Optional[Path] = None
     tool_timeout_seconds: int = 120
     events: list[dict[str, Any]] = field(default_factory=list)
+    event_sink: Optional[EventSink] = None
+    current_step: Optional[int] = None
 
     def available_skills(self) -> list[str]:
         return sorted(self._skill_index())
@@ -133,6 +138,7 @@ class ToolExecutor:
         return index
 
     def execute(self, call: ToolCall) -> ToolOutcome:
+        started = time.perf_counter()
         handler = self._HANDLERS.get(call.name)
         if handler is None:
             outcome = ToolOutcome(ok=False, content="", error=f"unknown tool {call.name!r}")
@@ -141,17 +147,29 @@ class ToolExecutor:
                 outcome = handler(self, call.arguments)
             except Exception as exc:  # noqa: BLE001 - surface as a tool error, not a crash
                 outcome = ToolOutcome(ok=False, content="", error=f"{type(exc).__name__}: {exc}")
-        self.events.append(
-            {
-                "tool": call.name,
-                "arguments": call.arguments,
-                "ok": outcome.ok,
-                "skill_loaded": outcome.skill_loaded,
-                "error": outcome.error,
-            }
-        )
+        duration_ms = round((time.perf_counter() - started) * 1000, 3)
+        event = {
+            "tool": call.name,
+            "arguments": _sanitize_arguments(call.name, call.arguments),
+            "ok": outcome.ok,
+            "skill_loaded": outcome.skill_loaded,
+            "error": outcome.error,
+            "exit_code": outcome.exit_code,
+            "duration_ms": duration_ms,
+            "output_chars": len(outcome.content),
+            "result_sha256": sha256_text(outcome.content),
+            "step": self.current_step,
+        }
+        self.events.append(event)
+        emit(self.event_sink, "tool_call", **event)
         body = outcome.content if outcome.ok else f"[error] {outcome.error}"
-        return ToolOutcome(ok=outcome.ok, content=body, skill_loaded=outcome.skill_loaded, error=outcome.error)
+        return ToolOutcome(
+            ok=outcome.ok,
+            content=body,
+            skill_loaded=outcome.skill_loaded,
+            error=outcome.error,
+            exit_code=outcome.exit_code,
+        )
 
     # -- handlers ----------------------------------------------------------- #
     def _run_shell(self, args: dict[str, Any]) -> ToolOutcome:
@@ -159,7 +177,7 @@ class ToolExecutor:
         if not command:
             return ToolOutcome(ok=False, content="", error="empty command")
         result = self.sandbox.run(command, timeout=self.tool_timeout_seconds)
-        return ToolOutcome(ok=True, content=result.combined())
+        return ToolOutcome(ok=True, content=result.combined(), exit_code=result.exit_code)
 
     def _read_file(self, args: dict[str, Any]) -> ToolOutcome:
         path = str(args.get("path", ""))
@@ -178,7 +196,7 @@ class ToolExecutor:
                 text[:MAX_OUTPUT_CHARS]
                 + f"\n... [truncated {len(text) - MAX_OUTPUT_CHARS} chars]"
             )
-        return ToolOutcome(ok=ok, content=text, error=None if ok else text)
+        return ToolOutcome(ok=ok, content=text, error=None if ok else text, exit_code=0 if ok else None)
 
     def _write_file(self, args: dict[str, Any]) -> ToolOutcome:
         path = str(args.get("path", ""))
@@ -188,13 +206,13 @@ class ToolExecutor:
             return ToolOutcome(ok=False, content="", error="missing 'content'")
         text = self.sandbox.write_file(path, str(args["content"]))
         ok = not text.startswith("[error]")
-        return ToolOutcome(ok=ok, content=text, error=None if ok else text)
+        return ToolOutcome(ok=ok, content=text, error=None if ok else text, exit_code=0 if ok else None)
 
     def _list_dir(self, args: dict[str, Any]) -> ToolOutcome:
         path = str(args.get("path", ".") or ".")
         text = self.sandbox.list_dir(path)
         ok = not text.startswith("[error]")
-        return ToolOutcome(ok=ok, content=text, error=None if ok else text)
+        return ToolOutcome(ok=ok, content=text, error=None if ok else text, exit_code=0 if ok else None)
 
     def _load_skill(self, args: dict[str, Any]) -> ToolOutcome:
         name = str(args.get("name", "")).strip()
@@ -212,7 +230,31 @@ class ToolExecutor:
             ok=True,
             content=text,
             skill_loaded=True,
+            exit_code=0,
         )
+
+
+def _sanitize_arguments(tool: str, args: dict[str, Any]) -> dict[str, Any]:
+    """Keep event logs useful without duplicating whole file contents."""
+    if tool == "write_file" and "content" in args:
+        content = str(args.get("content", ""))
+        return {
+            "path": args.get("path"),
+            "content_chars": len(content),
+            "content_sha256": sha256_text(content),
+        }
+    if tool == "run_shell":
+        command = str(args.get("command", ""))
+        return {"command": command[:10_000], "command_chars": len(command)}
+    if tool == "read_file":
+        return {
+            "path": args.get("path"),
+            "start_line": args.get("start_line"),
+            "end_line": args.get("end_line"),
+        }
+    if tool == "load_skill":
+        return {"name": args.get("name")}
+    return dict(args)
 
 
 def _as_int(value: Any) -> Optional[int]:

@@ -11,8 +11,10 @@ Run with::
 
     PYTHONPATH=src harbor run -p /path/to/Pro/v2/tasks \
       -i <instance_id> \
-      --agent-import-path skills_experiment.harbor_agent:HarborSkillsAgent \
+      --agent skills_experiment.harbor_agent:HarborSkillsAgent \
       --ak condition=A \
+      --ak task_id=<instance_id> \
+      --ak repeat=0 \
       -n 1 -y
 """
 
@@ -23,6 +25,7 @@ import base64
 import json
 import shlex
 from dataclasses import asdict
+from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, Optional
@@ -36,6 +39,7 @@ from .agent.loop import AgentLoop
 from .agent.tools import ToolExecutor, base_tool_specs, load_skill_tool_spec
 from .conditions.base import SessionSpec
 from .models.registry import get_registry
+from .observability import EventRecorder, sha256_text
 from .sandbox.base import CommandResult, Sandbox
 from .skills import build_skill_doc, write_skill_md
 from . import paths
@@ -165,6 +169,10 @@ class HarborSkillsAgent(BaseAgent):
         trial_paths: Any = None,
         model_name: str | None = None,
         condition: str = "A",
+        workflow_version: str = "v3",
+        task_id: str = "",
+        repeat: int | None = None,
+        run_id: str = "",
         max_steps: int = 80,
         max_tokens: int = 1_000_000,
         elapsed_seconds: int = 3000,
@@ -180,6 +188,10 @@ class HarborSkillsAgent(BaseAgent):
         self.task_dir = Path(task_dir) if task_dir is not None else None
         self.trial_paths = trial_paths
         self.condition = condition
+        self.workflow_version = workflow_version
+        self.task_id = task_id
+        self.repeat = repeat
+        self.run_id = run_id
         self.max_steps = int(max_steps)
         self.max_tokens = int(max_tokens)
         self.elapsed_seconds = int(elapsed_seconds)
@@ -192,7 +204,7 @@ class HarborSkillsAgent(BaseAgent):
         return "skills-experiment"
 
     def version(self) -> str:
-        return "0.1.0"
+        return "0.2.0"
 
     async def setup(self, environment: BaseEnvironment) -> None:
         # Discover the repository root once. Pro V2 uses /app for most tasks
@@ -212,9 +224,15 @@ class HarborSkillsAgent(BaseAgent):
         base_prompt = (
             paths.PROMPTS_DIR / "base_system_prompt_minimal.md"
         ).read_text(encoding="utf-8").strip()
+        workflow_file = f"workflow_instructions_{self.workflow_version}.md"
         workflow = (
-            paths.PROMPTS_DIR / "workflow_instructions_v2.md"
+            paths.PROMPTS_DIR / workflow_file
         ).read_text(encoding="utf-8").strip()
+        common = {
+            "workflow_version": self.workflow_version,
+            "workflow_file": workflow_file,
+            "workflow_sha256": sha256_text(workflow),
+        }
 
         name = self.condition.strip()
         if name in ("A", "A_baseline", "baseline"):
@@ -224,6 +242,7 @@ class HarborSkillsAgent(BaseAgent):
                     system_prompt=base_prompt,
                     tools=base_tool_specs(),
                     task_prompt=instruction,
+                    metadata={**common, "condition": "A_baseline"},
                 ),
                 None,
             )
@@ -237,6 +256,7 @@ class HarborSkillsAgent(BaseAgent):
                     ),
                     tools=base_tool_specs(),
                     task_prompt=instruction,
+                    metadata={**common, "condition": "B_prompt_instructions"},
                 ),
                 None,
             )
@@ -248,7 +268,7 @@ class HarborSkillsAgent(BaseAgent):
 
         skill = build_skill_doc(
             workflow,
-            source="assets/prompts/workflow_instructions_v2.md",
+            source=f"assets/prompts/{workflow_file}",
         )
         # ToolExecutor expects the *parent* skills directory and discovers
         # child directories containing SKILL.md.
@@ -270,6 +290,12 @@ class HarborSkillsAgent(BaseAgent):
                 system_prompt=system_prompt,
                 tools=base_tool_specs() + [load_skill_tool_spec([skill.name])],
                 task_prompt=instruction,
+                metadata={
+                    **common,
+                    "condition": "C_skill",
+                    "skill_name": skill.name,
+                    "skill_body_sha256": skill.body_hash,
+                },
             ),
             skills_root,
         )
@@ -285,20 +311,48 @@ class HarborSkillsAgent(BaseAgent):
 
         spec, skills_dir = self._condition_spec(instruction)
         loop = asyncio.get_running_loop()
+        logs_dir = Path(self.logs_dir)
         sandbox = HarborSandbox(
             environment=environment,
             loop=loop,
-            workdir=Path(self.logs_dir) / "workspace",
+            workdir=logs_dir / "workspace",
             repo_root=self.repo_root,
             base_ref=self.base_ref,
             default_timeout=self.tool_timeout_seconds,
+        )
+        client = get_registry().create("deepseek-flash-1017")
+        started_at = datetime.now(timezone.utc).isoformat()
+        recorder = EventRecorder(
+            logs_dir / "events.jsonl",
+            base={
+                "attempt_id": logs_dir.name,
+                "trial_name": logs_dir.name,
+                "job_dir": logs_dir.parent.name,
+                "run_id": self.run_id,
+                "task_id": self.task_id,
+                "repeat": self.repeat,
+                "condition": spec.condition_name,
+                "model_id": client.model_id,
+                "agent_name": self.name(),
+                "agent_version": self.version(),
+                "workflow_version": spec.metadata.get("workflow_version", ""),
+                "workflow_sha256": spec.metadata.get("workflow_sha256", ""),
+                "system_prompt_sha256": sha256_text(spec.system_prompt),
+                "task_prompt_sha256": sha256_text(spec.task_prompt),
+                "repo_root": self.repo_root,
+                "base_ref": self.base_ref,
+                "max_steps": self.max_steps,
+                "max_tokens": self.max_tokens,
+                "elapsed_seconds": self.elapsed_seconds,
+                "started_at": started_at,
+            },
         )
         executor = ToolExecutor(
             sandbox=sandbox,
             skills_dir=skills_dir,
             tool_timeout_seconds=self.tool_timeout_seconds,
+            event_sink=recorder,
         )
-        client = get_registry().create("deepseek-flash-1017")
         try:
             # AgentLoop is synchronous; the Harbor environment remains usable
             # because the event loop is free while this worker thread blocks.
@@ -309,6 +363,7 @@ class HarborSkillsAgent(BaseAgent):
                     max_steps=self.max_steps,
                     max_tokens=self.max_tokens,
                     elapsed_seconds=self.elapsed_seconds,
+                    event_sink=recorder,
                 ).run,
                 spec,
                 SimpleNamespace(
@@ -318,23 +373,41 @@ class HarborSkillsAgent(BaseAgent):
                 ),
             )
 
-            patch_path = Path(self.logs_dir) / "patch.diff"
+            patch_path = logs_dir / "patch.diff"
             patch_path.write_text(result.patch, encoding="utf-8")
-            messages_path = Path(self.logs_dir) / "messages.jsonl"
+            messages_path = logs_dir / "messages.jsonl"
             with messages_path.open("w", encoding="utf-8") as fh:
                 for message in result.messages:
                     fh.write(json.dumps(asdict(message)) + "\n")
 
             context.n_input_tokens = result.usage.input_tokens
             context.n_output_tokens = result.usage.output_tokens
+            if hasattr(context, "n_cache_tokens"):
+                context.n_cache_tokens = result.usage.cache_read_tokens
             context.metadata = {
                 "condition": spec.condition_name,
+                "workflow_version": spec.metadata.get("workflow_version", ""),
+                "workflow_sha256": spec.metadata.get("workflow_sha256", ""),
+                "system_prompt_sha256": sha256_text(spec.system_prompt),
+                "task_prompt_sha256": sha256_text(spec.task_prompt),
+                "task_id": self.task_id,
+                "repeat": self.repeat,
                 "steps": result.steps,
                 "stop_reason": result.stop_reason,
                 "tool_call_count": result.tool_call_count,
+                "skill_discovered": result.skill_discovered,
                 "skill_loaded": result.skill_loaded,
                 "errors": result.errors,
                 "patch_chars": len(result.patch),
+                "elapsed_seconds": round(result.elapsed_seconds, 3),
+                "input_tokens": result.usage.input_tokens,
+                "output_tokens": result.usage.output_tokens,
+                "cache_read_tokens": result.usage.cache_read_tokens,
+                "cache_write_tokens": result.usage.cache_write_tokens,
+                "event_log": str(logs_dir / "events.jsonl"),
+                "started_at": started_at,
+                "finished_at": datetime.now(timezone.utc).isoformat(),
             }
         finally:
             client.close()
+            recorder.close()
