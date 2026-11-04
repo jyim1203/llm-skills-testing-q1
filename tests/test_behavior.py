@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 
 from skills_experiment.behavior import extract, write_attempts_csv, write_events_csv
@@ -213,6 +214,14 @@ def test_extractor_uses_event_stream_when_present(tmp_path):
     assert row["time_to_first_edit_seconds"] == 2.0
     assert row["time_to_first_test_seconds"] == 3.0
     assert row["verification_rate"] == 1
+
+
+def test_extract_pattern_filters_jobs(tmp_path):
+    root = _make_attempt(tmp_path)
+    shutil.copytree(root / "job-test", root / "smoke-job")
+    attempts, _ = extract(root, pattern="job-*")
+    assert len(attempts) == 1
+    assert attempts[0]["job_dir"].endswith("job-test")
 
 
 def test_extractor_writes_csv(tmp_path):

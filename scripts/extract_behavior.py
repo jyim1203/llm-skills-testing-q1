@@ -3,7 +3,7 @@
 
 Examples
 --------
-``python scripts/extract_behavior.py --jobs /path/to/jobs --out data/derived``
+``python scripts/extract_behavior.py --jobs /path/to/jobs --pattern 'mechanism-v2-*' --out data/derived``
 """
 
 from __future__ import annotations
@@ -28,6 +28,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--jobs", required=True, help="Harbor job directory or parent of jobs")
     parser.add_argument(
+        "--pattern",
+        default="*",
+        help="Glob for job directories under --jobs (default: *)",
+    )
+    parser.add_argument(
         "--dataset",
         default="",
         help="Optional SWE-Bench Pro dataset JSON for fail-to-pass/pass-to-pass membership",
@@ -37,7 +42,7 @@ def main() -> int:
 
     root = Path(args.jobs)
     dataset = Path(args.dataset) if args.dataset else None
-    attempts, events = extract(root, dataset)
+    attempts, events = extract(root, dataset, pattern=args.pattern)
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     write_attempts_csv(out / "attempts.csv", attempts)

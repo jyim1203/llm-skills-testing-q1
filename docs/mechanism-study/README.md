@@ -15,6 +15,7 @@ Status: **v2 smoke passed; 60/60 attempts complete**
 - `SMOKE.md` — v2 A/B/C smoke validation
 - `CONTENT_AUDIT.md` — optional V3 audit (not used in this run)
 - `TASKS.md` — frozen 10-task mechanism set, checksums, image digests
+- `REPLICATION.md` — clone, Harbor/Docker setup, run, extraction, and analysis
 - `../../results/mechanism-pilot-01/RESULTS.md` — completed run results
 
 ## Instrumentation
@@ -45,7 +46,8 @@ V3 remains an optional, unaudited future arm and is not part of this run.
 
 ```bash
 python scripts/extract_behavior.py \
-  --jobs /path/to/Harbor/jobs \
+  --jobs /path/to/SWE-bench_Pro-os/jobs \
+  --pattern "mechanism-v2-[0-9][0-9]-*" \
   --dataset data/raw/swebench_pro_default.json \
   --out data/derived/mechanism-pilot-01
 ```

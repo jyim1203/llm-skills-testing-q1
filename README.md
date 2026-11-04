@@ -5,6 +5,12 @@ Scaffolding for an exploratory study of a single question:
 > **When the substantive instructions are identical, does delivering them as an
 > agent *Skill* differ from pasting them directly into the prompt?**
 
+> **Completed SWE-bench Pro V2 mechanism study:** the 60-attempt
+> `mechanism-pilot-01` run and its exact setup are in
+> [`docs/mechanism-study/REPLICATION.md`](docs/mechanism-study/REPLICATION.md)
+> and [`results/mechanism-pilot-01/RESULTS.md`](results/mechanism-pilot-01/RESULTS.md).
+> The material below describes the earlier SWE-bench Lite pipeline.
+
 The study compares three conditions on the same SWE-bench Lite tasks:
 
 | Condition | What the agent gets |

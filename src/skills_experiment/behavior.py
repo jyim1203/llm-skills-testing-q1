@@ -101,14 +101,14 @@ def load_dataset_index(path: Optional[Path]) -> dict[str, dict[str, Any]]:
     return index
 
 
-def iter_job_dirs(root: Path) -> list[Path]:
+def iter_job_dirs(root: Path, pattern: str = "*") -> list[Path]:
     root = Path(root)
     if (root / "result.json").exists() and (root / "config.json").exists():
         return [root]
     if not root.exists():
         return []
     return sorted(
-        child for child in root.iterdir() if child.is_dir() and (child / "result.json").exists()
+        child for child in root.glob(pattern) if child.is_dir() and (child / "result.json").exists()
     )
 
 
@@ -644,11 +644,15 @@ def extract_attempt(
     return attempt, event_rows
 
 
-def extract(root: Path, dataset: Optional[Path] = None) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def extract(
+    root: Path,
+    dataset: Optional[Path] = None,
+    pattern: str = "*",
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     dataset_index = load_dataset_index(dataset)
     attempts: list[dict[str, Any]] = []
     events: list[dict[str, Any]] = []
-    for job_dir in iter_job_dirs(Path(root)):
+    for job_dir in iter_job_dirs(Path(root), pattern=pattern):
         for trial_dir in _trial_dirs(job_dir):
             attempt, attempt_events = extract_attempt(trial_dir, job_dir, dataset_index)
             attempts.append(attempt)
