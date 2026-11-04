@@ -4,7 +4,7 @@ Branch: `mechanism-study`
 
 Base: `a935024` (Harbor/Pro V2 integration pilot)
 
-Status: **v2 smoke passed; 60-attempt run in progress**
+Status: **v2 smoke passed; 60/60 attempts complete**
 
 ## Documents
 
@@ -14,7 +14,8 @@ Status: **v2 smoke passed; 60-attempt run in progress**
 - `PILOT_BASELINE.md` — condition-A adherence from the existing pilot logs
 - `SMOKE.md` — v2 A/B/C smoke validation
 - `CONTENT_AUDIT.md` — optional V3 audit (not used in this run)
-- `TASKS.md` — frozen 10-task mechanism set
+- `TASKS.md` — frozen 10-task mechanism set, checksums, image digests
+- `../../results/mechanism-pilot-01/RESULTS.md` — completed run results
 
 ## Instrumentation
 
@@ -51,10 +52,21 @@ python scripts/extract_behavior.py \
 
 This writes `attempts.csv`, `events.csv`, and `attempts.json`.
 
-## Next gates before the 60
+Then regenerate the per-attempt manifest and task-level statistics:
 
-1. Finish the A/B/C v2 smoke.
-2. Verify `events.jsonl`, skill loading, and extractor output.
-3. Record image digests/checksums.
-4. Generate the randomized 60-attempt order.
-5. Run the 60.
+```bash
+python scripts/summarize_mechanism_run.py \
+  --plan data/mechanism-pilot-01/plan.json \
+  --attempts data/derived/mechanism-pilot-01/attempts.json \
+  --status data/mechanism-pilot-01/run_status.jsonl \
+  --out results/mechanism-pilot-01
+```
+
+## Completed gates
+
+1. A/B/C v2 smoke passed.
+2. `events.jsonl`, skill loading, and extractor output verified.
+3. Image digests and task checksums recorded in `TASKS.md`.
+4. Randomized 60-attempt order generated and recorded.
+5. 60/60 attempts completed with zero exceptions; results in
+   `results/mechanism-pilot-01/RESULTS.md`.

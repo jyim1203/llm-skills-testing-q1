@@ -40,13 +40,32 @@
   `instance_internetarchive__openlibrary-630221ab686c64e75a2ce253c893c033e4814b2e-v93c53c13d5f9b383ebb411ee7750b49dcd1a34c6`
   (6 files / 328 lines, F2P 9, P2P 0). Swapping is allowed only before the run.
 
+## Artifact provenance
+
+Recorded after the 60-attempt run from Harbor trial results and the local
+Docker image inventory. The per-attempt manifest is
+`results/mechanism-pilot-01/run_manifest.json`.
+
+| Task | Task checksum | Image digest |
+|---|---|---|
+| ansible-12734f | `acaf8bd229da1aa0eae5238f6087920cb5eb724955eb1cf002ce8fd61d635b66` | `sha256:dbcace12df34d7d635682b7c598c0579109c52ced4818c3942a4ad3a5da79b04` |
+| ansible-5e3696 | `bd5d481be0a93bc619ee0534a88ad89e90dd7cda6571bb129ff49bad3d4dcdc3` | `sha256:4bbb2890557d722e440af44e54eb23e1b3c5dad20e91827e32f04bdb4107433f` |
+| ansible-d62496 | `c564af0fc728603d20995b6aa06b476b2ddf57c4c7ec822519ce0fb93acee8e9` | `sha256:2c6d53c235a04be7c6f188bf7004a9bc3b94a1f7ad058ae43b786259dbe0123f` |
+| ansible-e9e600 | `11fc8efba32735cea706b95bf25f5810f5ad6f369e82554a7705209500694f37` | `sha256:92f0dd38d06484c811b6ce83db04e012e0e2a6456c48dc8b67099d740d3244c7` |
+| openlibrary-0dc5b2 | `affea468953fbc1c9c2ec9e6459bd6ddc446d26d7467a6a02e5d17d228ab4fd8` | `sha256:8780cafe8ec369b6138b9fef049d5cfff1a3729364692ad5c5b1c0666cd0411d` |
+| openlibrary-b67138 | `a9fcbe05a4d9b07404e0f3d8072e533a546b6cb3d85cc0676eb20b4623099d23` | `sha256:d1869bd5a264044c7b58a948422e2d6b457385e34077bafaa68191bc5be46440` |
+| openlibrary-d8162c | `3d4f020d6519d9b5f9e5b91d7c85b0483dfcf5c566bb800897f2104ff154987f` | `sha256:dba727b35e39c0e76dff3dcaf2804110028f609e655fa7e908930af9c1d0e5e9` |
+| qutebrowser-3e21c8 | `633ea85b0766adca15e5ba73d4090c32bee55ec93f5898e755b90fabc7b03741` | `sha256:b35c588560c0041a3d0989696ade4a1ae1e5123e3e07b27240fb918d16237747` |
+| qutebrowser-96b997 | `0b4a5a82ba395fbbfb963417b2bd585d9d07f4f30c6562264561a587096e917b` | `sha256:19bb9d9ad2670ee924dc75a69f6ba215ff9fa32d93874009d2d105d9368be9f0` |
+| qutebrowser-c09e14 | `98423b7930f71a628915f06f18ab6ee5d8193747cda2c2b3bfd96f3ad7a7d08a` | `sha256:a67d0f526e5ea0fd7feadab688cb31865a3029c62c89fbf7439f26d14f488127` |
+
 ## Freeze checklist
 
 - [x] 2 ceiling IDs
 - [x] 2 floor IDs
 - [x] 6 new IDs
 - [x] all three repos represented
-- [ ] image digest per task recorded after pull
-- [ ] task checksum per task recorded after freeze
+- [x] image digest per task recorded after pull
+- [x] task checksum per task recorded after freeze
 - [x] no replacement after B/C outcomes
-- [ ] randomized 60-attempt execution order recorded with seed
+- [x] randomized 60-attempt execution order recorded with seed (`20261103`, `plan.json`)

@@ -1,0 +1,2553 @@
+{
+  "schema_version": 1,
+  "metadata": {
+    "run_id": "mechanism-pilot-01",
+    "seed": 20261103,
+    "workflow_version": "v2",
+    "model_profile": "deepseek-flash-1017",
+    "api_model_id": "deepseek-flash",
+    "model_provider": "https://api.deepseek.com",
+    "thinking": "enabled",
+    "reasoning_effort": "medium",
+    "response_cap_tokens": 16384,
+    "cumulative_cap_tokens": 1000000,
+    "step_cap": 80,
+    "time_cap_seconds": 3000,
+    "agent": "skills_experiment.harbor_agent:HarborSkillsAgent",
+    "harbor_version": "0.25.0",
+    "harness_commit_at_run": "a13fe23",
+    "pro_repo_commit": "66f92766bba642462d4bbe5479e83f91f9211862",
+    "verifier_environment_mode": [
+      "shared"
+    ],
+    "concurrency": 2,
+    "started_at": "2026-11-03T21:25:41.259259Z",
+    "finished_at": "2026-11-04T00:27:44.992133Z",
+    "n_attempts": 60,
+    "n_tasks": 10,
+    "workflow_sha256": [
+      "586b13769c48f7fea32d0723a4948f58f016c14094063e3bf4606376f5dc78ab"
+    ]
+  },
+  "quality": {
+    "n_attempts": 60,
+    "n_tasks": 10,
+    "exceptions": 0,
+    "budget_exhausted": 27,
+    "by_condition": {
+      "A": {
+        "n": 20,
+        "resolved": 14,
+        "budget_exhausted": 9,
+        "skill_loaded": 0,
+        "exceptions": 0
+      },
+      "B": {
+        "n": 20,
+        "resolved": 17,
+        "budget_exhausted": 10,
+        "skill_loaded": 0,
+        "exceptions": 0
+      },
+      "C": {
+        "n": 20,
+        "resolved": 13,
+        "budget_exhausted": 8,
+        "skill_loaded": 20,
+        "exceptions": 0
+      }
+    }
+  },
+  "condition_stats": {
+    "resolved": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.7,
+        "median": 1.0,
+        "sd": 0.48304589153964794,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 0.85,
+        "median": 1.0,
+        "sd": 0.3374742788552764,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 0.65,
+        "median": 0.75,
+        "sd": 0.4116363011742823,
+        "min": 0.0,
+        "max": 1.0
+      }
+    },
+    "test_before_edit": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.1,
+        "median": 0.0,
+        "sd": 0.21081851067789195,
+        "min": 0.0,
+        "max": 0.5
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 0.05,
+        "median": 0.0,
+        "sd": 0.15811388300841897,
+        "min": 0.0,
+        "max": 0.5
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 0.05,
+        "median": 0.0,
+        "sd": 0.15811388300841897,
+        "min": 0.0,
+        "max": 0.5
+      }
+    },
+    "read_before_edit": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.95,
+        "median": 1.0,
+        "sd": 0.15811388300841897,
+        "min": 0.5,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 0.95,
+        "median": 1.0,
+        "sd": 0.15811388300841897,
+        "min": 0.5,
+        "max": 1.0
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 0.95,
+        "median": 1.0,
+        "sd": 0.15811388300841897,
+        "min": 0.5,
+        "max": 1.0
+      }
+    },
+    "time_to_first_edit_seconds": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 27.8987525,
+        "median": 22.886224,
+        "sd": 20.11805073829879,
+        "min": 6.579234,
+        "max": 74.049318
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 30.561538300000002,
+        "median": 27.12358175,
+        "sd": 23.058496169623158,
+        "min": 2.156179,
+        "max": 81.988997
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 31.506660950000004,
+        "median": 24.54152525,
+        "sd": 19.436348072407718,
+        "min": 9.859329,
+        "max": 70.0251385
+      }
+    },
+    "total_tokens": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 694252.8,
+        "median": 799384.75,
+        "sd": 356306.91328210605,
+        "min": 104217.5,
+        "max": 1051042.5
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 658439.7,
+        "median": 724770.75,
+        "sd": 387678.9839817503,
+        "min": 60389.0,
+        "max": 1042729.0
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 678070.7,
+        "median": 823785.0,
+        "sd": 369664.95777634764,
+        "min": 75660.5,
+        "max": 1047863.0
+      }
+    },
+    "verification_rate": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.65,
+        "median": 0.75,
+        "sd": 0.4116363011742823,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 0.55,
+        "median": 0.5,
+        "sd": 0.3689323936863109,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 0.4,
+        "median": 0.5,
+        "sd": 0.3944053188733077,
+        "min": 0.0,
+        "max": 1.0
+      }
+    },
+    "test_calls": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 2.85,
+        "median": 2.5,
+        "sd": 1.958599272723012,
+        "min": 0.5,
+        "max": 7.0
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 2.15,
+        "median": 2.25,
+        "sd": 1.3550317749451897,
+        "min": 0.0,
+        "max": 4.0
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 4.1,
+        "median": 2.75,
+        "sd": 3.611709352155077,
+        "min": 0.5,
+        "max": 10.5
+      }
+    },
+    "steps": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 23.8,
+        "median": 26.5,
+        "sd": 6.709032054708869,
+        "min": 12.0,
+        "max": 31.0
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 22.0,
+        "median": 24.5,
+        "sd": 7.52772652709081,
+        "min": 8.0,
+        "max": 31.5
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 25.7,
+        "median": 27.25,
+        "sd": 8.186031462870828,
+        "min": 12.0,
+        "max": 39.5
+      }
+    },
+    "tool_calls": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 31.1,
+        "median": 33.25,
+        "sd": 8.147255843397689,
+        "min": 15.0,
+        "max": 40.0
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 28.2,
+        "median": 33.75,
+        "sd": 9.50789145920377,
+        "min": 12.0,
+        "max": 37.5
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 30.4,
+        "median": 33.0,
+        "sd": 9.270023372857985,
+        "min": 16.0,
+        "max": 44.0
+      }
+    },
+    "f2p_fraction": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.8345454545454546,
+        "median": 1.0,
+        "sd": 0.3210062233176045,
+        "min": 0.045454545454545456,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 0.9242424242424242,
+        "median": 1.0,
+        "sd": 0.1884319000624003,
+        "min": 0.4090909090909091,
+        "max": 1.0
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 0.8179220779220779,
+        "median": 1.0,
+        "sd": 0.298495317648194,
+        "min": 0.13636363636363635,
+        "max": 1.0
+      }
+    },
+    "p2p_fraction": {
+      "A": {
+        "n_tasks": 8,
+        "mean": 0.995368782161235,
+        "median": 1.0,
+        "sd": 0.00857730942696758,
+        "min": 0.9811320754716981,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 8,
+        "mean": 0.9977272727272727,
+        "median": 1.0,
+        "sd": 0.006428243465332252,
+        "min": 0.9818181818181818,
+        "max": 1.0
+      },
+      "C": {
+        "n_tasks": 8,
+        "mean": 0.9375857632933104,
+        "median": 1.0,
+        "sd": 0.16930714144530817,
+        "min": 0.5188679245283019,
+        "max": 1.0
+      }
+    },
+    "budget_exhausted": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.45,
+        "median": 0.25,
+        "sd": 0.4972144630058766,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 0.5,
+        "median": 0.5,
+        "sd": 0.4714045207910317,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 0.4,
+        "median": 0.5,
+        "sd": 0.3944053188733077,
+        "min": 0.0,
+        "max": 1.0
+      }
+    },
+    "patch_lines_changed": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 63.15,
+        "median": 51.75,
+        "sd": 42.60741328298007,
+        "min": 17.5,
+        "max": 166.5
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 75.8,
+        "median": 61.25,
+        "sd": 54.1967608708204,
+        "min": 14.0,
+        "max": 175.5
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 64.7,
+        "median": 53.25,
+        "sd": 44.46359309717458,
+        "min": 17.0,
+        "max": 151.5
+      }
+    },
+    "skill_loaded": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.0,
+        "median": 0.0,
+        "sd": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "B": {
+        "n_tasks": 10,
+        "mean": 0.0,
+        "median": 0.0,
+        "sd": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "C": {
+        "n_tasks": 10,
+        "mean": 1.0,
+        "median": 1.0,
+        "sd": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      }
+    }
+  },
+  "paired": {
+    "C-B|resolved": {
+      "contrast": "C-B",
+      "metric": "resolved",
+      "mean_diff": -0.2,
+      "median_diff": 0.0,
+      "sd_diff": 0.3496029493900505,
+      "ci95": [
+        -0.45,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 3,
+      "ties": 7,
+      "n_tasks": 10,
+      "sign_test_p": 0.25,
+      "rank_biserial": -1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|test_before_edit": {
+      "contrast": "C-B",
+      "metric": "test_before_edit",
+      "mean_diff": 0.0,
+      "median_diff": 0.0,
+      "sd_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 0,
+      "ties": 10,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|read_before_edit": {
+      "contrast": "C-B",
+      "metric": "read_before_edit",
+      "mean_diff": 0.0,
+      "median_diff": 0.0,
+      "sd_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 0,
+      "ties": 10,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|time_to_first_edit_seconds": {
+      "contrast": "C-B",
+      "metric": "time_to_first_edit_seconds",
+      "mean_diff": 0.9451226500000003,
+      "median_diff": 1.8779407500000005,
+      "sd_diff": 21.773121515260872,
+      "ci95": [
+        -11.4513511,
+        13.818991500000001
+      ],
+      "wins": 5,
+      "losses": 5,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.01818181818181818,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|total_tokens": {
+      "contrast": "C-B",
+      "metric": "total_tokens",
+      "mean_diff": 19631.0,
+      "median_diff": 205.0,
+      "sd_diff": 141151.6860913976,
+      "ci95": [
+        -53055.55,
+        109922.45
+      ],
+      "wins": 5,
+      "losses": 5,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": -0.01818181818181818,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|verification_rate": {
+      "contrast": "C-B",
+      "metric": "verification_rate",
+      "mean_diff": -0.15,
+      "median_diff": 0.0,
+      "sd_diff": 0.24152294576982397,
+      "ci95": [
+        -0.3,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 3,
+      "ties": 7,
+      "n_tasks": 10,
+      "sign_test_p": 0.25,
+      "rank_biserial": -1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|test_calls": {
+      "contrast": "C-B",
+      "metric": "test_calls",
+      "mean_diff": 1.95,
+      "median_diff": 0.5,
+      "sd_diff": 2.8717977335150575,
+      "ci95": [
+        0.4,
+        3.8
+      ],
+      "wins": 7,
+      "losses": 1,
+      "ties": 2,
+      "n_tasks": 10,
+      "sign_test_p": 0.0703125,
+      "rank_biserial": 0.8611111111111112,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|steps": {
+      "contrast": "C-B",
+      "metric": "steps",
+      "mean_diff": 3.7,
+      "median_diff": 1.0,
+      "sd_diff": 5.370702416299421,
+      "ci95": [
+        0.8,
+        7.0
+      ],
+      "wins": 8,
+      "losses": 2,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 0.109375,
+      "rank_biserial": 0.6545454545454545,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|tool_calls": {
+      "contrast": "C-B",
+      "metric": "tool_calls",
+      "mean_diff": 2.2,
+      "median_diff": 0.5,
+      "sd_diff": 5.1109903367373155,
+      "ci95": [
+        -0.7,
+        5.3
+      ],
+      "wins": 6,
+      "losses": 3,
+      "ties": 1,
+      "n_tasks": 10,
+      "sign_test_p": 0.5078125,
+      "rank_biserial": 0.4222222222222222,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|f2p_fraction": {
+      "contrast": "C-B",
+      "metric": "f2p_fraction",
+      "mean_diff": -0.10632034632034633,
+      "median_diff": 0.0,
+      "sd_diff": 0.20457783171378227,
+      "ci95": [
+        -0.2290909090909091,
+        0.006060606060606072
+      ],
+      "wins": 1,
+      "losses": 4,
+      "ties": 5,
+      "n_tasks": 10,
+      "sign_test_p": 0.375,
+      "rank_biserial": -0.7333333333333333,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|p2p_fraction": {
+      "contrast": "C-B",
+      "metric": "p2p_fraction",
+      "mean_diff": -0.060141509433962265,
+      "median_diff": 0.0,
+      "sd_diff": 0.17010587660619775,
+      "ci95": [
+        -0.1804245283018868,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 1,
+      "ties": 7,
+      "n_tasks": 8,
+      "sign_test_p": 1.0,
+      "rank_biserial": -1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|budget_exhausted": {
+      "contrast": "C-B",
+      "metric": "budget_exhausted",
+      "mean_diff": -0.1,
+      "median_diff": 0.0,
+      "sd_diff": 0.31622776601683794,
+      "ci95": [
+        -0.3,
+        0.1
+      ],
+      "wins": 1,
+      "losses": 3,
+      "ties": 6,
+      "n_tasks": 10,
+      "sign_test_p": 0.625,
+      "rank_biserial": -0.5,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|patch_lines_changed": {
+      "contrast": "C-B",
+      "metric": "patch_lines_changed",
+      "mean_diff": -11.1,
+      "median_diff": -9.75,
+      "sd_diff": 13.322495595378852,
+      "ci95": [
+        -19.0,
+        -3.5
+      ],
+      "wins": 2,
+      "losses": 6,
+      "ties": 2,
+      "n_tasks": 10,
+      "sign_test_p": 0.2890625,
+      "rank_biserial": -0.8333333333333334,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-B|skill_loaded": {
+      "contrast": "C-B",
+      "metric": "skill_loaded",
+      "mean_diff": 1.0,
+      "median_diff": 1.0,
+      "sd_diff": 0.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "wins": 10,
+      "losses": 0,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 0.001953125,
+      "rank_biserial": 1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|resolved": {
+      "contrast": "B-A",
+      "metric": "resolved",
+      "mean_diff": 0.15,
+      "median_diff": 0.0,
+      "sd_diff": 0.3374742788552764,
+      "ci95": [
+        0.0,
+        0.35
+      ],
+      "wins": 2,
+      "losses": 0,
+      "ties": 8,
+      "n_tasks": 10,
+      "sign_test_p": 0.5,
+      "rank_biserial": 1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|test_before_edit": {
+      "contrast": "B-A",
+      "metric": "test_before_edit",
+      "mean_diff": -0.05,
+      "median_diff": 0.0,
+      "sd_diff": 0.15811388300841897,
+      "ci95": [
+        -0.15,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 1,
+      "ties": 9,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": -1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|read_before_edit": {
+      "contrast": "B-A",
+      "metric": "read_before_edit",
+      "mean_diff": 0.0,
+      "median_diff": 0.0,
+      "sd_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 0,
+      "ties": 10,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|time_to_first_edit_seconds": {
+      "contrast": "B-A",
+      "metric": "time_to_first_edit_seconds",
+      "mean_diff": 2.6627858,
+      "median_diff": -1.3584125000000018,
+      "sd_diff": 25.56991325531044,
+      "ci95": [
+        -11.7645594,
+        18.30260945
+      ],
+      "wins": 4,
+      "losses": 6,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 0.75390625,
+      "rank_biserial": -0.01818181818181818,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|total_tokens": {
+      "contrast": "B-A",
+      "metric": "total_tokens",
+      "mean_diff": -35813.1,
+      "median_diff": -25311.5,
+      "sd_diff": 143218.12725443195,
+      "ci95": [
+        -116685.4,
+        49301.8
+      ],
+      "wins": 3,
+      "losses": 7,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 0.34375,
+      "rank_biserial": -0.45454545454545453,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|verification_rate": {
+      "contrast": "B-A",
+      "metric": "verification_rate",
+      "mean_diff": -0.1,
+      "median_diff": 0.0,
+      "sd_diff": 0.3944053188733077,
+      "ci95": [
+        -0.35,
+        0.1
+      ],
+      "wins": 1,
+      "losses": 2,
+      "ties": 7,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": -0.5,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|test_calls": {
+      "contrast": "B-A",
+      "metric": "test_calls",
+      "mean_diff": -0.7,
+      "median_diff": -0.25,
+      "sd_diff": 1.1832159566199232,
+      "ci95": [
+        -1.45,
+        -0.1
+      ],
+      "wins": 1,
+      "losses": 5,
+      "ties": 4,
+      "n_tasks": 10,
+      "sign_test_p": 0.21875,
+      "rank_biserial": -0.8095238095238095,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|steps": {
+      "contrast": "B-A",
+      "metric": "steps",
+      "mean_diff": -1.8,
+      "median_diff": -2.25,
+      "sd_diff": 4.491968140779471,
+      "ci95": [
+        -4.35,
+        0.85
+      ],
+      "wins": 2,
+      "losses": 7,
+      "ties": 1,
+      "n_tasks": 10,
+      "sign_test_p": 0.1796875,
+      "rank_biserial": -0.4222222222222222,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|tool_calls": {
+      "contrast": "B-A",
+      "metric": "tool_calls",
+      "mean_diff": -2.9,
+      "median_diff": -2.5,
+      "sd_diff": 6.2441083341730135,
+      "ci95": [
+        -6.7,
+        0.6
+      ],
+      "wins": 3,
+      "losses": 7,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 0.34375,
+      "rank_biserial": -0.5272727272727272,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|f2p_fraction": {
+      "contrast": "B-A",
+      "metric": "f2p_fraction",
+      "mean_diff": 0.08969696969696969,
+      "median_diff": 0.0,
+      "sd_diff": 0.15014328428448967,
+      "ci95": [
+        0.0,
+        0.18242424242424243
+      ],
+      "wins": 3,
+      "losses": 0,
+      "ties": 7,
+      "n_tasks": 10,
+      "sign_test_p": 0.25,
+      "rank_biserial": 1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|p2p_fraction": {
+      "contrast": "B-A",
+      "metric": "p2p_fraction",
+      "mean_diff": 0.0023584905660377353,
+      "median_diff": 0.0,
+      "sd_diff": 0.006670818690439126,
+      "ci95": [
+        0.0,
+        0.007075471698113206
+      ],
+      "wins": 1,
+      "losses": 0,
+      "ties": 7,
+      "n_tasks": 8,
+      "sign_test_p": 1.0,
+      "rank_biserial": 1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|budget_exhausted": {
+      "contrast": "B-A",
+      "metric": "budget_exhausted",
+      "mean_diff": 0.05,
+      "median_diff": 0.0,
+      "sd_diff": 0.15811388300841897,
+      "ci95": [
+        0.0,
+        0.15
+      ],
+      "wins": 1,
+      "losses": 0,
+      "ties": 9,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|patch_lines_changed": {
+      "contrast": "B-A",
+      "metric": "patch_lines_changed",
+      "mean_diff": 12.65,
+      "median_diff": -1.25,
+      "sd_diff": 43.60495002481561,
+      "ci95": [
+        -8.2,
+        41.0
+      ],
+      "wins": 5,
+      "losses": 5,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": -0.05454545454545454,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "B-A|skill_loaded": {
+      "contrast": "B-A",
+      "metric": "skill_loaded",
+      "mean_diff": 0.0,
+      "median_diff": 0.0,
+      "sd_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 0,
+      "ties": 10,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|resolved": {
+      "contrast": "C-A",
+      "metric": "resolved",
+      "mean_diff": -0.05,
+      "median_diff": 0.0,
+      "sd_diff": 0.43779751788545657,
+      "ci95": [
+        -0.35,
+        0.2
+      ],
+      "wins": 2,
+      "losses": 2,
+      "ties": 6,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": -0.2,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|test_before_edit": {
+      "contrast": "C-A",
+      "metric": "test_before_edit",
+      "mean_diff": -0.05,
+      "median_diff": 0.0,
+      "sd_diff": 0.15811388300841897,
+      "ci95": [
+        -0.15,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 1,
+      "ties": 9,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": -1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|read_before_edit": {
+      "contrast": "C-A",
+      "metric": "read_before_edit",
+      "mean_diff": 0.0,
+      "median_diff": 0.0,
+      "sd_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 0,
+      "ties": 10,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|time_to_first_edit_seconds": {
+      "contrast": "C-A",
+      "metric": "time_to_first_edit_seconds",
+      "mean_diff": 3.607908450000001,
+      "median_diff": 0.45163399999999854,
+      "sd_diff": 25.403044931858414,
+      "ci95": [
+        -10.84535755,
+        19.0544687
+      ],
+      "wins": 5,
+      "losses": 5,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.16363636363636364,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|total_tokens": {
+      "contrast": "C-A",
+      "metric": "total_tokens",
+      "mean_diff": -16182.1,
+      "median_diff": -8238.5,
+      "sd_diff": 84194.55241311308,
+      "ci95": [
+        -68513.45,
+        31612.65
+      ],
+      "wins": 2,
+      "losses": 8,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 0.109375,
+      "rank_biserial": -0.41818181818181815,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|verification_rate": {
+      "contrast": "C-A",
+      "metric": "verification_rate",
+      "mean_diff": -0.25,
+      "median_diff": 0.0,
+      "sd_diff": 0.485912657903775,
+      "ci95": [
+        -0.55,
+        0.05
+      ],
+      "wins": 1,
+      "losses": 4,
+      "ties": 5,
+      "n_tasks": 10,
+      "sign_test_p": 0.375,
+      "rank_biserial": -0.7333333333333333,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|test_calls": {
+      "contrast": "C-A",
+      "metric": "test_calls",
+      "mean_diff": 1.25,
+      "median_diff": 0.0,
+      "sd_diff": 2.7913557040740375,
+      "ci95": [
+        -0.15,
+        3.05
+      ],
+      "wins": 4,
+      "losses": 3,
+      "ties": 3,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.42857142857142855,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|steps": {
+      "contrast": "C-A",
+      "metric": "steps",
+      "mean_diff": 1.9,
+      "median_diff": 0.0,
+      "sd_diff": 4.161997383735629,
+      "ci95": [
+        -0.35,
+        4.5
+      ],
+      "wins": 4,
+      "losses": 4,
+      "ties": 2,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.4444444444444444,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|tool_calls": {
+      "contrast": "C-A",
+      "metric": "tool_calls",
+      "mean_diff": -0.7,
+      "median_diff": -0.25,
+      "sd_diff": 4.504318915095698,
+      "ci95": [
+        -3.35,
+        1.85
+      ],
+      "wins": 5,
+      "losses": 5,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": -0.16363636363636364,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|f2p_fraction": {
+      "contrast": "C-A",
+      "metric": "f2p_fraction",
+      "mean_diff": -0.016623376623376634,
+      "median_diff": 0.0,
+      "sd_diff": 0.2673017680272522,
+      "ci95": [
+        -0.17662337662337663,
+        0.13727272727272727
+      ],
+      "wins": 3,
+      "losses": 2,
+      "ties": 5,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": 0.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|p2p_fraction": {
+      "contrast": "C-A",
+      "metric": "p2p_fraction",
+      "mean_diff": -0.05778301886792453,
+      "median_diff": 0.0,
+      "sd_diff": 0.16343505791575863,
+      "ci95": [
+        -0.1733490566037736,
+        0.0
+      ],
+      "wins": 0,
+      "losses": 1,
+      "ties": 7,
+      "n_tasks": 8,
+      "sign_test_p": 1.0,
+      "rank_biserial": -1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|budget_exhausted": {
+      "contrast": "C-A",
+      "metric": "budget_exhausted",
+      "mean_diff": -0.05,
+      "median_diff": 0.0,
+      "sd_diff": 0.28382310609877337,
+      "ci95": [
+        -0.2,
+        0.1
+      ],
+      "wins": 1,
+      "losses": 2,
+      "ties": 7,
+      "n_tasks": 10,
+      "sign_test_p": 1.0,
+      "rank_biserial": -0.3333333333333333,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|patch_lines_changed": {
+      "contrast": "C-A",
+      "metric": "patch_lines_changed",
+      "mean_diff": 1.55,
+      "median_diff": -6.5,
+      "sd_diff": 41.33363575158184,
+      "ci95": [
+        -20.05,
+        28.0
+      ],
+      "wins": 4,
+      "losses": 6,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 0.75390625,
+      "rank_biserial": -0.16363636363636364,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    },
+    "C-A|skill_loaded": {
+      "contrast": "C-A",
+      "metric": "skill_loaded",
+      "mean_diff": 1.0,
+      "median_diff": 1.0,
+      "sd_diff": 0.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "wins": 10,
+      "losses": 0,
+      "ties": 0,
+      "n_tasks": 10,
+      "sign_test_p": 0.001953125,
+      "rank_biserial": 1.0,
+      "tasks": [
+        "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+        "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59",
+        "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+        "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+        "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+        "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+        "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367",
+        "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171"
+      ]
+    }
+  },
+  "task_table": {
+    "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8": {
+      "short": "ansible-12734f",
+      "repo": "ansible/ansible",
+      "stratum": "new_easy",
+      "task_checksum": "acaf8bd229da1aa0eae5238f6087920cb5eb724955eb1cf002ce8fd61d635b66",
+      "image_digest": "sha256:dbcace12df34d7d635682b7c598c0579109c52ced4818c3942a4ad3a5da79b04",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 328218.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 0.5,
+          "verification_rate": 0.5,
+          "test_calls_mean": 4.5,
+          "steps_mean": 23.0,
+          "f2p_passed": 2,
+          "f2p_total": 2,
+          "p2p_passed": 8,
+          "p2p_total": 8,
+          "patch_lines_changed_mean": 17.5
+        },
+        "B": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 166118.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 0.5,
+          "verification_rate": 0.5,
+          "test_calls_mean": 3.0,
+          "steps_mean": 15.0,
+          "f2p_passed": 2,
+          "f2p_total": 2,
+          "p2p_passed": 8,
+          "p2p_total": 8,
+          "patch_lines_changed_mean": 14.0
+        },
+        "C": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 314921.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 0.5,
+          "verification_rate": 0.5,
+          "test_calls_mean": 3.5,
+          "steps_mean": 22.0,
+          "f2p_passed": 2,
+          "f2p_total": 2,
+          "p2p_passed": 8,
+          "p2p_total": 8,
+          "patch_lines_changed_mean": 17.0
+        }
+      }
+    },
+    "instance_ansible__ansible-5e369604e1930b1a2e071fecd7ec5276ebd12cb1-v0f01c69f1e2528b935359cfe578530722bca2c59": {
+      "short": "ansible-5e3696",
+      "repo": "ansible/ansible",
+      "stratum": "new_medium",
+      "task_checksum": "bd5d481be0a93bc619ee0534a88ad89e90dd7cda6571bb129ff49bad3d4dcdc3",
+      "image_digest": "sha256:4bbb2890557d722e440af44e54eb23e1b3c5dad20e91827e32f04bdb4107433f",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1027021.5,
+          "test_before_edit_rate": 0.5,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 3.5,
+          "steps_mean": 27.0,
+          "f2p_passed": 14,
+          "f2p_total": 14,
+          "p2p_passed": 4,
+          "p2p_total": 4,
+          "patch_lines_changed_mean": 166.5
+        },
+        "B": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1022299.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 3.5,
+          "steps_mean": 31.5,
+          "f2p_passed": 14,
+          "f2p_total": 14,
+          "p2p_passed": 4,
+          "p2p_total": 4,
+          "patch_lines_changed_mean": 153.5
+        },
+        "C": {
+          "n": 2,
+          "resolved": 0,
+          "budget_exhausted": 1,
+          "total_tokens_mean": 929353.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 7.5,
+          "steps_mean": 30.0,
+          "f2p_passed": 9,
+          "f2p_total": 14,
+          "p2p_passed": 4,
+          "p2p_total": 4,
+          "patch_lines_changed_mean": 117.0
+        }
+      }
+    },
+    "instance_ansible__ansible-d62496fe416623e88b90139dc7917080cb04ce70-v0f01c69f1e2528b935359cfe578530722bca2c59": {
+      "short": "ansible-d62496",
+      "repo": "ansible/ansible",
+      "stratum": "new_hard",
+      "task_checksum": "c564af0fc728603d20995b6aa06b476b2ddf57c4c7ec822519ce0fb93acee8e9",
+      "image_digest": "sha256:2c6d53c235a04be7c6f188bf7004a9bc3b94a1f7ad058ae43b786259dbe0123f",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 782170.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 7.0,
+          "steps_mean": 26.0,
+          "f2p_passed": 44,
+          "f2p_total": 44,
+          "p2p_passed": 184,
+          "p2p_total": 184,
+          "patch_lines_changed_mean": 62.5
+        },
+        "B": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 507935.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 3.5,
+          "steps_mean": 18.5,
+          "f2p_passed": 44,
+          "f2p_total": 44,
+          "p2p_passed": 184,
+          "p2p_total": 184,
+          "patch_lines_changed_mean": 44.0
+        },
+        "C": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 1,
+          "total_tokens_mean": 858199.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 9.0,
+          "steps_mean": 31.5,
+          "f2p_passed": 44,
+          "f2p_total": 44,
+          "p2p_passed": 184,
+          "p2p_total": 184,
+          "patch_lines_changed_mean": 47.0
+        }
+      }
+    },
+    "instance_ansible__ansible-e9e6001263f51103e96e58ad382660df0f3d0e39-v30a923fb5c164d6cd18280c02422f75e611e8fb2": {
+      "short": "ansible-e9e600",
+      "repo": "ansible/ansible",
+      "stratum": "ceiling",
+      "task_checksum": "11fc8efba32735cea706b95bf25f5810f5ad6f369e82554a7705209500694f37",
+      "image_digest": "sha256:92f0dd38d06484c811b6ce83db04e012e0e2a6456c48dc8b67099d740d3244c7",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 387680.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 2.5,
+          "steps_mean": 15.0,
+          "f2p_passed": 16,
+          "f2p_total": 16,
+          "p2p_passed": 40,
+          "p2p_total": 40,
+          "patch_lines_changed_mean": 93.5
+        },
+        "B": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 266629.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 1.0,
+          "steps_mean": 15.0,
+          "f2p_passed": 16,
+          "f2p_total": 16,
+          "p2p_passed": 40,
+          "p2p_total": 40,
+          "patch_lines_changed_mean": 101.0
+        },
+        "C": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 201399.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 2.0,
+          "steps_mean": 14.0,
+          "f2p_passed": 16,
+          "f2p_total": 16,
+          "p2p_passed": 40,
+          "p2p_total": 40,
+          "patch_lines_changed_mean": 95.0
+        }
+      }
+    },
+    "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59": {
+      "short": "openlibrary-0dc5b2",
+      "repo": "internetarchive/openlibrary",
+      "stratum": "floor_known",
+      "task_checksum": "affea468953fbc1c9c2ec9e6459bd6ddc446d26d7467a6a02e5d17d228ab4fd8",
+      "image_digest": "sha256:8780cafe8ec369b6138b9fef049d5cfff1a3729364692ad5c5b1c0666cd0411d",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 0,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1028258.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 1.5,
+          "steps_mean": 29.5,
+          "f2p_passed": 6,
+          "f2p_total": 12,
+          "p2p_passed": 108,
+          "p2p_total": 110,
+          "patch_lines_changed_mean": 30.0
+        },
+        "B": {
+          "n": 2,
+          "resolved": 1,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1032437.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 2.0,
+          "steps_mean": 27.0,
+          "f2p_passed": 10,
+          "f2p_total": 12,
+          "p2p_passed": 108,
+          "p2p_total": 110,
+          "patch_lines_changed_mean": 85.0
+        },
+        "C": {
+          "n": 2,
+          "resolved": 1,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1027713.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 1.5,
+          "steps_mean": 39.5,
+          "f2p_passed": 12,
+          "f2p_total": 12,
+          "p2p_passed": 108,
+          "p2p_total": 110,
+          "patch_lines_changed_mean": 71.5
+        }
+      }
+    },
+    "instance_internetarchive__openlibrary-b67138b316b1e9c11df8a4a8391fe5cc8e75ff9f-ve8c8d62a2b60610a3c4631f5f23ed866bada9818": {
+      "short": "openlibrary-b67138",
+      "repo": "internetarchive/openlibrary",
+      "stratum": "floor_expected",
+      "task_checksum": "a9fcbe05a4d9b07404e0f3d8072e533a546b6cb3d85cc0676eb20b4623099d23",
+      "image_digest": "sha256:d1869bd5a264044c7b58a948422e2d6b457385e34077bafaa68191bc5be46440",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 0,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1051042.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 0.5,
+          "steps_mean": 30.0,
+          "f2p_passed": 1,
+          "f2p_total": 22,
+          "p2p_passed": 104,
+          "p2p_total": 106,
+          "patch_lines_changed_mean": 54.0
+        },
+        "B": {
+          "n": 2,
+          "resolved": 0,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1042729.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 0.0,
+          "steps_mean": 27.0,
+          "f2p_passed": 9,
+          "f2p_total": 22,
+          "p2p_passed": 106,
+          "p2p_total": 106,
+          "patch_lines_changed_mean": 175.5
+        },
+        "C": {
+          "n": 2,
+          "resolved": 0,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1047863.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 0.5,
+          "steps_mean": 27.5,
+          "f2p_passed": 3,
+          "f2p_total": 22,
+          "p2p_passed": 55,
+          "p2p_total": 106,
+          "patch_lines_changed_mean": 151.5
+        }
+      }
+    },
+    "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c": {
+      "short": "openlibrary-d8162c",
+      "repo": "internetarchive/openlibrary",
+      "stratum": "new_medium",
+      "task_checksum": "3d4f020d6519d9b5f9e5b91d7c85b0483dfcf5c566bb800897f2104ff154987f",
+      "image_digest": "sha256:dba727b35e39c0e76dff3dcaf2804110028f609e655fa7e908930af9c1d0e5e9",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 1,
+          "total_tokens_mean": 816599.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 1.5,
+          "steps_mean": 27.0,
+          "f2p_passed": 36,
+          "f2p_total": 36,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": 49.5
+        },
+        "B": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 1,
+          "total_tokens_mean": 774290.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 1.0,
+          "steps_mean": 25.5,
+          "f2p_passed": 36,
+          "f2p_total": 36,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": 36.0
+        },
+        "C": {
+          "n": 2,
+          "resolved": 1,
+          "budget_exhausted": 1,
+          "total_tokens_mean": 789371.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 1.0,
+          "steps_mean": 27.0,
+          "f2p_passed": 18,
+          "f2p_total": 36,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": 18.0
+        }
+      }
+    },
+    "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367": {
+      "short": "qutebrowser-3e21c8",
+      "repo": "qutebrowser/qutebrowser",
+      "stratum": "ceiling",
+      "task_checksum": "633ea85b0766adca15e5ba73d4090c32bee55ec93f5898e755b90fabc7b03741",
+      "image_digest": "sha256:b35c588560c0041a3d0989696ade4a1ae1e5123e3e07b27240fb918d16237747",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1019927.5,
+          "test_before_edit_rate": 0.5,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 4.0,
+          "steps_mean": 31.0,
+          "f2p_passed": 3738,
+          "f2p_total": 3738,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": 77.5
+        },
+        "B": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1036318.5,
+          "test_before_edit_rate": 0.5,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 4.0,
+          "steps_mean": 29.0,
+          "f2p_passed": 3738,
+          "f2p_total": 3738,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": 78.5
+        },
+        "C": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 1,
+          "total_tokens_mean": 1017803.5,
+          "test_before_edit_rate": 0.5,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 4.0,
+          "steps_mean": 29.5,
+          "f2p_passed": 3738,
+          "f2p_total": 3738,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": 59.5
+        }
+      }
+    },
+    "instance_qutebrowser__qutebrowser-96b997802e942937e81d2b8a32d08f00d3f4bc4e-v5fc38aaf22415ab0b70567368332beee7955b367": {
+      "short": "qutebrowser-96b997",
+      "repo": "qutebrowser/qutebrowser",
+      "stratum": "new_easy",
+      "task_checksum": "0b4a5a82ba395fbbfb963417b2bd585d9d07f4f30c6562264561a587096e917b",
+      "image_digest": "sha256:19bb9d9ad2670ee924dc75a69f6ba215ff9fa32d93874009d2d105d9368be9f0",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 104217.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 1.0,
+          "steps_mean": 12.0,
+          "f2p_passed": 34,
+          "f2p_total": 34,
+          "p2p_passed": 322,
+          "p2p_total": 322,
+          "patch_lines_changed_mean": 44.0
+        },
+        "B": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 60389.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 1.0,
+          "steps_mean": 8.0,
+          "f2p_passed": 34,
+          "f2p_total": 34,
+          "p2p_passed": 322,
+          "p2p_total": 322,
+          "patch_lines_changed_mean": 31.5
+        },
+        "C": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 75660.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 1.5,
+          "steps_mean": 12.0,
+          "f2p_passed": 34,
+          "f2p_total": 34,
+          "p2p_passed": 322,
+          "p2p_total": 322,
+          "patch_lines_changed_mean": 31.5
+        }
+      }
+    },
+    "instance_qutebrowser__qutebrowser-c09e1439f145c66ee3af574386e277dd2388d094-v2ef375ac784985212b1805e1d0431dc8f1b3c171": {
+      "short": "qutebrowser-c09e14",
+      "repo": "qutebrowser/qutebrowser",
+      "stratum": "new_hard",
+      "task_checksum": "98423b7930f71a628915f06f18ab6ee5d8193747cda2c2b3bfd96f3ad7a7d08a",
+      "image_digest": "sha256:a67d0f526e5ea0fd7feadab688cb31865a3029c62c89fbf7439f26d14f488127",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 397392.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 2.5,
+          "steps_mean": 17.5,
+          "f2p_passed": 8,
+          "f2p_total": 10,
+          "p2p_passed": 200,
+          "p2p_total": 200,
+          "patch_lines_changed_mean": 36.5
+        },
+        "B": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 1,
+          "total_tokens_mean": 675251.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 2.5,
+          "steps_mean": 23.5,
+          "f2p_passed": 10,
+          "f2p_total": 10,
+          "p2p_passed": 200,
+          "p2p_total": 200,
+          "patch_lines_changed_mean": 39.0
+        },
+        "C": {
+          "n": 2,
+          "resolved": 1,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 518423.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 10.5,
+          "steps_mean": 24.0,
+          "f2p_passed": 9,
+          "f2p_total": 10,
+          "p2p_passed": 200,
+          "p2p_total": 200,
+          "patch_lines_changed_mean": 39.0
+        }
+      }
+    }
+  },
+  "strata": {
+    "ceiling": {
+      "tasks": [
+        "ansible-e9e600",
+        "qutebrowser-3e21c8"
+      ],
+      "n_tasks": 2,
+      "conditions": {
+        "A": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 703803.75,
+          "test_before_edit_rate": 0.25,
+          "verification_rate": 1.0,
+          "test_calls_mean": 3.25,
+          "budget_exhausted_rate": 0.5,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 651473.75,
+          "test_before_edit_rate": 0.25,
+          "verification_rate": 0.25,
+          "test_calls_mean": 2.5,
+          "budget_exhausted_rate": 0.5,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "C": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 609601.5,
+          "test_before_edit_rate": 0.25,
+          "verification_rate": 0.0,
+          "test_calls_mean": 3.0,
+          "budget_exhausted_rate": 0.25,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        }
+      }
+    },
+    "floor_known": {
+      "tasks": [
+        "openlibrary-0dc5b2"
+      ],
+      "n_tasks": 1,
+      "conditions": {
+        "A": {
+          "n_attempts": 2,
+          "resolved_rate": 0.0,
+          "total_tokens_mean": 1028258.5,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 1.5,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 0.5,
+          "p2p_fraction": 0.9818181818181818
+        },
+        "B": {
+          "n_attempts": 2,
+          "resolved_rate": 0.5,
+          "total_tokens_mean": 1032437.0,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 2.0,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 0.8333333333333334,
+          "p2p_fraction": 0.9818181818181818
+        },
+        "C": {
+          "n_attempts": 2,
+          "resolved_rate": 0.5,
+          "total_tokens_mean": 1027713.0,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 1.5,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 0.9818181818181818
+        }
+      }
+    },
+    "floor_expected": {
+      "tasks": [
+        "openlibrary-b67138"
+      ],
+      "n_tasks": 1,
+      "conditions": {
+        "A": {
+          "n_attempts": 2,
+          "resolved_rate": 0.0,
+          "total_tokens_mean": 1051042.5,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 0.5,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 0.045454545454545456,
+          "p2p_fraction": 0.9811320754716981
+        },
+        "B": {
+          "n_attempts": 2,
+          "resolved_rate": 0.0,
+          "total_tokens_mean": 1042729.0,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 0.0,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 0.4090909090909091,
+          "p2p_fraction": 1.0
+        },
+        "C": {
+          "n_attempts": 2,
+          "resolved_rate": 0.0,
+          "total_tokens_mean": 1047863.0,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 0.5,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 0.13636363636363635,
+          "p2p_fraction": 0.5188679245283019
+        }
+      }
+    },
+    "floor": {
+      "tasks": [
+        "openlibrary-0dc5b2",
+        "openlibrary-b67138"
+      ],
+      "n_tasks": 2,
+      "conditions": {
+        "A": {
+          "n_attempts": 4,
+          "resolved_rate": 0.0,
+          "total_tokens_mean": 1039650.5,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 1.0,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 0.20588235294117646,
+          "p2p_fraction": 0.9814814814814815
+        },
+        "B": {
+          "n_attempts": 4,
+          "resolved_rate": 0.25,
+          "total_tokens_mean": 1037583.0,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.25,
+          "test_calls_mean": 1.0,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 0.5588235294117647,
+          "p2p_fraction": 0.9907407407407407
+        },
+        "C": {
+          "n_attempts": 4,
+          "resolved_rate": 0.25,
+          "total_tokens_mean": 1037788.0,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.25,
+          "test_calls_mean": 1.0,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 0.4411764705882353,
+          "p2p_fraction": 0.7546296296296297
+        }
+      }
+    },
+    "new_easy": {
+      "tasks": [
+        "ansible-12734f",
+        "qutebrowser-96b997"
+      ],
+      "n_tasks": 2,
+      "conditions": {
+        "A": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 216218.0,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.75,
+          "test_calls_mean": 2.75,
+          "budget_exhausted_rate": 0.0,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 113253.5,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.75,
+          "test_calls_mean": 2.0,
+          "budget_exhausted_rate": 0.0,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "C": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 195290.75,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.75,
+          "test_calls_mean": 2.5,
+          "budget_exhausted_rate": 0.0,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        }
+      }
+    },
+    "new_medium": {
+      "tasks": [
+        "ansible-5e3696",
+        "openlibrary-d8162c"
+      ],
+      "n_tasks": 2,
+      "conditions": {
+        "A": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 921810.5,
+          "test_before_edit_rate": 0.25,
+          "verification_rate": 0.75,
+          "test_calls_mean": 2.5,
+          "budget_exhausted_rate": 0.75,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 898294.75,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.75,
+          "test_calls_mean": 2.25,
+          "budget_exhausted_rate": 0.75,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "C": {
+          "n_attempts": 4,
+          "resolved_rate": 0.25,
+          "total_tokens_mean": 859362.0,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.25,
+          "test_calls_mean": 4.25,
+          "budget_exhausted_rate": 0.5,
+          "f2p_fraction": 0.54,
+          "p2p_fraction": 1.0
+        }
+      }
+    },
+    "new_hard": {
+      "tasks": [
+        "ansible-d62496",
+        "qutebrowser-c09e14"
+      ],
+      "n_tasks": 2,
+      "conditions": {
+        "A": {
+          "n_attempts": 4,
+          "resolved_rate": 0.5,
+          "total_tokens_mean": 589781.25,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.75,
+          "test_calls_mean": 4.75,
+          "budget_exhausted_rate": 0.0,
+          "f2p_fraction": 0.9629629629629629,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 591593.5,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.75,
+          "test_calls_mean": 3.0,
+          "budget_exhausted_rate": 0.25,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "C": {
+          "n_attempts": 4,
+          "resolved_rate": 0.75,
+          "total_tokens_mean": 688311.25,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.75,
+          "test_calls_mean": 9.75,
+          "budget_exhausted_rate": 0.25,
+          "f2p_fraction": 0.9814814814814815,
+          "p2p_fraction": 1.0
+        }
+      }
+    },
+    "new_all": {
+      "tasks": [
+        "ansible-12734f",
+        "ansible-5e3696",
+        "ansible-d62496",
+        "openlibrary-d8162c",
+        "qutebrowser-96b997",
+        "qutebrowser-c09e14"
+      ],
+      "n_tasks": 6,
+      "conditions": {
+        "A": {
+          "n_attempts": 12,
+          "resolved_rate": 0.8333333333333334,
+          "total_tokens_mean": 575936.5833333334,
+          "test_before_edit_rate": 0.08333333333333333,
+          "verification_rate": 0.75,
+          "test_calls_mean": 3.3333333333333335,
+          "budget_exhausted_rate": 0.25,
+          "f2p_fraction": 0.9857142857142858,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 12,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 534380.5833333334,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.75,
+          "test_calls_mean": 2.4166666666666665,
+          "budget_exhausted_rate": 0.3333333333333333,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "C": {
+          "n_attempts": 12,
+          "resolved_rate": 0.6666666666666666,
+          "total_tokens_mean": 580988.0,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.5833333333333334,
+          "test_calls_mean": 5.5,
+          "budget_exhausted_rate": 0.25,
+          "f2p_fraction": 0.8285714285714286,
+          "p2p_fraction": 1.0
+        }
+      }
+    }
+  }
+}

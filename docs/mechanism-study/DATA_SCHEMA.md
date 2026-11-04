@@ -23,6 +23,11 @@ data/derived/
   attempts.csv                one row per attempt
   events.csv                  one row per tool event
   attempts.json               inspectable copy
+
+results/<experiment>/
+  RESULTS.md                  human-readable result summary
+  run_manifest.json           schema_version + run metadata + 60 attempt rows
+  analysis.json               schema_version + task-level stats/effects/strata
 ```
 
 ## Provenance fields

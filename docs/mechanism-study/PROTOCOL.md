@@ -1,9 +1,9 @@
-# Mechanism / Behavior Study Protocol (Draft)
+# Mechanism / Behavior Study Protocol
 
-**Status:** draft, branch `mechanism-study`  
-**Base:** `a935024` (Harbor/Pro V2 integration pilot)  
-**Experiment ID:** `mechanism-pilot-01`  
-**No runs have been launched for this protocol.**
+**Status:** completed 2026-11-04, branch `mechanism-study`<br>
+**Base:** `a935024` (Harbor/Pro V2 integration pilot)<br>
+**Experiment ID:** `mechanism-pilot-01`<br>
+**Run:** 60/60 attempts completed; see `results/mechanism-pilot-01/RESULTS.md`.
 
 ## 1. Motivation
 
@@ -199,15 +199,15 @@ artifact unless reviewed.
 
 ## 10. Pre-registration checklist
 
-- [ ] Freeze task IDs and strata in `TASKS.md`
-- [ ] Freeze v2 workflow body and hash
-- [ ] Confirm B/C use identical v2 body
-- [ ] Complete content audit and A-adherence audit
-- [ ] Validate event logging on one non-scored attempt
-- [ ] Validate F2P parser on one known pass and one known fail
-- [ ] Generate and record the randomized 60-attempt order
-- [ ] Record verifier mode and image digests
-- [ ] Start runs
+- [x] Freeze task IDs and strata in `TASKS.md`
+- [x] Freeze v2 workflow body and hash
+- [x] Confirm B/C use identical v2 body
+- [x] A-adherence audit complete; V3 content audit deferred and unused
+- [x] Validate event logging on one non-scored attempt
+- [x] Validate F2P parser on one known pass and one known fail
+- [x] Generate and record the randomized 60-attempt order
+- [x] Record verifier mode and image digests
+- [x] Start and complete the 60-attempt run
 
 ## 11. Known risks
 
