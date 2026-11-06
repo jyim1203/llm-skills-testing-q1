@@ -16,10 +16,15 @@ The study compares three conditions on the same SWE-bench Lite tasks:
 The primary comparison is **C vs B** (skill delivery vs. equivalent direct
 instructions). Condition A anchors the comparison.
 
-This repo covers **setup, the agent framework, model access, and a completed
-main run**. See [`results/pilot-01/RESULTS.md`](results/pilot-01/RESULTS.md) for
-the outcome — headline: all three conditions resolve nearly every task (a
-**ceiling effect**), with the caveats and sensitivity check documented there.
+This repo covers **setup, the agent framework, model access, and the completed
+Qwen main run**. See
+[`results/main-local-01/RESULTS.md`](results/main-local-01/RESULTS.md) for the
+reported outcome: 46/90 attempts resolved, with no detectable difference between
+skill delivery and direct prompt instructions. The earlier DeepSeek pilot is
+setup validation only and is not pooled with this result.
+
+For the full end-to-end command sequence, see
+[`REPRODUCING_MAIN_LOCAL.md`](REPRODUCING_MAIN_LOCAL.md).
 
 ---
 
