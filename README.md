@@ -25,8 +25,7 @@ pre-registered design is in
 [`results/main-local-01/RESULTS.md`](results/main-local-01/RESULTS.md).
 
 A longer runbook with troubleshooting and exact-replay checks is in
-[`REPRODUCING_MAIN_LOCAL.md`](REPRODUCING_MAIN_LOCAL.md). Task-selection criteria
-and the current six tasks are in [`TASK_SELECTION.md`](TASK_SELECTION.md).
+[`REPRODUCING_MAIN_LOCAL.md`](REPRODUCING_MAIN_LOCAL.md).
 
 ---
 
