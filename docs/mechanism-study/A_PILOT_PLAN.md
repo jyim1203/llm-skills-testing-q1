@@ -1,7 +1,9 @@
 # A-Only Pilot Plan for the 20-Task Extension
 
-Status: planned, not run. This pilot validates the 10 candidate tasks before
-adding B and C. It is not a test of the C-B effect.
+Status: run completed 2026-11-13; task set not frozen. See
+[`../../results/mechanism-20a-pilot-01/RESULTS.md`](../../results/mechanism-20a-pilot-01/RESULTS.md).
+This pilot validates the 10 candidate tasks before adding B and C. It is not a
+test of the C-B effect.
 
 ## 1. Goal
 

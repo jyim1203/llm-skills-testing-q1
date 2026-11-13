@@ -107,6 +107,15 @@ the task-level averages incomparable.
 The A-only calibration plan for these 10 candidates is in
 [`A_PILOT_PLAN.md`](A_PILOT_PLAN.md).
 
+## A-only pilot result (2026-11-13)
+
+The 20-attempt A-only pilot completed with 20/20 `rc=0` and 18/20 resolved, but
+it did **not** pass the task-validity gates. Both intended floor tasks resolved
+2/2, the intended medium pair split 0/2 and 2/2, both hard tasks resolved 2/2,
+and three non-floor tasks exhausted both repeats on tokens. The candidate set is
+therefore not frozen; do not run B/C on it. See
+[`../../results/mechanism-20a-pilot-01/RESULTS.md`](../../results/mechanism-20a-pilot-01/RESULTS.md).
+
 ## Keeping the existing runs
 
 Keep `mechanism-pilot-01`, its plan, and its raw Harbor jobs unchanged. Do not

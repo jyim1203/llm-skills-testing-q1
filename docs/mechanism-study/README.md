@@ -4,7 +4,7 @@ Branch: `mechanism-study`
 
 Base: `a935024` (Harbor/Pro V2 integration pilot)
 
-Status: **v2 smoke passed; 60/60 attempts complete**
+Status: **v2 smoke passed; 60/60 attempts complete; A-only 20-task pilot complete (candidate set not frozen)**
 
 ## Documents
 
@@ -19,6 +19,7 @@ Status: **v2 smoke passed; 60/60 attempts complete**
 - `A_PILOT_PLAN.md` — A-only 20-attempt calibration plan for the 10 candidates
 - `REPLICATION.md` — clone, Harbor/Docker setup, run, extraction, and analysis
 - `../../results/mechanism-pilot-01/RESULTS.md` — completed run results
+- `../../results/mechanism-20a-pilot-01/RESULTS.md` — A-only 20-task pilot result (task set not frozen)
 
 ## Instrumentation
 

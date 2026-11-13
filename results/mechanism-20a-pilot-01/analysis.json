@@ -1,0 +1,1333 @@
+{
+  "schema_version": 1,
+  "metadata": {
+    "run_id": "mechanism-20a-pilot-01",
+    "seed": 20261113,
+    "workflow_version": "v2",
+    "model_profile": "deepseek-flash-1017",
+    "api_model_id": "deepseek-flash",
+    "model_provider": "https://api.deepseek.com",
+    "thinking": "enabled",
+    "reasoning_effort": "medium",
+    "response_cap_tokens": 16384,
+    "cumulative_cap_tokens": 1000000,
+    "step_cap": 80,
+    "time_cap_seconds": 3000,
+    "agent": "skills_experiment.harbor_agent:HarborSkillsAgent",
+    "harbor_version": "0.25.0",
+    "harness_commit_at_run": "5f664d1",
+    "pro_repo_commit": "66f92766bba642462d4bbe5479e83f91f9211862",
+    "verifier_environment_mode": [
+      "shared"
+    ],
+    "concurrency": 2,
+    "started_at": "2026-11-13T20:22:48.631963Z",
+    "finished_at": "2026-11-13T21:14:32.620546Z",
+    "n_attempts": 20,
+    "n_tasks": 10,
+    "workflow_sha256": [
+      "586b13769c48f7fea32d0723a4948f58f016c14094063e3bf4606376f5dc78ab"
+    ]
+  },
+  "quality": {
+    "n_attempts": 20,
+    "n_tasks": 10,
+    "exceptions": 0,
+    "budget_exhausted": 9,
+    "by_condition": {
+      "A": {
+        "n": 20,
+        "resolved": 18,
+        "budget_exhausted": 9,
+        "skill_loaded": 0,
+        "exceptions": 0
+      },
+      "B": {
+        "n": 0,
+        "resolved": 0,
+        "budget_exhausted": 0,
+        "skill_loaded": 0,
+        "exceptions": 0
+      },
+      "C": {
+        "n": 0,
+        "resolved": 0,
+        "budget_exhausted": 0,
+        "skill_loaded": 0,
+        "exceptions": 0
+      }
+    }
+  },
+  "condition_stats": {
+    "resolved": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.9,
+        "median": 1.0,
+        "sd": 0.31622776601683794,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "test_before_edit": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.1,
+        "median": 0.0,
+        "sd": 0.21081851067789195,
+        "min": 0.0,
+        "max": 0.5
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "read_before_edit": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.95,
+        "median": 1.0,
+        "sd": 0.15811388300841897,
+        "min": 0.5,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "time_to_first_edit_seconds": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 31.55315445,
+        "median": 30.990924749999998,
+        "sd": 14.96325000757532,
+        "min": 12.2365615,
+        "max": 63.915961
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "total_tokens": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 732837.2,
+        "median": 762671.0,
+        "sd": 305063.9445363327,
+        "min": 233416.5,
+        "max": 1042094.0
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "verification_rate": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.5,
+        "median": 0.5,
+        "sd": 0.3333333333333333,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "test_calls": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 3.65,
+        "median": 4.5,
+        "sd": 1.7167475709090787,
+        "min": 0.5,
+        "max": 6.0
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "steps": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 26.9,
+        "median": 27.5,
+        "sd": 7.038781460199233,
+        "min": 15.0,
+        "max": 36.5
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "tool_calls": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 34.25,
+        "median": 34.5,
+        "sd": 10.501983939554787,
+        "min": 17.0,
+        "max": 47.5
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "f2p_fraction": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.9,
+        "median": 1.0,
+        "sd": 0.31622776601683794,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "p2p_fraction": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 1.0,
+        "median": 1.0,
+        "sd": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "budget_exhausted": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.45,
+        "median": 0.25,
+        "sd": 0.4972144630058766,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "patch_lines_changed": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 121.9,
+        "median": 43.75,
+        "sd": 143.19078182620555,
+        "min": 0.0,
+        "max": 410.5
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "skill_loaded": {
+      "A": {
+        "n_tasks": 10,
+        "mean": 0.0,
+        "median": 0.0,
+        "sd": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "B": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      },
+      "C": {
+        "n_tasks": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "min": null,
+        "max": null
+      }
+    }
+  },
+  "paired": {},
+  "task_table": {
+    "instance_ansible__ansible-1c06c46cc14324df35ac4f39a45fb3ccd602195d-v0f01c69f1e2528b935359cfe578530722bca2c59": {
+      "short": "ansible-1c06c4",
+      "repo": "ansible/ansible",
+      "stratum": "new_medium",
+      "task_checksum": "cc3133aed059a0dde47a765b00d66779be3de9aace82560b7f270b152ca8ff2f",
+      "image_digest": "sha256:2ee62346a660d4329f1b4126ecadd02291a0ffca97939c478fbe2b4683dc3e5e",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 0,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1042094.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 0.5,
+          "verification_rate": 0.5,
+          "test_calls_mean": 0.5,
+          "steps_mean": 34.5,
+          "f2p_passed": 0,
+          "f2p_total": 8,
+          "p2p_passed": 42,
+          "p2p_total": 42,
+          "patch_lines_changed_mean": 0.0
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    },
+    "instance_ansible__ansible-83fb24b923064d3576d473747ebbe62e4535c9e3-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5": {
+      "short": "ansible-83fb24",
+      "repo": "ansible/ansible",
+      "stratum": "new_easy",
+      "task_checksum": "c2e986aea40654bfc4520b497ae0c13caf0c3378ca82ffaf593bf7c598189b91",
+      "image_digest": "sha256:e82fbe5d87fa3ce9c8bd90767dc83925eda835261e188e3419b1d5c068d96095",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 366716.0,
+          "test_before_edit_rate": 0.5,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 1.0,
+          "steps_mean": 18.0,
+          "f2p_passed": 2,
+          "f2p_total": 2,
+          "p2p_passed": 42,
+          "p2p_total": 42,
+          "patch_lines_changed_mean": 19.5
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    },
+    "instance_ansible__ansible-e22e103cdf8edc56ff7d9b848a58f94f1471a263-v1055803c3a812189a1133297f7f5468579283f86": {
+      "short": "ansible-e22e10",
+      "repo": "ansible/ansible",
+      "stratum": "ceiling",
+      "task_checksum": "5070c3ca9451b3dac769d0b74afb8dc2872daa9ae0e65e3fad69d5737578be55",
+      "image_digest": "sha256:a641182b5ee252b8250b2ef85f62510f5d87dbeb4bb45db90e57cd7e7bd83995",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 683124.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 4.5,
+          "steps_mean": 25.5,
+          "f2p_passed": 8,
+          "f2p_total": 8,
+          "p2p_passed": 52,
+          "p2p_total": 52,
+          "patch_lines_changed_mean": 48.5
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    },
+    "instance_internetarchive__openlibrary-25858f9f0c165df25742acf8309ce909773f0cdd-v13642507b4fc1f8d234172bf8129942da2c2ca26": {
+      "short": "openlibrary-25858f",
+      "repo": "internetarchive/openlibrary",
+      "stratum": "floor",
+      "task_checksum": "066e4995034cd112288460a36bb62cd2b1f1981ea2de8889727e0b4b9381bf59",
+      "image_digest": "sha256:e8f81f91e6fce6daf553296daadb9cf3b4a3f16c36db7d7d0aba43b0bff6bcb5",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1020788.5,
+          "test_before_edit_rate": 0.5,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 3.0,
+          "steps_mean": 27.0,
+          "f2p_passed": 26,
+          "f2p_total": 26,
+          "p2p_passed": 66,
+          "p2p_total": 66,
+          "patch_lines_changed_mean": 410.5
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    },
+    "instance_internetarchive__openlibrary-43f9e7e0d56a4f1d487533543c17040a029ac501-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4": {
+      "short": "openlibrary-43f9e7",
+      "repo": "internetarchive/openlibrary",
+      "stratum": "new_easy",
+      "task_checksum": "8d3ec007e5cb2b43056402852ee23777eaab10b3bce9680e2fede4cca9de7887",
+      "image_digest": "sha256:e33df1914d6669d0f2e2500e25bac58c2e759881d667ec766303f08ebed62082",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 1,
+          "total_tokens_mean": 842218.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 6.0,
+          "steps_mean": 36.5,
+          "f2p_passed": 2,
+          "f2p_total": 2,
+          "p2p_passed": 120,
+          "p2p_total": 120,
+          "patch_lines_changed_mean": 39.0
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    },
+    "instance_internetarchive__openlibrary-53d376b148897466bb86d5accb51912bbbe9a8ed-v08d8e8889ec945ab821fb156c04c7d2e2810debb": {
+      "short": "openlibrary-53d376",
+      "repo": "internetarchive/openlibrary",
+      "stratum": "new_hard",
+      "task_checksum": "6d3ede638efede4cf0685d707968df7b1516f452a605b2b27e6f2f09bf77d6df",
+      "image_digest": "sha256:c4f917e70ee7ef568f248a25783b7629eec4fe05c5d092d42c8d1e380efb7c5b",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1033417.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 4.5,
+          "steps_mean": 33.5,
+          "f2p_passed": 8,
+          "f2p_total": 8,
+          "p2p_passed": 8,
+          "p2p_total": 8,
+          "patch_lines_changed_mean": 216.5
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    },
+    "instance_internetarchive__openlibrary-e8084193a895d8ee81200f49093389a3887479ce-ve8c8d62a2b60610a3c4631f5f23ed866bada9818": {
+      "short": "openlibrary-e80841",
+      "repo": "internetarchive/openlibrary",
+      "stratum": "ceiling",
+      "task_checksum": "25ee138eb8a5bcbe00854c81c43964f882832eec49d051669718e99539ad42a8",
+      "image_digest": "sha256:ed6004c1632836bd1ed7d02d0eb9422ab364ecda14a6eec082cbbaa70217a040",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 512645.0,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 3.5,
+          "steps_mean": 28.0,
+          "f2p_passed": 2,
+          "f2p_total": 2,
+          "p2p_passed": 116,
+          "p2p_total": 116,
+          "patch_lines_changed_mean": 23.0
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    },
+    "instance_qutebrowser__qutebrowser-5fdc83e5da6222fe61163395baaad7ae57fa2cb4-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d": {
+      "short": "qutebrowser-5fdc83",
+      "repo": "qutebrowser/qutebrowser",
+      "stratum": "new_medium",
+      "task_checksum": "39f6e540975b09bca287dacabec2d1afc2ac12f430537b600564c216c864e550",
+      "image_digest": "sha256:72e2ef58cefde8ca7a6d70de13c04bc2df9d5f9b3365bd5e28a23a5e4cbfaef6",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 2,
+          "total_tokens_mean": 1035784.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.0,
+          "test_calls_mean": 4.5,
+          "steps_mean": 29.0,
+          "f2p_passed": 22,
+          "f2p_total": 22,
+          "p2p_passed": 92,
+          "p2p_total": 92,
+          "patch_lines_changed_mean": 117.0
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    },
+    "instance_qutebrowser__qutebrowser-e70f5b03187bdd40e8bf70f5f3ead840f52d1f42-v02ad04386d5238fe2d1a1be450df257370de4b6a": {
+      "short": "qutebrowser-e70f5b",
+      "repo": "qutebrowser/qutebrowser",
+      "stratum": "new_hard",
+      "task_checksum": "a527df76c98cc013476ded6ab351a15ec12e137f2a78fc533de5dc9fff40141c",
+      "image_digest": "sha256:4ff91edc813834b1bc90e69b84c4046ad6de5b0ef7bbd0a754a0b7f997e6ed87",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 558168.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 4.5,
+          "steps_mean": 22.0,
+          "f2p_passed": 14,
+          "f2p_total": 14,
+          "p2p_passed": 72,
+          "p2p_total": 72,
+          "patch_lines_changed_mean": 31.5
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    },
+    "instance_qutebrowser__qutebrowser-ebfe9b7aa0c4ba9d451f993e08955004aaec4345-v059c6fdc75567943479b23ebca7c07b5e9a7f34c": {
+      "short": "qutebrowser-ebfe9b",
+      "repo": "qutebrowser/qutebrowser",
+      "stratum": "floor",
+      "task_checksum": "9d2b1fce1663830a0c254a5c5b988451afb72b9a3548bd89a25c544346afa1d2",
+      "image_digest": "sha256:2d8d21bad1870b39f1b45d398884072a6eda11159881301c08acd95525162f53",
+      "conditions": {
+        "A": {
+          "n": 2,
+          "resolved": 2,
+          "budget_exhausted": 0,
+          "total_tokens_mean": 233416.5,
+          "test_before_edit_rate": 0.0,
+          "read_before_edit_rate": 1.0,
+          "verification_rate": 1.0,
+          "test_calls_mean": 4.5,
+          "steps_mean": 15.0,
+          "f2p_passed": 24,
+          "f2p_total": 24,
+          "p2p_passed": 110,
+          "p2p_total": 110,
+          "patch_lines_changed_mean": 313.5
+        },
+        "B": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        },
+        "C": {
+          "n": 0,
+          "resolved": 0,
+          "budget_exhausted": 0,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "read_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "steps_mean": null,
+          "f2p_passed": 0,
+          "f2p_total": 0,
+          "p2p_passed": 0,
+          "p2p_total": 0,
+          "patch_lines_changed_mean": null
+        }
+      }
+    }
+  },
+  "strata": {
+    "ceiling": {
+      "tasks": [
+        "ansible-e22e10",
+        "openlibrary-e80841"
+      ],
+      "n_tasks": 2,
+      "conditions": {
+        "A": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 597884.5,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 4.0,
+          "budget_exhausted_rate": 0.0,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "C": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        }
+      }
+    },
+    "floor_known": {
+      "tasks": [],
+      "n_tasks": 0,
+      "conditions": {
+        "A": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "B": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "C": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        }
+      }
+    },
+    "floor_expected": {
+      "tasks": [],
+      "n_tasks": 0,
+      "conditions": {
+        "A": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "B": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "C": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        }
+      }
+    },
+    "floor": {
+      "tasks": [],
+      "n_tasks": 0,
+      "conditions": {
+        "A": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "B": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "C": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        }
+      }
+    },
+    "new_easy": {
+      "tasks": [
+        "ansible-83fb24",
+        "openlibrary-43f9e7"
+      ],
+      "n_tasks": 2,
+      "conditions": {
+        "A": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 604467.0,
+          "test_before_edit_rate": 0.25,
+          "verification_rate": 0.5,
+          "test_calls_mean": 3.5,
+          "budget_exhausted_rate": 0.25,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "C": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        }
+      }
+    },
+    "new_medium": {
+      "tasks": [
+        "ansible-1c06c4",
+        "qutebrowser-5fdc83"
+      ],
+      "n_tasks": 2,
+      "conditions": {
+        "A": {
+          "n_attempts": 4,
+          "resolved_rate": 0.5,
+          "total_tokens_mean": 1038939.25,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.25,
+          "test_calls_mean": 2.5,
+          "budget_exhausted_rate": 1.0,
+          "f2p_fraction": 0.7333333333333333,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "C": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        }
+      }
+    },
+    "new_hard": {
+      "tasks": [
+        "openlibrary-53d376",
+        "qutebrowser-e70f5b"
+      ],
+      "n_tasks": 2,
+      "conditions": {
+        "A": {
+          "n_attempts": 4,
+          "resolved_rate": 1.0,
+          "total_tokens_mean": 795792.75,
+          "test_before_edit_rate": 0.0,
+          "verification_rate": 0.5,
+          "test_calls_mean": 4.5,
+          "budget_exhausted_rate": 0.5,
+          "f2p_fraction": 1.0,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "C": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        }
+      }
+    },
+    "new_all": {
+      "tasks": [
+        "ansible-1c06c4",
+        "ansible-83fb24",
+        "openlibrary-43f9e7",
+        "openlibrary-53d376",
+        "qutebrowser-5fdc83",
+        "qutebrowser-e70f5b"
+      ],
+      "n_tasks": 6,
+      "conditions": {
+        "A": {
+          "n_attempts": 12,
+          "resolved_rate": 0.8333333333333334,
+          "total_tokens_mean": 813066.3333333334,
+          "test_before_edit_rate": 0.08333333333333333,
+          "verification_rate": 0.4166666666666667,
+          "test_calls_mean": 3.5,
+          "budget_exhausted_rate": 0.5833333333333334,
+          "f2p_fraction": 0.8571428571428571,
+          "p2p_fraction": 1.0
+        },
+        "B": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        },
+        "C": {
+          "n_attempts": 0,
+          "resolved_rate": null,
+          "total_tokens_mean": null,
+          "test_before_edit_rate": null,
+          "verification_rate": null,
+          "test_calls_mean": null,
+          "budget_exhausted_rate": null,
+          "f2p_fraction": null,
+          "p2p_fraction": null
+        }
+      }
+    }
+  }
+}
