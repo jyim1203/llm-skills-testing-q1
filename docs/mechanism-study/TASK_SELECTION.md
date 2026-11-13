@@ -104,6 +104,9 @@ combined with the existing 60, the result is a balanced 20-task, 3-repeat set.
 Do not run old tasks with only 2 repeats and new tasks with 3; that would make
 the task-level averages incomparable.
 
+The A-only calibration plan for these 10 candidates is in
+[`A_PILOT_PLAN.md`](A_PILOT_PLAN.md).
+
 ## Keeping the existing runs
 
 Keep `mechanism-pilot-01`, its plan, and its raw Harbor jobs unchanged. Do not

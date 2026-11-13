@@ -16,6 +16,7 @@ Status: **v2 smoke passed; 60/60 attempts complete**
 - `CONTENT_AUDIT.md` — optional V3 audit (not used in this run)
 - `TASKS.md` — frozen 10-task mechanism set, checksums, image digests
 - `TASK_SELECTION.md` — selection criteria and 20-task extension plan
+- `A_PILOT_PLAN.md` — A-only 20-attempt calibration plan for the 10 candidates
 - `REPLICATION.md` — clone, Harbor/Docker setup, run, extraction, and analysis
 - `../../results/mechanism-pilot-01/RESULTS.md` — completed run results
 

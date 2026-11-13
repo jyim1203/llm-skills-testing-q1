@@ -27,14 +27,14 @@ HARBOR = Path("/root/.local/bin/harbor")
 AGENT = "skills_experiment.harbor_agent:HarborSkillsAgent"
 
 
-def job_name(row: dict) -> str:
+def job_name(row: dict, prefix: str = "mechanism-v2") -> str:
     return (
-        f"mechanism-v2-{int(row['order']):02d}-"
+        f"{prefix}-{int(row['order']):02d}-"
         f"{row['short']}-{row['condition']}-r{int(row['repeat'])}"
     )
 
 
-def command(row: dict, pro_dir: Path) -> list[str]:
+def command(row: dict, pro_dir: Path, job_prefix: str) -> list[str]:
     return [
         str(HARBOR),
         "run",
@@ -56,12 +56,14 @@ def command(row: dict, pro_dir: Path) -> list[str]:
         "1",
         "-y",
         "--job-name",
-        job_name(row),
+        job_name(row, job_prefix),
     ]
 
 
-def run_one(row: dict, pro_dir: Path, pythonpath: str, log_dir: Path) -> dict:
-    name = job_name(row)
+def run_one(
+    row: dict, pro_dir: Path, pythonpath: str, log_dir: Path, job_prefix: str
+) -> dict:
+    name = job_name(row, job_prefix)
     log_path = log_dir / f"{name}.log"
     started = time.time()
     env = dict(os.environ)
@@ -69,7 +71,7 @@ def run_one(row: dict, pro_dir: Path, pythonpath: str, log_dir: Path) -> dict:
     try:
         with log_path.open("w", encoding="utf-8") as log:
             proc = subprocess.run(
-                command(row, pro_dir),
+                command(row, pro_dir, job_prefix),
                 cwd=str(pro_dir),
                 env=env,
                 stdout=log,
@@ -110,10 +112,16 @@ def main() -> int:
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--start", type=int, default=1, help="First plan order to run")
+    parser.add_argument(
+        "--job-prefix",
+        default="",
+        help="Harbor job prefix; overrides the plan's job_prefix (default: mechanism-v2)",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
     plan = json.loads(Path(args.plan).read_text(encoding="utf-8"))
+    job_prefix = args.job_prefix or plan.get("job_prefix", "mechanism-v2")
     rows = [r for r in plan["order"] if int(r["order"]) >= args.start]
     if args.limit:
         rows = rows[: args.limit]
@@ -125,14 +133,16 @@ def main() -> int:
 
     if args.dry_run:
         for row in rows:
-            print(" ".join(command(row, pro_dir)))
+            print(" ".join(command(row, pro_dir, job_prefix)))
         return 0
 
     print(f"running {len(rows)} attempts with {args.workers} workers", flush=True)
     started = time.time()
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = {
-            pool.submit(run_one, row, pro_dir, pythonpath, log_dir): row
+            pool.submit(
+                run_one, row, pro_dir, pythonpath, log_dir, job_prefix
+            ): row
             for row in rows
         }
         for future in as_completed(futures):
