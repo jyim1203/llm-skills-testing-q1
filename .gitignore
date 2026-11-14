@@ -55,6 +55,11 @@ data/mechanism-20a-screen-03/run_status.jsonl
 data/mechanism-20a-screen-03/run.out
 data/mechanism-20a-screen-03/run.err
 data/mechanism-20a-screen-03/resume-*
+data/mechanism-20bc-pilot-01/logs/
+data/mechanism-20bc-pilot-01/run_status.jsonl
+data/mechanism-20bc-pilot-01/run.out
+data/mechanism-20bc-pilot-01/run.err
+data/mechanism-20bc-pilot-01/resume-*
 
 # Tooling caches
 .pytest_cache/
