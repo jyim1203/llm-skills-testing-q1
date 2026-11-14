@@ -4,7 +4,7 @@ Branch: `mechanism-study`
 
 Base: `a935024` (Harbor/Pro V2 integration pilot)
 
-Status: **v2 smoke passed; 60/60 attempts complete; A-only 20-task pilot complete (candidate set not frozen)**
+Status: **v2 smoke passed; original 60/60 complete; 20-task set frozen 2026-11-14**
 
 ## Documents
 
@@ -15,6 +15,7 @@ Status: **v2 smoke passed; 60/60 attempts complete; A-only 20-task pilot complet
 - `SMOKE.md` — v2 A/B/C smoke validation
 - `CONTENT_AUDIT.md` — optional V3 audit (not used in this run)
 - `TASKS.md` — frozen 10-task mechanism set, checksums, image digests
+- `TASKS_20.md` — frozen 20-task set, checksums, image digests
 - `TASK_SELECTION.md` — selection criteria and 20-task extension plan
 - `A_PILOT_PLAN.md` — A-only 20-attempt calibration plan for the 10 candidates
 - `REPLICATION.md` — clone, Harbor/Docker setup, run, extraction, and analysis
@@ -75,3 +76,4 @@ python scripts/summarize_mechanism_run.py \
 4. Randomized 60-attempt order generated and recorded.
 5. 60/60 attempts completed with zero exceptions; results in
    `results/mechanism-pilot-01/RESULTS.md`.
+6. 20-task set frozen 2026-11-14 in `TASKS_20.md`; B/C extension not yet run.

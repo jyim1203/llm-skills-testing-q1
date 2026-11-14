@@ -1,8 +1,9 @@
 # Task Selection and 20-Task Extension Plan
 
-Status: planning note. The completed `mechanism-pilot-01` study remains frozen;
-this document covers selection criteria for adding tasks without discarding the
-existing 60 attempts.
+Status: the 20-task set is frozen as of 2026-11-14. The completed
+`mechanism-pilot-01` study remains frozen; this document records the selection
+criteria and the final extension set without discarding the existing 60
+attempts.
 
 ## Project in brief
 
@@ -115,6 +116,29 @@ it did **not** pass the task-validity gates. Both intended floor tasks resolved
 and three non-floor tasks exhausted both repeats on tokens. The candidate set is
 therefore not frozen; do not run B/C on it. See
 [`../../results/mechanism-20a-pilot-01/RESULTS.md`](../../results/mechanism-20a-pilot-01/RESULTS.md).
+
+## Final 20-task set (frozen 2026-11-14)
+
+The final set combines the original 10 tasks with 10 tasks selected only from
+A-only evidence. Task IDs, checksums, image digests, and observed A outcomes are
+in [`TASKS_20.md`](TASKS_20.md) and
+`data/mechanism-20-final/tasks.json`.
+
+New tasks:
+
+| Stratum | Task |
+|---|---|
+| ceiling | `ansible-e22e10`, `openlibrary-e80841` |
+| easy | `ansible-83fb24`, `qutebrowser-990291` |
+| floor | `ansible-1c06c4` |
+| medium | `ansible-6cc974`, `openlibrary-6e889f` |
+| hard | `qutebrowser-ec2dcf`, `ansible-b748ed`, `openlibrary-630221` |
+
+Composition: **4 ceiling, 4 easy, 3 floor, 4 medium, 5 hard**; repositories are
+**9 Ansible, 6 OpenLibrary, 5 qutebrowser**. The 3-floor / 5-hard imbalance was
+accepted rather than screening more floor candidates. `openlibrary-53d376` was
+dropped as redundant with the other token-capped 2/2 tasks. No B/C outcome was
+used for selection, and no replacement is allowed after B/C begins.
 
 ## Keeping the existing runs
 
