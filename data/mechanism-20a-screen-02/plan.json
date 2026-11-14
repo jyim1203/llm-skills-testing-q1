@@ -1,0 +1,117 @@
+{
+  "run_id": "mechanism-20a-screen-02",
+  "purpose": "A-only screen for 5 replacement candidates after mechanism-20a-pilot-01 failed its strata gates.",
+  "benchmark": "SWE-bench Pro V2",
+  "benchmark_commit": "66f92766bba642462d4bbe5479e83f91f9211862",
+  "workflow_version": "v2",
+  "seed": 20261114,
+  "job_prefix": "mechanism-20a2",
+  "tasks": 5,
+  "conditions": [
+    "A"
+  ],
+  "repeats": 2,
+  "attempts": 10,
+  "order": [
+    {
+      "task_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-6cc974",
+      "stratum": "screen",
+      "repo": "ansible/ansible",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 0,
+      "order": 1
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-99029144b5109bb1b2a53964a7c129e009980cd9-va0fd88aac89cde702ec1ba84877234da33adce8a",
+      "short": "qutebrowser-990291",
+      "stratum": "screen",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 0,
+      "order": 2
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-6e889f4a733c9f8ce9a9bd2ec6a934413adcedb9-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-6e889f",
+      "stratum": "screen",
+      "repo": "internetarchive/openlibrary",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 1,
+      "order": 3
+    },
+    {
+      "task_id": "instance_ansible__ansible-a7d2a4e03209cff1e97e59fd54bb2b05fdbdbec6-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-a7d2a4",
+      "stratum": "screen",
+      "repo": "ansible/ansible",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 0,
+      "order": 4
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-ec2dcfce9eee9f808efc17a1b99e227fc4421dea-v5149fcda2a9a6fe1d35dfed1bade1444a11ef271",
+      "short": "qutebrowser-ec2dcf",
+      "stratum": "screen",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 0,
+      "order": 5
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-ec2dcfce9eee9f808efc17a1b99e227fc4421dea-v5149fcda2a9a6fe1d35dfed1bade1444a11ef271",
+      "short": "qutebrowser-ec2dcf",
+      "stratum": "screen",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 1,
+      "order": 6
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-6e889f4a733c9f8ce9a9bd2ec6a934413adcedb9-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-6e889f",
+      "stratum": "screen",
+      "repo": "internetarchive/openlibrary",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 0,
+      "order": 7
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-99029144b5109bb1b2a53964a7c129e009980cd9-va0fd88aac89cde702ec1ba84877234da33adce8a",
+      "short": "qutebrowser-990291",
+      "stratum": "screen",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 1,
+      "order": 8
+    },
+    {
+      "task_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-6cc974",
+      "stratum": "screen",
+      "repo": "ansible/ansible",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 1,
+      "order": 9
+    },
+    {
+      "task_id": "instance_ansible__ansible-a7d2a4e03209cff1e97e59fd54bb2b05fdbdbec6-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-a7d2a4",
+      "stratum": "screen",
+      "repo": "ansible/ansible",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 1,
+      "order": 10
+    }
+  ]
+}

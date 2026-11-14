@@ -1,0 +1,69 @@
+{
+  "run_id": "mechanism-20a-screen-02",
+  "purpose": "A-only screen for 5 replacement candidates after mechanism-20a-pilot-01 failed its strata gates.",
+  "benchmark": "SWE-bench Pro V2",
+  "benchmark_commit": "66f92766bba642462d4bbe5479e83f91f9211862",
+  "workflow_version": "v2",
+  "tasks": [
+    {
+      "task_id": "instance_ansible__ansible-a7d2a4e03209cff1e97e59fd54bb2b05fdbdbec6-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-a7d2a4",
+      "stratum": "screen",
+      "repo": "ansible/ansible",
+      "files": 4,
+      "lines": 38,
+      "f2p": 2,
+      "p2p": 7,
+      "dataset_hard": false,
+      "candidate_note": "small _internal-family patch; follow-up to the A failure"
+    },
+    {
+      "task_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-6cc974",
+      "stratum": "screen",
+      "repo": "ansible/ansible",
+      "files": 7,
+      "lines": 83,
+      "f2p": 8,
+      "p2p": 55,
+      "dataset_hard": false,
+      "candidate_note": "wider _internal spread across files; budget pressure"
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-6e889f4a733c9f8ce9a9bd2ec6a934413adcedb9-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-6e889f",
+      "stratum": "screen",
+      "repo": "internetarchive/openlibrary",
+      "files": 2,
+      "lines": 104,
+      "f2p": 7,
+      "p2p": 10,
+      "dataset_hard": true,
+      "candidate_note": "HARD-51; moderate patch and longer instruction"
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-99029144b5109bb1b2a53964a7c129e009980cd9-va0fd88aac89cde702ec1ba84877234da33adce8a",
+      "short": "qutebrowser-990291",
+      "stratum": "screen",
+      "repo": "qutebrowser/qutebrowser",
+      "files": 5,
+      "lines": 77,
+      "f2p": 4,
+      "p2p": 58,
+      "dataset_hard": false,
+      "candidate_note": "five medium-size files; modest test suite"
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-ec2dcfce9eee9f808efc17a1b99e227fc4421dea-v5149fcda2a9a6fe1d35dfed1bade1444a11ef271",
+      "short": "qutebrowser-ec2dcf",
+      "stratum": "screen",
+      "repo": "qutebrowser/qutebrowser",
+      "files": 4,
+      "lines": 96,
+      "f2p": 7,
+      "p2p": 6,
+      "dataset_hard": false,
+      "candidate_note": "medium size with a small test suite"
+    }
+  ]
+}
