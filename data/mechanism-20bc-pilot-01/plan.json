@@ -1,0 +1,425 @@
+{
+  "run_id": "mechanism-20bc-pilot-01",
+  "purpose": "B/C-only extension for the 10 new tasks in the frozen 20-task mechanism set.",
+  "benchmark": "SWE-bench Pro V2",
+  "benchmark_commit": "66f92766bba642462d4bbe5479e83f91f9211862",
+  "workflow_version": "v2",
+  "frozen_tasks": "data/mechanism-20-final/tasks.json",
+  "seed": 20261116,
+  "job_prefix": "mechanism-20bc",
+  "tasks": 10,
+  "conditions": [
+    "B",
+    "C"
+  ],
+  "repeats": 2,
+  "attempts": 40,
+  "a_reuse": {
+    "included_in_plan": false,
+    "source": "data/mechanism-20-final/tasks.json",
+    "n_attempts": 20,
+    "note": "A attempts for the 10 new tasks already exist and are combined at analysis time."
+  },
+  "order": [
+    {
+      "task_id": "instance_ansible__ansible-e22e103cdf8edc56ff7d9b848a58f94f1471a263-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-e22e10",
+      "stratum": "ceiling",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 1
+    },
+    {
+      "task_id": "instance_ansible__ansible-e22e103cdf8edc56ff7d9b848a58f94f1471a263-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-e22e10",
+      "stratum": "ceiling",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 2
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-e8084193a895d8ee81200f49093389a3887479ce-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-e80841",
+      "stratum": "ceiling",
+      "repo": "internetarchive/openlibrary",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 3
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-6e889f4a733c9f8ce9a9bd2ec6a934413adcedb9-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-6e889f",
+      "stratum": "medium",
+      "repo": "internetarchive/openlibrary",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 4
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-ec2dcfce9eee9f808efc17a1b99e227fc4421dea-v5149fcda2a9a6fe1d35dfed1bade1444a11ef271",
+      "short": "qutebrowser-ec2dcf",
+      "stratum": "hard",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 5
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-e8084193a895d8ee81200f49093389a3887479ce-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-e80841",
+      "stratum": "ceiling",
+      "repo": "internetarchive/openlibrary",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 6
+    },
+    {
+      "task_id": "instance_ansible__ansible-83fb24b923064d3576d473747ebbe62e4535c9e3-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+      "short": "ansible-83fb24",
+      "stratum": "easy",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 7
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-99029144b5109bb1b2a53964a7c129e009980cd9-va0fd88aac89cde702ec1ba84877234da33adce8a",
+      "short": "qutebrowser-990291",
+      "stratum": "easy",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 8
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-e8084193a895d8ee81200f49093389a3887479ce-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-e80841",
+      "stratum": "ceiling",
+      "repo": "internetarchive/openlibrary",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 9
+    },
+    {
+      "task_id": "instance_ansible__ansible-83fb24b923064d3576d473747ebbe62e4535c9e3-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+      "short": "ansible-83fb24",
+      "stratum": "easy",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 10
+    },
+    {
+      "task_id": "instance_ansible__ansible-e22e103cdf8edc56ff7d9b848a58f94f1471a263-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-e22e10",
+      "stratum": "ceiling",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 11
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-ec2dcfce9eee9f808efc17a1b99e227fc4421dea-v5149fcda2a9a6fe1d35dfed1bade1444a11ef271",
+      "short": "qutebrowser-ec2dcf",
+      "stratum": "hard",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 12
+    },
+    {
+      "task_id": "instance_ansible__ansible-1c06c46cc14324df35ac4f39a45fb3ccd602195d-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-1c06c4",
+      "stratum": "floor",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 13
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-99029144b5109bb1b2a53964a7c129e009980cd9-va0fd88aac89cde702ec1ba84877234da33adce8a",
+      "short": "qutebrowser-990291",
+      "stratum": "easy",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 14
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-6e889f4a733c9f8ce9a9bd2ec6a934413adcedb9-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-6e889f",
+      "stratum": "medium",
+      "repo": "internetarchive/openlibrary",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 15
+    },
+    {
+      "task_id": "instance_ansible__ansible-83fb24b923064d3576d473747ebbe62e4535c9e3-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+      "short": "ansible-83fb24",
+      "stratum": "easy",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 16
+    },
+    {
+      "task_id": "instance_ansible__ansible-b748edea457a4576847a10275678127895d2f02f-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-b748ed",
+      "stratum": "hard",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 17
+    },
+    {
+      "task_id": "instance_ansible__ansible-1c06c46cc14324df35ac4f39a45fb3ccd602195d-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-1c06c4",
+      "stratum": "floor",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 18
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-6e889f4a733c9f8ce9a9bd2ec6a934413adcedb9-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-6e889f",
+      "stratum": "medium",
+      "repo": "internetarchive/openlibrary",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 19
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-ec2dcfce9eee9f808efc17a1b99e227fc4421dea-v5149fcda2a9a6fe1d35dfed1bade1444a11ef271",
+      "short": "qutebrowser-ec2dcf",
+      "stratum": "hard",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 20
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-ec2dcfce9eee9f808efc17a1b99e227fc4421dea-v5149fcda2a9a6fe1d35dfed1bade1444a11ef271",
+      "short": "qutebrowser-ec2dcf",
+      "stratum": "hard",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 21
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-e8084193a895d8ee81200f49093389a3887479ce-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-e80841",
+      "stratum": "ceiling",
+      "repo": "internetarchive/openlibrary",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 22
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-630221ab686c64e75a2ce253c893c033e4814b2e-v93c53c13d5f9b383ebb411ee7750b49dcd1a34c6",
+      "short": "openlibrary-630221",
+      "stratum": "hard",
+      "repo": "internetarchive/openlibrary",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 23
+    },
+    {
+      "task_id": "instance_ansible__ansible-83fb24b923064d3576d473747ebbe62e4535c9e3-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+      "short": "ansible-83fb24",
+      "stratum": "easy",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 24
+    },
+    {
+      "task_id": "instance_ansible__ansible-1c06c46cc14324df35ac4f39a45fb3ccd602195d-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-1c06c4",
+      "stratum": "floor",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 25
+    },
+    {
+      "task_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-6cc974",
+      "stratum": "medium",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 26
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-630221ab686c64e75a2ce253c893c033e4814b2e-v93c53c13d5f9b383ebb411ee7750b49dcd1a34c6",
+      "short": "openlibrary-630221",
+      "stratum": "hard",
+      "repo": "internetarchive/openlibrary",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 27
+    },
+    {
+      "task_id": "instance_ansible__ansible-1c06c46cc14324df35ac4f39a45fb3ccd602195d-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-1c06c4",
+      "stratum": "floor",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 28
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-630221ab686c64e75a2ce253c893c033e4814b2e-v93c53c13d5f9b383ebb411ee7750b49dcd1a34c6",
+      "short": "openlibrary-630221",
+      "stratum": "hard",
+      "repo": "internetarchive/openlibrary",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 29
+    },
+    {
+      "task_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-6cc974",
+      "stratum": "medium",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 30
+    },
+    {
+      "task_id": "instance_ansible__ansible-b748edea457a4576847a10275678127895d2f02f-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-b748ed",
+      "stratum": "hard",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 0,
+      "order": 31
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-99029144b5109bb1b2a53964a7c129e009980cd9-va0fd88aac89cde702ec1ba84877234da33adce8a",
+      "short": "qutebrowser-990291",
+      "stratum": "easy",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 32
+    },
+    {
+      "task_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-6cc974",
+      "stratum": "medium",
+      "repo": "ansible/ansible",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 33
+    },
+    {
+      "task_id": "instance_ansible__ansible-e22e103cdf8edc56ff7d9b848a58f94f1471a263-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-e22e10",
+      "stratum": "ceiling",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 34
+    },
+    {
+      "task_id": "instance_ansible__ansible-b748edea457a4576847a10275678127895d2f02f-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-b748ed",
+      "stratum": "hard",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 35
+    },
+    {
+      "task_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+      "short": "ansible-6cc974",
+      "stratum": "medium",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 0,
+      "order": 36
+    },
+    {
+      "task_id": "instance_ansible__ansible-b748edea457a4576847a10275678127895d2f02f-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-b748ed",
+      "stratum": "hard",
+      "repo": "ansible/ansible",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 37
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-630221ab686c64e75a2ce253c893c033e4814b2e-v93c53c13d5f9b383ebb411ee7750b49dcd1a34c6",
+      "short": "openlibrary-630221",
+      "stratum": "hard",
+      "repo": "internetarchive/openlibrary",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 38
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-6e889f4a733c9f8ce9a9bd2ec6a934413adcedb9-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+      "short": "openlibrary-6e889f",
+      "stratum": "medium",
+      "repo": "internetarchive/openlibrary",
+      "condition": "C",
+      "condition_label": "C_skill",
+      "repeat": 1,
+      "order": 39
+    },
+    {
+      "task_id": "instance_qutebrowser__qutebrowser-99029144b5109bb1b2a53964a7c129e009980cd9-va0fd88aac89cde702ec1ba84877234da33adce8a",
+      "short": "qutebrowser-990291",
+      "stratum": "easy",
+      "repo": "qutebrowser/qutebrowser",
+      "condition": "B",
+      "condition_label": "B_prompt_instructions",
+      "repeat": 1,
+      "order": 40
+    }
+  ]
+}
