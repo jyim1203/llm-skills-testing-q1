@@ -1,0 +1,77 @@
+{
+  "run_id": "mechanism-20a-screen-03",
+  "purpose": "A-only screen for 3 HARD-51 candidates, targeting floor/hard replacement tasks.",
+  "benchmark": "SWE-bench Pro V2",
+  "benchmark_commit": "66f92766bba642462d4bbe5479e83f91f9211862",
+  "workflow_version": "v2",
+  "seed": 20261115,
+  "job_prefix": "mechanism-20a3",
+  "tasks": 3,
+  "conditions": [
+    "A"
+  ],
+  "repeats": 2,
+  "attempts": 6,
+  "order": [
+    {
+      "task_id": "instance_internetarchive__openlibrary-630221ab686c64e75a2ce253c893c033e4814b2e-v93c53c13d5f9b383ebb411ee7750b49dcd1a34c6",
+      "short": "openlibrary-630221",
+      "stratum": "screen",
+      "repo": "internetarchive/openlibrary",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 1,
+      "order": 1
+    },
+    {
+      "task_id": "instance_ansible__ansible-b748edea457a4576847a10275678127895d2f02f-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-b748ed",
+      "stratum": "screen",
+      "repo": "ansible/ansible",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 0,
+      "order": 2
+    },
+    {
+      "task_id": "instance_ansible__ansible-b748edea457a4576847a10275678127895d2f02f-v1055803c3a812189a1133297f7f5468579283f86",
+      "short": "ansible-b748ed",
+      "stratum": "screen",
+      "repo": "ansible/ansible",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 1,
+      "order": 3
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-a48fd6ba9482c527602bc081491d9e8ae6e8226c-vfa6ff903cb27f336e17654595dd900fa943dcd91",
+      "short": "openlibrary-a48fd6",
+      "stratum": "screen",
+      "repo": "internetarchive/openlibrary",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 1,
+      "order": 4
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-630221ab686c64e75a2ce253c893c033e4814b2e-v93c53c13d5f9b383ebb411ee7750b49dcd1a34c6",
+      "short": "openlibrary-630221",
+      "stratum": "screen",
+      "repo": "internetarchive/openlibrary",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 0,
+      "order": 5
+    },
+    {
+      "task_id": "instance_internetarchive__openlibrary-a48fd6ba9482c527602bc081491d9e8ae6e8226c-vfa6ff903cb27f336e17654595dd900fa943dcd91",
+      "short": "openlibrary-a48fd6",
+      "stratum": "screen",
+      "repo": "internetarchive/openlibrary",
+      "condition": "A",
+      "condition_label": "A_baseline",
+      "repeat": 0,
+      "order": 6
+    }
+  ]
+}
