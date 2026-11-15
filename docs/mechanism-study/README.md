@@ -22,6 +22,7 @@ Status: **v2 smoke passed; 20-task set frozen; combined 120/120 attempts complet
 - `../../results/mechanism-pilot-01/RESULTS.md` — completed run results
 - `../../results/mechanism-20a-pilot-01/RESULTS.md` — A-only 20-task pilot result (task set not frozen)
 - `../../results/mechanism-20-combined/RESULTS.md` — combined 20-task, 120-attempt result
+- `../../results/mechanism-20-combined/STATISTICAL_ANALYSIS.md` — task-level statistical section
 
 ## Instrumentation
 

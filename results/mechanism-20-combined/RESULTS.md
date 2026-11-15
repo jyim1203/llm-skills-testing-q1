@@ -7,7 +7,8 @@
 **Frozen set:** `docs/mechanism-study/TASKS_20.md`<br>
 **Combined plan:** `data/mechanism-20-combined/plan.json`<br>
 **Artifacts:** `results/mechanism-20-combined/run_manifest.json`,
-`results/mechanism-20-combined/analysis.json`
+`results/mechanism-20-combined/analysis.json`<br>
+**Formal statistical section:** `results/mechanism-20-combined/STATISTICAL_ANALYSIS.md`
 
 This combines:
 
@@ -69,6 +70,9 @@ Task-level means; repeats are averaged within task-condition first.
 | Budget exhausted | 0.425 | 0.450 | 0.350 | -0.100 [-0.225, +0.025] |
 
 ### Paired direction
+
+Sign p is the unadjusted exact sign test. Formal paired permutation, Wilcoxon,
+and Holm-adjusted results are in `STATISTICAL_ANALYSIS.md`.
 
 | Contrast | Endpoint | Mean diff | 95% CI | W/L/T | Sign p |
 |---|---|---:|---|---:|---:|
@@ -141,8 +145,10 @@ All other 15 tasks have identical B and C resolved counts.
   not significant (1 win, 4 losses, 15 ties). The direction is negative, not a
   clean effect.
 - **C is behaviorally heavier than B**: +1.6 test calls and +3.15 steps per task,
-  with bootstrap intervals excluding zero and sign tests p = 0.035 / 0.041.
-  Post-edit verification is slightly lower for C, but its interval includes zero.
+  with bootstrap intervals excluding zero and unadjusted sign tests
+  p = 0.035 / 0.041. After Holm correction across the 10 secondary endpoints,
+  neither survives (Holm p = 0.085 / 0.119). Post-edit verification is slightly
+  lower for C, but its interval includes zero.
 - **C-B total tokens are essentially null** (+807 tokens; interval spans zero).
   The extra test calls and steps did not translate into a clear token
   difference.
