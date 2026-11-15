@@ -138,7 +138,9 @@ Composition: **4 ceiling, 4 easy, 3 floor, 4 medium, 5 hard**; repositories are
 **9 Ansible, 6 OpenLibrary, 5 qutebrowser**. The 3-floor / 5-hard imbalance was
 accepted rather than screening more floor candidates. `openlibrary-53d376` was
 dropped as redundant with the other token-capped 2/2 tasks. No B/C outcome was
-used for selection, and no replacement is allowed after B/C begins.
+used for selection, and no replacement is allowed after B/C begins. Combined
+results are in
+[`../../results/mechanism-20-combined/RESULTS.md`](../../results/mechanism-20-combined/RESULTS.md).
 
 ## Keeping the existing runs
 

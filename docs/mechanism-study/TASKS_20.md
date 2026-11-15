@@ -14,7 +14,8 @@ selection. The accepted composition is 3 floor and 5 hard tasks;
 observed A difficulty is reported alongside the intended label.
 
 Full task IDs and machine-readable provenance are in
-`data/mechanism-20-final/tasks.json`.
+`data/mechanism-20-final/tasks.json`. Combined results are in
+[`../../results/mechanism-20-combined/RESULTS.md`](../../results/mechanism-20-combined/RESULTS.md).
 
 ## Tasks
 
@@ -95,5 +96,5 @@ Full task IDs and machine-readable provenance are in
 - [x] 10 new tasks selected from A-only evidence
 - [x] C-B not used for selection
 - [x] no replacement after B/C outcomes
-- [ ] B/C execution plan generated
-- [ ] 120-attempt combined analysis completed
+- [x] B/C execution plan generated
+- [x] 120-attempt combined analysis completed

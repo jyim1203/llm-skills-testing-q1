@@ -54,6 +54,9 @@ STRATA = [
     "new_medium",
     "new_hard",
     "new_all",
+    "easy",
+    "medium",
+    "hard",
 ]
 
 
@@ -299,9 +302,19 @@ def build_summary(
     strata = {}
     for stratum in STRATA:
         if stratum == "new_all":
-            selected = [task for task in tasks if task_rows[task]["stratum"].startswith("new_")]
+            selected = [
+                task
+                for task in tasks
+                if task_rows[task]["stratum"].startswith("new_")
+                or task_rows[task]["stratum"] in {"easy", "medium", "hard"}
+            ]
         elif stratum == "floor":
-            selected = [task for task in tasks if task_rows[task]["stratum"].startswith("floor_")]
+            selected = [
+                task
+                for task in tasks
+                if task_rows[task]["stratum"] == "floor"
+                or task_rows[task]["stratum"].startswith("floor_")
+            ]
         else:
             selected = [task for task in tasks if task_rows[task]["stratum"] == stratum]
         strata[stratum] = {"tasks": [task_rows[task]["short"] for task in selected], "n_tasks": len(selected), "conditions": {}}

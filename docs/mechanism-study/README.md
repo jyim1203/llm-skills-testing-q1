@@ -4,7 +4,7 @@ Branch: `mechanism-study`
 
 Base: `a935024` (Harbor/Pro V2 integration pilot)
 
-Status: **v2 smoke passed; original 60/60 complete; 20-task set frozen 2026-11-14**
+Status: **v2 smoke passed; 20-task set frozen; combined 120/120 attempts complete**
 
 ## Documents
 
@@ -21,6 +21,7 @@ Status: **v2 smoke passed; original 60/60 complete; 20-task set frozen 2026-11-1
 - `REPLICATION.md` — clone, Harbor/Docker setup, run, extraction, and analysis
 - `../../results/mechanism-pilot-01/RESULTS.md` — completed run results
 - `../../results/mechanism-20a-pilot-01/RESULTS.md` — A-only 20-task pilot result (task set not frozen)
+- `../../results/mechanism-20-combined/RESULTS.md` — combined 20-task, 120-attempt result
 
 ## Instrumentation
 
@@ -76,4 +77,6 @@ python scripts/summarize_mechanism_run.py \
 4. Randomized 60-attempt order generated and recorded.
 5. 60/60 attempts completed with zero exceptions; results in
    `results/mechanism-pilot-01/RESULTS.md`.
-6. 20-task set frozen 2026-11-14 in `TASKS_20.md`; B/C extension not yet run.
+6. 20-task set frozen 2026-11-14 in `TASKS_20.md`.
+7. 120/120 combined attempts complete; results in
+   `results/mechanism-20-combined/RESULTS.md`.
