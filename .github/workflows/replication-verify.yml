@@ -1,0 +1,41 @@
+name: replication-verify
+
+# Re-check the committed mechanism-study artifacts. No Docker, network, or API
+# key: this is the offline reproduction gate described in
+# docs/mechanism-study/README.md (level 0), and the same check
+# tests/test_replication_artifacts.py runs locally.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [mechanism-study, main]
+    paths:
+      - "results/**"
+      - "data/**"
+      - "src/skills_experiment/assets/prompts/**"
+      - "scripts/verify_replication.py"
+      - "tests/test_replication_artifacts.py"
+      - ".github/workflows/replication-verify.yml"
+  pull_request:
+    paths:
+      - "results/**"
+      - "data/**"
+      - "src/skills_experiment/assets/prompts/**"
+      - "scripts/verify_replication.py"
+      - "tests/test_replication_artifacts.py"
+      - ".github/workflows/replication-verify.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify committed artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Offline reproduction check
+        run: python scripts/verify_replication.py

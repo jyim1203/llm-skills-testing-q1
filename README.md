@@ -9,6 +9,15 @@ Scaffolding for an exploratory study of a single question:
 > `mechanism-pilot-01` run and its exact setup are in
 > [`docs/mechanism-study/REPLICATION.md`](docs/mechanism-study/REPLICATION.md)
 > and [`results/mechanism-pilot-01/RESULTS.md`](results/mechanism-pilot-01/RESULTS.md).
+> [`docs/mechanism-study/README.md`](docs/mechanism-study/README.md) is the
+> entry point: it has the three reproduction levels, what is pinned where, and
+> an optional pinned runner image
+> ([`docs/mechanism-study/CONTAINER.md`](docs/mechanism-study/CONTAINER.md)).
+>
+> ```bash
+> python scripts/verify_replication.py   # re-check the committed artifacts, ~1 s
+> ```
+>
 > The material below describes the earlier SWE-bench Lite pipeline.
 
 The study compares three conditions on the same SWE-bench Lite tasks:
@@ -230,6 +239,8 @@ src/skills_experiment/
   cli.py           list-models | build-skill | select-tasks | plan | preflight | run | grade | rerun | analyze | smoke
   assets/          base system prompt + workflow instructions (+ generated SKILL.md)
 scripts/           thin CLI wrappers (+ launch_main_local.ps1, launch_main_local.sh, run_main_local.sh, validate_harness.py, validate_sandbox.py, wsl_setup_harness.sh)
+docker/            replication.Dockerfile + entrypoint for the pinned mechanism-study runner
+.github/workflows/ replication-verify.yml (offline artifact check) + replication-image.yml (GHCR image)
 tests/             registry, fairness, conditions, loop, isolation, policy, analysis
 PROTOCOL.md        the frozen protocol for the DeepSeek setup run (pilot-01)
 PROTOCOL-main-local.md  the pre-registered protocol for main-local-01

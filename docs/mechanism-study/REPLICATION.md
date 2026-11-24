@@ -8,6 +8,17 @@ stochastic draw from the same setup.
 For the frozen design see `PROTOCOL.md`; for the task list see `TASKS.md`; for
 the completed reference run see `../../results/mechanism-pilot-01/RESULTS.md`.
 
+Before doing any of this, run the offline check — it takes a second and catches
+a stale checkout:
+
+```bash
+python scripts/verify_replication.py
+```
+
+If you would rather not install Harbor by hand, `CONTAINER.md` describes a
+pinned runner image that does the same work with one `docker run`; everything
+below stays the authoritative procedure either way.
+
 ## 1. What was run
 
 | Item | Value |

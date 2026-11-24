@@ -1,0 +1,6 @@
+# The runner image is toolchain-only: it copies just the entrypoint, not the
+# checkout. Keeping the build context tiny also keeps result artifacts and
+# local venvs out of the layer cache.
+*
+!docker/
+!docker/entrypoint.sh

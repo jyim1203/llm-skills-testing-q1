@@ -23,7 +23,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-HARBOR = Path("/root/.local/bin/harbor")
+HARBOR = Path(os.environ.get("HARBOR_BIN", "/root/.local/bin/harbor"))
 AGENT = "skills_experiment.harbor_agent:HarborSkillsAgent"
 
 
